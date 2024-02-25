@@ -24,7 +24,7 @@ T-Zens (Telutizen Solutions) also aims to be a Service Provider Center containin
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/t-zens.git
+   git clone https://github.com/irsyadagungh/T-Zens---Mobile.git
    ```
 
 2. Navigate to the project directory:
