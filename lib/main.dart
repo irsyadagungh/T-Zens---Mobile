@@ -35,8 +35,8 @@ class MyApp extends StatelessWidget {
                     return GetMaterialApp(
                       debugShowCheckedModeBanner: false,
                       title: "Application",
-                      initialRoute: authC.isSkipIntro.isTrue
-                          ? Routes.HOME
+                      initialRoute: authC.isSkipIntro.value == true
+                          ? Routes.WELCOME
                           : Routes.INTRODUCTION,
                       getPages: AppPages.routes,
                     );

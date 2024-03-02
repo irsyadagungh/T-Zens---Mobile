@@ -11,8 +11,12 @@ dependencies:
   firebase_core: 2.25.4
   liquid_swipe: 3.1.0
   lottie: 3.1.0
+  flutter_config: ^2.0.2
+  smooth_page_indicator: 1.1.0
   flutter: 
     sdk: flutter
+  firebase_auth: ^4.17.4
+  cloud_firestore: ^4.15.5
 
 dev_dependencies: 
   flutter_test: 

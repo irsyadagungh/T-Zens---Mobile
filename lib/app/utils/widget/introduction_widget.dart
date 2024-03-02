@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:tzens/app/modules/welcome/views/welcome_view.dart';
 import '../model/introduction_model.dart';
 import 'package:lottie/lottie.dart';
 
@@ -21,12 +23,21 @@ class Introduction extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               // Skip Button
               Column(
                 children: [
-                  Align(alignment: Alignment.centerRight, child: Text("Skip")),
+                  Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
+                          onPressed: () {
+                            Get.to(() => WelcomeView());
+                          },
+                          child: Text(
+                            "Skip",
+                            style: TextStyle(color: Colors.black),
+                          ))),
 
                   SizedBox(
                     height: 100,
@@ -58,6 +69,10 @@ class Introduction extends StatelessWidget {
                         ),
                       )),
                 ],
+              ),
+
+              SizedBox(
+                height: 100,
               ),
 
               // Swipe
