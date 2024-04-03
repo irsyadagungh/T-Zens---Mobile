@@ -42,7 +42,8 @@ class AuthController extends GetxController {
           'phone': "",
           'role': role,
           'uid': userCredential!.user!.uid,
-          'username': username
+          'username': username,
+          'photoUrl': "",
         });
       }
     } catch (e) {
@@ -68,10 +69,16 @@ class AuthController extends GetxController {
         role: currUser['role'],
         uid: currUser['uid'],
         username: currUser['username'],
+        photoUrl: currUser['photoUrl'],
       );
 
       print(user.name);
-      Get.toNamed(Routes.HOME);
+
+      if (user.role == "student") {
+        Get.toNamed(Routes.HOME);
+      } else {
+        Get.toNamed(Routes.HOME_PROVIDER);
+      }
     } catch (e) {
       print(e);
     }

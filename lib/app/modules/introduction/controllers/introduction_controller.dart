@@ -16,7 +16,7 @@ class IntroductionController extends GetxController {
   final pages = [
     Introduction(
       model: IntroductionModel(
-          bgColor: onBoardingColor1,
+          bgColor: primaryColor,
           lottie: lottieOnBoarding1,
           title: title1,
           subtitle: subtitle,
@@ -24,7 +24,7 @@ class IntroductionController extends GetxController {
     ),
     Introduction(
       model: IntroductionModel(
-          bgColor: onBoardingColor2,
+          bgColor: secondaryColor,
           lottie: lottieOnBoarding2,
           title: title2,
           subtitle: subtitle2,
@@ -32,7 +32,7 @@ class IntroductionController extends GetxController {
     ),
     Introduction(
       model: IntroductionModel(
-          bgColor: onBoardingColor3,
+          bgColor: Colors.white,
           lottie: lottieOnBoarding3,
           title: title3,
           subtitle: subtitle3,

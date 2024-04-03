@@ -17,6 +17,7 @@ class WelcomeView extends GetView<WelcomeController> {
   Widget build(BuildContext context) {
     print(auth.isSkipIntro.value);
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.onInverseSurface,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -98,7 +99,8 @@ class WelcomeView extends GetView<WelcomeController> {
                     },
                     child: Text(
                       "Login",
-                      style: TextStyle(color: primaryColor),
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.secondary),
                     ),
                   )
                 ],

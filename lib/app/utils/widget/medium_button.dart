@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:tzens/app/utils/constant/color.dart';
 
-class LargeButton extends StatelessWidget {
+class MediumButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
 
-  const LargeButton({
+  const MediumButton({
     super.key,
     required this.text,
     required this.onPressed,
@@ -17,7 +17,7 @@ class LargeButton extends StatelessWidget {
       onPressed: onPressed,
       child: Text(text),
       style: ButtonStyle(
-        minimumSize: MaterialStateProperty.all(Size(370, 40)),
+        minimumSize: MaterialStateProperty.all(Size(300, 40)),
         shadowColor: MaterialStateProperty.all(Colors.transparent),
         backgroundColor: MaterialStateColor.resolveWith(
             (states) => Theme.of(context).colorScheme.primary),

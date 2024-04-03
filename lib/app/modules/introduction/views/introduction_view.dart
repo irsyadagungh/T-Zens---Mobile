@@ -18,7 +18,7 @@ class IntroductionView extends GetView<IntroductionController> {
     Get.put(IntroductionController());
     final controller = Get.find<IntroductionController>();
     final auth = Get.find<AuthController>();
-  print(auth.isSkipIntro.value);
+    print(auth.isSkipIntro.value);
     return Scaffold(
         body: Stack(
       alignment: Alignment.center,

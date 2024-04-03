@@ -13,10 +13,12 @@ dependencies:
   lottie: 3.1.0
   flutter_config: ^2.0.2
   smooth_page_indicator: 1.1.0
-  flutter: 
-    sdk: flutter
   firebase_auth: ^4.17.4
   cloud_firestore: ^4.15.5
+  water_drop_nav_bar: 2.2.0+5
+  dynamic_color: 1.7.0
+  flutter: 
+    sdk: flutter
 
 dev_dependencies: 
   flutter_test: 

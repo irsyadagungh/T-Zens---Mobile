@@ -24,7 +24,7 @@ class HomeView extends GetView<HomeController> {
         centerTitle: true,
       ),
       body: Center(
-        child: Text( 
+        child: Text(
           "${auth!.user!.name}",
           style: TextStyle(fontSize: 20),
         ),
