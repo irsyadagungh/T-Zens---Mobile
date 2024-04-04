@@ -6,7 +6,6 @@ environment:
   sdk: '>=3.2.4 <4.0.0'
 
 dependencies:
-  water_drop_nav_bar:
   cupertino_icons: ^1.0.2
   get: 4.6.6
   firebase_core: 2.25.4
