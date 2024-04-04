@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:tzens/app/controllers/auth_controller.dart';
+import 'package:tzens/app/modules/home_provider/views/home_provider_view.dart';
 import 'package:tzens/app/modules/login/views/login_view.dart';
 import 'package:tzens/app/routes/app_pages.dart';
 import 'package:tzens/app/utils/constant/color.dart';
@@ -100,7 +101,27 @@ class RegisterView extends GetView<RegisterController> {
                     Get.to(() => LoginView());
                     controller.showPopupDialog();
                   } catch (e) {}
+
+                  Get.to(() => LoginView());
                 },
+              ),
+
+              SizedBox(
+                height: 20,
+              ),
+
+              // Login
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Already have an account?"),
+                  TextButton(
+                    onPressed: () {
+                      Get.toNamed(Routes.LOGIN);
+                    },
+                    child: Text("Login"),
+                  ),
+                ],
               ),
 
               SizedBox(

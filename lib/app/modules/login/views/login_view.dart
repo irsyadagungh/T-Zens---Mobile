@@ -5,6 +5,8 @@ import 'package:tzens/app/controllers/auth_controller.dart';
 import 'package:tzens/app/utils/widget/Form_Widget.dart';
 import 'package:tzens/app/utils/widget/google_button.dart';
 import 'package:tzens/app/utils/widget/large_button.dart';
+import 'package:tzens/app/utils/widget/medium_button.dart';
+import 'package:tzens/app/utils/widget/medium_outlined_button.dart';
 
 import '../controllers/login_controller.dart';
 
@@ -78,12 +80,49 @@ class LoginView extends GetView<LoginController> {
               text: "Login",
               onPressed: () {
                 auth.signInWithEmailAndPassword(
-                    _emailController.text, 
-                    _passwordController.text
-                );
-
-                
+                    _emailController.text, _passwordController.text);
               },
+            ),
+
+            SizedBox(
+              height: 20,
+            ),
+
+            // Register
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("Don't have an account?"),
+                TextButton(
+                  onPressed: () {
+                    Get.defaultDialog(
+                      title: "Choose your role",
+                      content: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          MediumButton(
+                            onPressed: () {
+                              auth.role.value = "student";
+                              Get.back();
+                              Get.toNamed("/register");
+                            },
+                            text: "Student",
+                          ),
+                          MediumOutlinedButton(
+                            onPressed: () {
+                              auth.role.value = "lecturer";
+                              Get.back();
+                              Get.toNamed("/register");
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                    print(auth.role.value);
+                  },
+                  child: Text("Sign Up"),
+                ),
+              ],
             ),
 
             SizedBox(

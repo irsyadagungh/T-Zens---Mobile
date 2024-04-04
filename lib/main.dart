@@ -1,3 +1,4 @@
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -32,14 +33,23 @@ class MyApp extends StatelessWidget {
                 future: Future.delayed(Duration(seconds: 3)),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
-                    return GetMaterialApp(
-                      debugShowCheckedModeBanner: false,
-                      title: "Application",
-                      initialRoute: authC.isSkipIntro.value == true
-                          ? Routes.WELCOME
-                          : Routes.LOGIN,
-                      getPages: AppPages.routes,
-                    );
+                    return DynamicColorBuilder(builder:
+                        (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
+                      return GetMaterialApp(
+                        theme: ThemeData(
+                            useMaterial3: true, colorScheme: lightDynamic),
+                        darkTheme: ThemeData(
+                          useMaterial3: true,
+                          colorScheme: darkDynamic,
+                        ),
+                        debugShowCheckedModeBanner: false,
+                        title: "Application",
+                        initialRoute: authC.isSkipIntro.value == true
+                            ? Routes.WELCOME
+                            : Routes.HOME_PROVIDER,
+                        getPages: AppPages.routes,
+                      );
+                    });
                   }
 
                   return SplashScreen();
