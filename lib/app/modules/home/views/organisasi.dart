@@ -8,10 +8,43 @@ import 'package:water_drop_nav_bar/water_drop_nav_bar.dart';
 import '../controllers/home_controller.dart';
 
 // ignore: must_be_immutable
-class HomeView extends GetView<HomeController> {
+class OrganisasiView extends GetView<HomeController> {
+  AuthController? auth;
+  final List<CardPotret> cards = [
+    CardPotret(
+      model: DataModel(
+        title: "Webinar Tips Belajar Coding HTML",
+        subtitle: "Minggu, 27 Januari",
+        status: "GRATIS",
+      ),
+    ),
+    CardPotret(
+      model: DataModel(
+        title: "Seminar Kampus Merdeka",
+        subtitle: "Senin, 10 Januari",
+        status: "GRATIS",
+      ),
+    ),
+    CardPotret(
+      model: DataModel(
+        title: "Workshop Design UI/UX",
+        subtitle: "Jumat, 30 Desember",
+        status: "PAID",
+      ),
+    ),
+    CardPotret(
+      model: DataModel(
+        title: "Webinar Tips Belajar UI/UX",
+        subtitle: "Rabu, 15 Februari",
+        status: "GRATIS",
+      ),
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
-    final auth = Get.find<AuthController>();
+    List<CardPotret> filteredCards = List.from(cards);
+    auth = Get.find<AuthController>();
 
     if (auth == null || auth!.user == null) {
       // Handle the case where auth or auth.user is null
@@ -61,7 +94,7 @@ class HomeView extends GetView<HomeController> {
                                             backgroundColor: Colors.amber,
                                           ),
                                           Text(
-                                            "${auth.user.username}",
+                                            "Muhammad Wildan",
                                             style: TextStyle(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w600),
@@ -135,40 +168,78 @@ class HomeView extends GetView<HomeController> {
               delegate: SliverChildListDelegate(
                 [
                   Container(
-                    height: double.maxFinite,
-                    width: 100,
-                    child: PageView.builder(
-                      itemBuilder: (context, index) {
-                        return controller.pages[index];
-                      },
-                      itemCount: controller.pages.length,
-                      onPageChanged: (value) {
-                        controller.currentPages = value.obs;
-                      },
+                    padding: EdgeInsets.only(top: 20),
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Rekomendasi Untuk Anda",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                      "Kumpulan ORGANISASI yang kamu minati !"),
+                                ],
+                              ),
+                            ),
+                            SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: filteredCards
+                                    .map<Widget>((card) => card)
+                                    .toList(),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "ORGANISASI",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                      "Kumpulan ORGANISASI yang bisa kamu ikuti ! "),
+                                ],
+                              ),
+                            ),
+                            SingleChildScrollView(
+                              scrollDirection: Axis.vertical,
+                              child: Center(
+                                child: Wrap(
+                                  spacing:
+                                      15, // Atur jarak horizontal antara dua card
+                                  runSpacing:
+                                      6, // Atur jarak vertikal antara dua baris card
+                                  children: filteredCards
+                                      .map<Widget>((card) => card)
+                                      .toList(),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
           ],
         ),
-        bottomNavigationBar: Obx(() => WaterDropNavBar(
-              backgroundColor: Colors.white,
-              onItemSelected: (index) {
-                controller.changePage(index);
-                print(controller.pages[index]);
-              },
-              selectedIndex: controller.currentPages.value,
-              barItems: [
-                BarItem(
-                  filledIcon: Icons.bookmark_rounded,
-                  outlinedIcon: Icons.bookmark_border_rounded,
-                ),
-                BarItem(
-                    filledIcon: Icons.favorite_rounded,
-                    outlinedIcon: Icons.favorite_border_rounded),
-              ],
-            )),
       ),
     );
   }

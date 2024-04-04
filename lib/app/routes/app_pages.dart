@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/detailPage/bindings/detail_page_binding.dart';
+import '../modules/detailPage/views/detail_page_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/introduction/bindings/introduction_binding.dart';
@@ -44,5 +46,10 @@ class AppPages {
       page: () => LoginView(),
       binding: LoginBinding(),
     ),
+    // GetPage(
+    //   name: _Paths.DETAIL_PAGE,
+    //   page: () => DetailPageView(),
+    //   binding: DetailPageBinding(),
+    // ),
   ];
 }
