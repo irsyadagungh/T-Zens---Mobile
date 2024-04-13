@@ -23,4 +23,6 @@ abstract class _Paths {
   static const LOGIN = '/login';
   static const HOME_PROVIDER = '/home-provider';
   static const PROFILE = '/profile';
+  static const ADD = '/add';
+  static const DETAIL_PAGE = '/detail-page';
 }
