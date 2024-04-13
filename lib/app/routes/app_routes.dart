@@ -10,6 +10,7 @@ abstract class Routes {
   static const LOGIN = _Paths.LOGIN;
   static const HOME_PROVIDER = _Paths.HOME_PROVIDER;
   static const PROFILE = _Paths.PROFILE;
+  static const ADD = _Paths.ADD;
   static const DETAIL_PAGE = _Paths.DETAIL_PAGE;
   static const PROFIL_PAGE = _Paths.PROFIL_PAGE;
 }
@@ -23,6 +24,7 @@ abstract class _Paths {
   static const LOGIN = '/login';
   static const HOME_PROVIDER = '/home-provider';
   static const PROFILE = '/profile';
+  static const ADD = '/add';
   static const DETAIL_PAGE = '/detail-page';
   static const PROFIL_PAGE = '/profil-page';
 }

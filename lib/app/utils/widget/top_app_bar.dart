@@ -14,7 +14,10 @@ class TopAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(auth.user.name);
+
     return SliverAppBar(
+      backgroundColor: Theme.of(context).colorScheme.onInverseSurface,
       title: Text("Home"),
       automaticallyImplyLeading: false,
       expandedHeight: 190,
@@ -94,7 +97,7 @@ class TopAppBar extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
                 borderSide: BorderSide.none),
             filled: true,
-            fillColor: secondaryColor,
+            fillColor: Theme.of(context).colorScheme.surfaceVariant,
           ),
         ),
       ),
