@@ -17,6 +17,9 @@ dependencies:
   cloud_firestore: ^4.15.5
   water_drop_nav_bar: 2.2.0+5
   dynamic_color: 1.7.0
+  animated_float_action_button: 1.0.4
+  file_picker: 8.0.0+1
+  image_picker: ^0.8.4+3
   flutter: 
     sdk: flutter
 
