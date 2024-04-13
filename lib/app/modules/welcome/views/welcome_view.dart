@@ -69,7 +69,7 @@ class WelcomeView extends GetView<WelcomeController> {
                         text: "Student",
                         onPressed: () {
                           auth.role.value = "student";
-                          Get.to(() => RegisterView());
+                          Get.to(() => LoginView());
                         }),
                     LargeOutlinedButton(
                       onPressed: () {
@@ -92,10 +92,10 @@ class WelcomeView extends GetView<WelcomeController> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Already have an account?"),
+                  Text("Don't already have an account?"),
                   TextButton(
                     onPressed: () {
-                      Get.to(() => LoginView());
+                      Get.to(() => RegisterView());
                     },
                     child: Text(
                       "Login",
