@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:tzens/app/controllers/auth_controller.dart';
 import 'package:tzens/app/modules/profile/views/profile_view.dart';
 import 'package:tzens/app/utils/constant/color.dart';
+
 class TopAppBar extends StatelessWidget {
   const TopAppBar({
     super.key,
@@ -16,7 +17,7 @@ class TopAppBar extends StatelessWidget {
     return SliverAppBar(
       title: Text("Home"),
       automaticallyImplyLeading: false,
-      expandedHeight: 200,
+      expandedHeight: 190,
       collapsedHeight: 120,
       toolbarHeight: 65,
       pinned: true,
@@ -38,16 +39,16 @@ class TopAppBar extends StatelessWidget {
                     // Profile
                     Row(
                       children: [
-                        auth.user.photoUrl != ""
-                            ? CircleAvatar(
-                                backgroundImage:
-                                    NetworkImage(auth.user.photoUrl!),
-                              )
-                            : ClipOval(
+                        auth.user.photoUrl == ""
+                            ? ClipOval(
                                 child: Icon(
                                   Icons.person,
                                   size: 40,
                                 ),
+                              )
+                            : CircleAvatar(
+                                backgroundImage:
+                                    NetworkImage("${auth.user.photoUrl}"),
                               ),
                         SizedBox(
                           width: 20,
@@ -60,7 +61,7 @@ class TopAppBar extends StatelessWidget {
                         ),
                       ],
                     ),
-    
+
                     // Notification
                     IconButton(
                       onPressed: () {
@@ -77,7 +78,7 @@ class TopAppBar extends StatelessWidget {
             ),
           ),
         ),
-    
+
         // Search
         title: TextField(
           decoration: InputDecoration(
@@ -86,8 +87,7 @@ class TopAppBar extends StatelessWidget {
               color: primaryColor,
             ),
             isDense: true,
-            contentPadding:
-                EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             hintText: "Search",
             hintStyle: TextStyle(color: primaryColor),
             border: OutlineInputBorder(
