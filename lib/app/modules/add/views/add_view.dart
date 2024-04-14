@@ -65,12 +65,16 @@ class AddView extends StatelessWidget {
                               height: 200,
                               width: 200,
                               decoration: BoxDecoration(color: Colors.grey),
-                              child: controller.imageFile == null
-                                  ? Icon(Icons.picture_as_pdf_rounded)
-                                  : Image.file(
-                                      controller.imageFile!.value,
-                                      fit: BoxFit.cover,
-                                    ),
+                              child: Obx(() {
+                                if (controller.imageFile.value == null) {
+                                  return Icon(Icons.picture_as_pdf_rounded);
+                                } else {
+                                  return Image.file(
+                                    controller.imageFile.value!,
+                                    fit: BoxFit.cover,
+                                  );
+                                }
+                              }),
                             ),
                             FilledButton(
                               onPressed: () {
