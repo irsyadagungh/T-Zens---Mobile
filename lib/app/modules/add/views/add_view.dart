@@ -60,26 +60,20 @@ class AddView extends StatelessWidget {
 
                         Column(
                           children: [
-                            Obx(
-                              () => controller.getImageFile != null
-                                  ? Container(
-                                      height: 200,
-                                      width: 200,
-                                      decoration: BoxDecoration(
-                                        color: Colors.grey,
-                                      ),
-                                      child: Image.file(
-                                        File(controller.pickedFile.value!.path),
-                                        fit: BoxFit.cover,
-                                      ),
-                                    )
-                                  : Container(
-                                      height: 200,
-                                      width: 200,
-                                      decoration:
-                                          BoxDecoration(color: Colors.grey),
-                                      child: Icon(Icons.picture_as_pdf_rounded),
-                                    ),
+                            Container(
+                              height: 200,
+                              width: 200,
+                              decoration: BoxDecoration(color: Colors.grey),
+                              child: Obx(() {
+                                if (controller.imageFile.value == null) {
+                                  return Icon(Icons.picture_as_pdf_rounded);
+                                } else {
+                                  return Image.file(
+                                    controller.imageFile.value!,
+                                    fit: BoxFit.cover,
+                                  );
+                                }
+                              }),
                             ),
                             FilledButton(
                               onPressed: () {

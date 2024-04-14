@@ -5,6 +5,7 @@ import 'package:tzens/app/utils/model/dataModels.dart';
 class CardPotret extends StatelessWidget {
   const CardPotret({Key? key, required this.model});
   final DataModel model;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -16,7 +17,8 @@ class CardPotret extends StatelessWidget {
               model: DataModel(
                   title: model.title,
                   subtitle: model.subtitle,
-                  status: model.status),
+                  status: model.status,
+                  desc: model.desc),
             ),
           ),
         );
@@ -24,7 +26,6 @@ class CardPotret extends StatelessWidget {
       child: Container(
         height: 290,
         width: 190,
-        margin: EdgeInsets.only(right: 0),
         child: Card(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
           color: Color.fromARGB(255, 255, 255, 255),
@@ -33,9 +34,16 @@ class CardPotret extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(5),
-                  child: Image.asset("assets/images/gambar.png"),
+                Expanded(
+                  // Gunakan Expanded di sini untuk mengatur gambar
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(5),
+                    child: Image.asset(
+                      "assets/images/gambar.png",
+                      fit: BoxFit
+                          .cover, // Agar gambar menyesuaikan ruang yang tersedia
+                    ),
+                  ),
                 ),
                 SizedBox(
                   height: 10,

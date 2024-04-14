@@ -20,7 +20,7 @@ class TopAppBar extends StatelessWidget {
       backgroundColor: Theme.of(context).colorScheme.onInverseSurface,
       title: Text("Home"),
       automaticallyImplyLeading: false,
-      expandedHeight: 200,
+      expandedHeight: 190,
       collapsedHeight: 120,
       toolbarHeight: 65,
       pinned: true,

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import 'package:get/get.dart';
 import 'package:tzens/app/utils/model/dataModels.dart';
+import 'package:tzens/app/utils/widget/detail_sliverAppBar.dart';
+import 'package:tzens/app/utils/widget/valueSection.dart';
 
 import '../controllers/detail_page_controller.dart';
 
@@ -10,70 +13,64 @@ class DetailPageView extends GetView<DetailPageController> {
   final DataModel model;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Detail'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              model.title,
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 8),
-            Text(
-              'Subtitle: ${model.subtitle}',
-              style: TextStyle(fontSize: 18),
-            ),
-            SizedBox(height: 8),
-            Text(
-              'Status: ${model.status}',
-              style: TextStyle(fontSize: 18),
-            ),
-            Text(model.desc.isEmpty ? "Data tidak ada" : model.desc),
-            TextField(
-              decoration: InputDecoration(
-                hintText: "Search",
-                filled: true,
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide.none),
-                isDense: true,
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,  
+      home: Scaffold(
+        body: CustomScrollView(
+          slivers: <Widget>[
+            const SliverAppbarDetail(),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(12.0),
+                          topRight: Radius.circular(12.0))),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        model.title,
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(
+                        height: 8.0,
+                      ),
+                      DefaultTextStyle(
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(color: Colors.black),
+                          child: Row(
+                            children: [
+                              Text(model.subtitle),
+                              const SizedBox(
+                                width: 8.0,
+                              ),
+                            ],
+                          )),
+                      const SizedBox(
+                        height: 8.0,
+                      ),
+                      const Divider(
+                        thickness: 1.0,
+                      ),
+                      DescriptionSection(
+                        header: "Deskripsi",
+                        desc: model.desc,
+                      ),
+                      DescriptionSection(
+                        header: "Benefit",
+                        desc: model.desc,
+                      ),
+                    ],
+                  ),
+                ),
               ),
             )
           ],
-        ),
-      ),
-      bottomNavigationBar: Container(
-        height: 80,
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5), // Warna bayangan
-              spreadRadius: 5, // Menyebar bayangan
-              blurRadius: 7, // Blur bayangan
-              offset: Offset(0, 3), // Offset bayangan
-            ),
-          ],
-        ),
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 35, vertical: 15),
-          child: FilledButton(
-            onPressed: () {},
-            child: Text("Daftar Sekarang"),
-            style: ButtonStyle(
-                shape: MaterialStateProperty.all(
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            )),
-          ),
         ),
       ),
     );

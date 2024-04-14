@@ -8,5 +8,5 @@ class DataModel {
       {required this.title,
       required this.subtitle,
       required this.status,
-      this.desc = ""});
+      required this.desc});
 }
