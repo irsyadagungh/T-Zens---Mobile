@@ -1,10 +1,7 @@
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
-import 'package:tzens/app/modules/home/controllers/home_controller.dart';
 
 class HomeProviderController extends GetxController {
   late final PageController pageController;

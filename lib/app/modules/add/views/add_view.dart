@@ -1,10 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:tzens/app/utils/constant/color.dart';
 
 import '../controllers/add_controller.dart';
@@ -59,17 +57,28 @@ class AddView extends StatelessWidget {
                         SizedBox(
                           height: 10,
                         ),
+
                         Column(
                           children: [
-                            Container(
-                              height: 200,
-                              width: 200,
-                              decoration: BoxDecoration(color: Colors.grey),
-                              child: controller.imageFile == null
-                                  ? Icon(Icons.picture_as_pdf_rounded)
-                                  : Image.file(
-                                      controller.imageFile!.value,
-                                      fit: BoxFit.cover,
+                            Obx(
+                              () => controller.getImageFile != null
+                                  ? Container(
+                                      height: 200,
+                                      width: 200,
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey,
+                                      ),
+                                      child: Image.file(
+                                        File(controller.pickedFile.value!.path),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    )
+                                  : Container(
+                                      height: 200,
+                                      width: 200,
+                                      decoration:
+                                          BoxDecoration(color: Colors.grey),
+                                      child: Icon(Icons.picture_as_pdf_rounded),
                                     ),
                             ),
                             FilledButton(

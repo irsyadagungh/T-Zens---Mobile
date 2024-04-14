@@ -1,10 +1,6 @@
-import 'dart:math';
-
 import 'package:animated_float_action_button/animated_floating_action_button.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:tzens/app/controllers/auth_controller.dart';
 import 'package:tzens/app/modules/add/views/add_view.dart';

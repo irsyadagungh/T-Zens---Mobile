@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:tzens/app/controllers/auth_controller.dart';
-import 'package:tzens/app/utils/model/dataModels.dart';
-import 'package:tzens/app/utils/widget/cardPotret.dart';
 import 'package:water_drop_nav_bar/water_drop_nav_bar.dart';
 import '../controllers/home_controller.dart';
 
@@ -13,10 +11,10 @@ class HomeView extends GetView<HomeController> {
   Widget build(BuildContext context) {
     final auth = Get.find<AuthController>();
 
-    if (auth == null || auth!.user == null) {
-      // Handle the case where auth or auth.user is null
-      return CircularProgressIndicator(); // or any other placeholder widget
-    }
+    // if (auth == null || auth!.user == null) {
+    //   // Handle the case where auth or auth.user is null
+    //   return CircularProgressIndicator(); // or any other placeholder widget
+    // }
     return MaterialApp(
       home: Scaffold(
         body: CustomScrollView(

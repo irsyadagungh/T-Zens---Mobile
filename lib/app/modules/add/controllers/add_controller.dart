@@ -7,30 +7,33 @@ class AddController extends GetxController {
   final List<TextEditingController> listController = [TextEditingController()];
   final List<String> benefits = [];
 
-  Rx<File>? imageFile;
+  late Rx<File?> pickedFile = null.obs;
+  File? get getImageFile => pickedFile.value;
+  XFile? imageFile;
   final picker = ImagePicker();
 
   Future<void> pickImage() async {
-  try {
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    try {
+      imageFile = await picker.pickImage(source: ImageSource.gallery);
 
-    if (pickedFile != null) {
-      imageFile = File(pickedFile.path).obs;
-      update();
-    } else {
-      print('No image selected.');
+      if (imageFile != null) {
+        pickedFile.value = File(imageFile!.path);
+        update();
+      } else {
+        print('No image selected.');
+      }
+    } catch (e) {
+      print(e);
     }
-  } catch (e) {
-    print(e);
-  }
 
-  print(imageFile.toString());
-}
+    print(imageFile!.path);
+  }
 
   final totalBenefit = 1.obs;
   @override
   void onInit() {
     super.onInit();
+    pickedFile = Rx<File?>(null);
   }
 
   @override

@@ -5,21 +5,22 @@ description: A new Flutter project.
 environment: 
   sdk: '>=3.2.4 <4.0.0'
 
-dependencies:
+dependencies: 
   cupertino_icons: ^1.0.2
   get: 4.6.6
-  firebase_core: 2.25.4
+  firebase_core: ^2.29.0
   liquid_swipe: 3.1.0
   lottie: 3.1.0
   flutter_config: ^2.0.2
   smooth_page_indicator: 1.1.0
   firebase_auth: ^4.17.4
   cloud_firestore: ^4.15.5
-  water_drop_nav_bar: 2.2.0+5
+  water_drop_nav_bar: ^2.2.1
   dynamic_color: 1.7.0
   animated_float_action_button: 1.0.4
   file_picker: 8.0.0+1
-  image_picker: ^0.8.4+3
+  image_picker: ^1.0.8
+  permission_handler: ^11.3.1
   flutter: 
     sdk: flutter
 

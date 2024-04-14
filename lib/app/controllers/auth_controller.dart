@@ -7,7 +7,6 @@ import 'package:tzens/app/modules/login/views/login_view.dart';
 import 'package:tzens/app/routes/app_pages.dart';
 
 class AuthController extends GetxController {
-  //TODO: Implement AuthController
 
   RxBool isSkipIntro = false.obs;
   UserCredential? userCredential;
