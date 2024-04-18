@@ -21,6 +21,7 @@ dependencies:
   file_picker: 8.0.0+1
   image_picker: ^1.0.8
   permission_handler: ^11.3.1
+  firebase_storage: 11.7.1
   flutter: 
     sdk: flutter
 

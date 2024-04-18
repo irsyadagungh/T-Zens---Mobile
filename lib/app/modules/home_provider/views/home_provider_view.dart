@@ -4,6 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:tzens/app/controllers/auth_controller.dart';
 import 'package:tzens/app/modules/add/views/add_view.dart';
+import 'package:tzens/app/routes/app_pages.dart';
 import 'package:tzens/app/utils/constant/color.dart';
 import 'package:tzens/app/utils/widget/top_app_bar.dart';
 import 'package:water_drop_nav_bar/water_drop_nav_bar.dart';
@@ -15,7 +16,7 @@ class HomeProviderView extends GetView<HomeProviderController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.onInverseSurface,
+      backgroundColor: customWhite,
       body: NotificationListener<UserScrollNotification>(
         onNotification: (notification) {
           if (notification.direction == ScrollDirection.forward) {
@@ -27,7 +28,10 @@ class HomeProviderView extends GetView<HomeProviderController> {
         },
         child: CustomScrollView(
           slivers: [
-            TopAppBar(auth: auth),
+            TopAppBar(
+              auth: auth,
+              title: Routes.getTitleFromRoute(Get.currentRoute),
+            ),
             SliverPadding(
               padding: EdgeInsets.only(
                   bottom: kToolbarHeight + kFloatingActionButtonMargin),

@@ -54,25 +54,25 @@ class RegisterView extends GetView<RegisterController> {
                         )),
 
                     // Fullname
-                    Formulir(
+                    FormText(
                       hintText: "Fullname",
                       controller: _fullNameController,
                     ),
 
                     // Username
-                    Formulir(
+                    FormText(
                       hintText: "Username",
                       controller: _usernameController,
                     ),
 
                     // Email
-                    Formulir(
+                    FormText(
                       hintText: "Email",
                       controller: _emailController,
                     ),
 
                     // Password
-                    Formulir(
+                    FormText(
                       hintText: "Password",
                       controller: _passwordController,
                     ),

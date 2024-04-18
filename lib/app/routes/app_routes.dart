@@ -2,6 +2,33 @@ part of 'app_pages.dart';
 // DO NOT EDIT. This is code generated via package:get_cli/get_cli.dart
 
 abstract class Routes {
+  static getTitleFromRoute(String route) {
+    switch (route) {
+      case _Paths.HOME:
+        return 'Home';
+      case _Paths.INTRODUCTION:
+        return 'Introduction';
+      case _Paths.WELCOME:
+        return 'Welcome';
+      case _Paths.REGISTER:
+        return 'Register';
+      case _Paths.LOGIN:
+        return 'Login';
+      case _Paths.HOME_PROVIDER:
+        return 'Home Provider';
+      case _Paths.PROFILE:
+        return 'Profile';
+      case _Paths.ADD:
+        return 'Add';
+      case _Paths.DETAIL_PAGE:
+        return 'Detail Page';
+      case _Paths.PROFIL_PAGE:
+        return 'Profil Page';
+      default:
+        return 'Judul Default';
+    }
+  }
+
   Routes._();
   static const HOME = _Paths.HOME;
   static const INTRODUCTION = _Paths.INTRODUCTION;

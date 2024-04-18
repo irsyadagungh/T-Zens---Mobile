@@ -15,12 +15,12 @@ class LargeOutlinedButton extends StatelessWidget {
       onPressed: onPressed,
       child: Text("Provider",
           style: TextStyle(
-            color: Theme.of(context).colorScheme.primary,
+            color: primaryColor,
           )),
       style: ButtonStyle(
         side: MaterialStateProperty.all(
           BorderSide(
-            color: Theme.of(context).colorScheme.primary,
+            color: primaryColor,
           ),
         ),
         shape: MaterialStateProperty.all(

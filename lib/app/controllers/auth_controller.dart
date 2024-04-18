@@ -1,13 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
 import 'package:tzens/app/data/models/user_model_model.dart';
 import 'package:tzens/app/modules/login/views/login_view.dart';
 import 'package:tzens/app/routes/app_pages.dart';
 
 class AuthController extends GetxController {
-
   RxBool isSkipIntro = false.obs;
   UserCredential? userCredential;
   CollectionReference db = FirebaseFirestore.instance.collection('users');

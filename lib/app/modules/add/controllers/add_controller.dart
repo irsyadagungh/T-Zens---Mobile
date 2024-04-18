@@ -1,38 +1,71 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:tzens/app/data/models/webinar_model_model.dart';
 
 class AddController extends GetxController {
-  final List<TextEditingController> listController = [TextEditingController()];
   final List<String> benefits = [];
+  final List<String> prasyarat = [];
+  final Map<String, dynamic> contact = Contact().toJson();
+  List<Map<String, dynamic>> contactList = [];
 
-  Rx<File?> imageFile =
-      Rx<File?>(null); // Gunakan Rx<File?> untuk memantau perubahan imageFile
+  @override
+  void onInit() {
+    super.onInit();
+    print(titleController.text);
+    print("title");
+  }
+
+  final TextEditingController name = TextEditingController();
+  final TextEditingController phone = TextEditingController();
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
+  final TextEditingController locationController = TextEditingController();
+
+  final List<TextEditingController> listBenefitController = [
+    TextEditingController()
+  ];
+  final List<TextEditingController> listPrasyaratController = [
+    TextEditingController()
+  ];
+  final List<TextEditingController> listContactNameController = [
+    TextEditingController()
+  ];
+  final List<TextEditingController> listContactPhoneController = [
+    TextEditingController()
+  ];
+
+  Rx<File?> imageFile = Rx<File?>(null); // Initialize with null
   final picker = ImagePicker();
+  XFile? pickedFile = null;
 
   Future<void> pickImage() async {
     try {
-      final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+      pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
       if (pickedFile != null) {
-        imageFile.value =
-            File(pickedFile.path); // Set nilai imageFile menggunakan value
-        update(); // Perbarui UI setelah memilih gambar
+        imageFile.value = File(pickedFile!.path);
+        update();
       } else {
+        imageFile.value = null; // Set to null if no image is selected
         print('No image selected.');
       }
+
+      print(imageFile.value?.path); // Use ?. operator to avoid null errors
     } catch (e) {
       print(e);
     }
   }
 
-  final totalBenefit = 1.obs;
-  @override
-  void onInit() {
-    super.onInit();
+  void removeImage() {
+    imageFile.value = null;
+    update();
   }
+
+  final totalBenefit = 1.obs;
+  final totalPrasyarat = 1.obs;
+  final totalContact = 1.obs;
 
   @override
   void onReady() {
@@ -44,6 +77,10 @@ class AddController extends GetxController {
     super.onClose();
   }
 
-  void increment() => totalBenefit.value++;
-  void decrement() => totalBenefit.value--;
+  void benefitIncrement() => totalBenefit.value++;
+  void benefitDecrement() => totalBenefit.value--;
+  void prasyaratIncrement() => totalPrasyarat.value++;
+  void prasyaratDecrement() => totalPrasyarat.value--;
+  void contactIncrement() => totalContact.value++;
+  void contactDecrement() => totalContact.value--;
 }
