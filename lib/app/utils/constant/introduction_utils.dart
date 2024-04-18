@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 // Intro 1
 const String lottieOnBoarding1 = "assets/lottie/seminar.json";
 const String title1 = "Find Seminar";

@@ -8,8 +8,6 @@ import 'package:tzens/app/utils/model/introduction_model.dart';
 import 'package:tzens/app/utils/widget/introduction_widget.dart';
 
 class IntroductionController extends GetxController {
-  //TODO: Implement IntroductionController
-
   final controller = LiquidController();
   RxInt currentPage = 0.obs;
 

@@ -19,8 +19,8 @@ class LargeButton extends StatelessWidget {
       style: ButtonStyle(
         minimumSize: MaterialStateProperty.all(Size(370, 40)),
         shadowColor: MaterialStateProperty.all(Colors.transparent),
-        backgroundColor: MaterialStateColor.resolveWith(
-            (states) => Theme.of(context).colorScheme.primary),
+        backgroundColor:
+            MaterialStateColor.resolveWith((states) => primaryColor),
         foregroundColor:
             MaterialStateColor.resolveWith((states) => Colors.white),
         shape: MaterialStateProperty.all(

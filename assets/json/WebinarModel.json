@@ -1,0 +1,25 @@
+{
+    "administrator" : {
+        "email": "",
+        "faculty": "",
+        "major": "",
+        "name": "",
+        "nim": "",
+        "phone": "",
+        "role": "",
+        "uid" : "",
+        "username": "",
+        "photo": ""
+    },
+    "benefits": [""],
+    "contact" : [{
+        "name": "",
+        "phone": ""
+    }],
+    "description": "",
+    "location": "",
+    "photo": "",
+    "prerequisite": [""],
+    "title": "",
+    "timestamp": ""
+}

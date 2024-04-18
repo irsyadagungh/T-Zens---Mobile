@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:tzens/app/modules/register/views/register_view.dart';
 import 'package:tzens/app/utils/constant/color.dart';
 
 class LargeOutlinedButton extends StatelessWidget {
@@ -17,12 +15,12 @@ class LargeOutlinedButton extends StatelessWidget {
       onPressed: onPressed,
       child: Text("Provider",
           style: TextStyle(
-            color: Theme.of(context).colorScheme.primary,
+            color: primaryColor,
           )),
       style: ButtonStyle(
         side: MaterialStateProperty.all(
           BorderSide(
-            color: Theme.of(context).colorScheme.primary,
+            color: primaryColor,
           ),
         ),
         shape: MaterialStateProperty.all(

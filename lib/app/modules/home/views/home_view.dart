@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tzens/app/controllers/auth_controller.dart';
+import 'package:tzens/app/routes/app_pages.dart';
 import 'package:tzens/app/utils/screen/organisasi_Screen.dart';
 import 'package:tzens/app/utils/screen/webinar_Screen.dart';
 import 'package:tzens/app/utils/widget/top_app_bar.dart';
@@ -23,7 +24,10 @@ class HomeView extends GetView<HomeController> {
       body: CustomScrollView(
         scrollDirection: Axis.vertical,
         slivers: <Widget>[
-          TopAppBar(auth: auth),
+          TopAppBar(
+            auth: auth,
+            title: Routes.getTitleFromRoute(Get.currentRoute),
+          ),
           Obx(() {
             switch (controller.currentPages.value) {
               case 0:

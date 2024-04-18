@@ -2,15 +2,10 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
-import 'package:lottie/lottie.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:tzens/app/controllers/auth_controller.dart';
-import 'package:tzens/app/utils/constant/color.dart';
-import 'package:tzens/app/utils/model/introduction_model.dart';
-import 'package:tzens/app/utils/widget/introduction_widget.dart';
 
 import '../controllers/introduction_controller.dart';
-import '../../../utils/constant/introduction_utils.dart';
 
 class IntroductionView extends GetView<IntroductionController> {
   @override

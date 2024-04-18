@@ -8,17 +8,20 @@ class TopAppBar extends StatelessWidget {
   const TopAppBar({
     super.key,
     required this.auth,
+    required this.title,
   });
 
   final AuthController auth;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
     print(auth.user.name);
 
     return SliverAppBar(
-      backgroundColor: Theme.of(context).colorScheme.onInverseSurface,
-      title: Text("Home"),
+      backgroundColor: customWhite,
+      surfaceTintColor: Colors.white,
+      title: Text(title),
       automaticallyImplyLeading: false,
       expandedHeight: 190,
       collapsedHeight: 120,

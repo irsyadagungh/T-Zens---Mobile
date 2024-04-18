@@ -20,7 +20,7 @@ class MediumButton extends StatelessWidget {
         minimumSize: MaterialStateProperty.all(Size(300, 40)),
         shadowColor: MaterialStateProperty.all(Colors.transparent),
         backgroundColor: MaterialStateColor.resolveWith(
-            (states) => Theme.of(context).colorScheme.primary),
+            (states) => primaryColor),
         foregroundColor:
             MaterialStateColor.resolveWith((states) => Colors.white),
         shape: MaterialStateProperty.all(

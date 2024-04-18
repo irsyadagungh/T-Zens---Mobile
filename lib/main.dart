@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:tzens/app/controllers/auth_controller.dart';
+import 'package:tzens/app/controllers/content_controller.dart';
 
 import 'app/routes/app_pages.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -16,12 +17,15 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(MyApp());
+  print(Firebase.apps.length > 0);
+  print("DARI MAIN");
 }
 
 class MyApp extends StatelessWidget {
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
 
   final authC = Get.put(AuthController(), permanent: true);
+  final contentC = Get.put(ContentController(), permanent: true);
 
   @override
   Widget build(BuildContext context) {

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 import 'package:tzens/app/controllers/auth_controller.dart';
-import 'package:tzens/app/modules/home_provider/views/home_provider_view.dart';
 import 'package:tzens/app/modules/login/views/login_view.dart';
 import 'package:tzens/app/routes/app_pages.dart';
 import 'package:tzens/app/utils/constant/color.dart';
@@ -56,25 +54,25 @@ class RegisterView extends GetView<RegisterController> {
                         )),
 
                     // Fullname
-                    Formulir(
+                    FormText(
                       hintText: "Fullname",
                       controller: _fullNameController,
                     ),
 
                     // Username
-                    Formulir(
+                    FormText(
                       hintText: "Username",
                       controller: _usernameController,
                     ),
 
                     // Email
-                    Formulir(
+                    FormText(
                       hintText: "Email",
                       controller: _emailController,
                     ),
 
                     // Password
-                    Formulir(
+                    FormText(
                       hintText: "Password",
                       controller: _passwordController,
                     ),

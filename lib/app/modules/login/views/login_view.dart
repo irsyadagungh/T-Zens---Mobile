@@ -47,13 +47,13 @@ class LoginView extends GetView<LoginController> {
                       )),
 
                   // Email
-                  Formulir(
+                  FormText(
                     hintText: "Email",
                     controller: _emailController,
                   ),
 
                   // Password
-                  Formulir(
+                  FormText(
                     hintText: "Password",
                     controller: _passwordController,
                   ),
