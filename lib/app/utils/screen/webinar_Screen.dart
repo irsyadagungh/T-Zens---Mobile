@@ -1,94 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
+import 'package:tzens/app/controllers/content_controller.dart';
+import 'package:tzens/app/data/models/webinar_model_model.dart';
 import 'package:tzens/app/utils/constant/webinar_utils.dart';
 import 'package:tzens/app/utils/model/dataModels.dart';
 import 'package:tzens/app/utils/widget/cardPotret.dart';
 
 class WebinarView extends StatelessWidget {
-  WebinarView({super.key});
+  WebinarView({Key? key}) : super(key: key);
 
-  final List<CardPotret> cards = [
-    CardPotret(
-      model: DataModel(
-          title: "Webinar Tips Belajar Coding HTML",
-          subtitle: "Minggu, 27 Januari",
-          status: "GRATIS",
-          desc:
-              "Signing up for seminars or organizations with just one click without needing to provide any personal information. Signing up for seminars or organizations with just one click Signing up for seminars or organizations with just one click without needing to provide any personal information. Signing up for seminars or organizations with just one click "),
-    ),
-    CardPotret(
-      model: DataModel(
-          title: "Seminar Kampus Merdeka",
-          subtitle: "Senin, 10 Januari",
-          status: "GRATIS",
-          desc:
-              "Signing up for seminars or organizations with just one click without needing to provide any personal information. Signing up for seminars or organizations with just one click without needing to provide any personal information. Signing up for seminars or organizations with just one click without needing to provide any personal information. Signing up for seminars or organizations with just one click without needing to provide any personal information. Signing up for seminars or organizations with just one click without needing to provide any personal information."),
-    ),
-    CardPotret(
-      model: DataModel(
-          title: "Workshop Design UI/UX",
-          subtitle: "Jumat, 30 Desember",
-          status: "PAID",
-          desc:
-              "Signing up for seminars or organizations with just one click without needing to provide any personal information. Signing up for seminars or organizations with just one click without needing to provide any personal information. Signing up for seminars or organizations with just one click without needing to provide any personal information. Signing up for seminars or organizations with just one click without needing to provide any personal information. Signing up for seminars or organizations with just one click without needing to provide any personal information."),
-    ),
-    CardPotret(
-      model: DataModel(
-          title: "Webinar Tips Belajar UI/UX",
-          subtitle: "Rabu, 15 Februari",
-          status: "GRATIS",
-          desc: ""),
-    ),
-    CardPotret(
-      model: DataModel(
-          title: "Webinar Tips Belajar UI/UX",
-          subtitle: "Rabu, 15 Februari",
-          status: "GRATIS",
-          desc: ""),
-    ),
-    CardPotret(
-      model: DataModel(
-          title: "Webinar Tips Belajar UI/UX",
-          subtitle: "Rabu, 15 Februari",
-          status: "GRATIS",
-          desc: ""),
-    ),
-    CardPotret(
-      model: DataModel(
-          title: "Webinar Tips Belajar UI/UX",
-          subtitle: "Rabu, 15 Februari",
-          status: "GRATIS",
-          desc: ""),
-    ),
-  ];
+  final contentController = Get.find<ContentController>();
 
   @override
   Widget build(BuildContext context) {
-    List<CardPotret> filteredCards = List.from(cards);
+    contentController.readDataUser();
     return SliverToBoxAdapter(
       child: Padding(
         padding: const EdgeInsets.all(5.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    rekomendasi,
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  Text(header),
-                ],
-              ),
-            ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: filteredCards.map<Widget>((card) => card).toList(),
-              ),
-            ),
             SizedBox(
               height: 20,
             ),
@@ -105,16 +37,24 @@ class WebinarView extends StatelessWidget {
                 ],
               ),
             ),
-            SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Center(
-                child: Wrap(
-                  spacing: 0, // Atur jarak horizontal antara dua card
-                  runSpacing: 6, // Atur jarak vertikal antara dua baris card
-                  children: filteredCards.map<Widget>((card) => card).toList(),
-                ),
-              ),
-            ),
+            Obx(() => Wrap(
+                  spacing: 10.0, // Jarak antara item secara horizontal
+                  runSpacing: 10.0, // Jarak antara baris secara vertikal
+                  children: List.generate(
+                    contentController.contentList.length,
+                    (index) {
+                      WebinarModel content =
+                          contentController.contentList[index];
+                      print(content.toString() + "dadadada");
+                      return CardPotret(
+                        model: WebinarModel(
+                          title: content.title,
+                          photo: content.photo,
+                        ),
+                      );
+                    },
+                  ),
+                )),
           ],
         ),
       ),

@@ -18,6 +18,8 @@ class AddController extends GetxController {
   }
 
   final TextEditingController name = TextEditingController();
+  final TextEditingController date = TextEditingController();
+  final TextEditingController status = TextEditingController();
   final TextEditingController phone = TextEditingController();
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();

@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
                         title: "Application",
                         initialRoute: authC.isSkipIntro.value == true
                             ? Routes.WELCOME
-                            : Routes.LOGIN,
+                            : Routes.HOME,
                         getPages: AppPages.routes,
                       );
                     });

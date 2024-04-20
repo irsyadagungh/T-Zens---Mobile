@@ -4,11 +4,13 @@ class WebinarModel {
   UserModel? administrator;
   List<String>? benefits;
   List<Contact>? contact;
+  String? date;
   String? description;
   String? id;
   String? location;
   String? photo;
   List<String>? prerequisite;
+  String? status;
   String? title;
   String? createdAt;
   String? updatedAt;
@@ -17,11 +19,13 @@ class WebinarModel {
       {this.administrator,
       this.benefits,
       this.contact,
+      this.date,
       this.description,
       this.id,
       this.location,
       this.photo,
       this.prerequisite,
+      this.status,
       this.title,
       this.createdAt,
       this.updatedAt});
@@ -37,11 +41,13 @@ class WebinarModel {
         contact?.add(Contact.fromJson(v));
       });
     }
+    date = json['date'];
     description = json['description'];
     id = json['id'];
     location = json['location'];
     photo = json['photo'];
     prerequisite = json['prerequisite'].cast<String>();
+    status = json['status'];
     title = json['title'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
@@ -56,19 +62,19 @@ class WebinarModel {
     if (contact != null) {
       data['contact'] = contact?.map((v) => v.toJson()).toList();
     }
+    data['date'] = date;
     data['description'] = description;
     data['id'] = id;
     data['location'] = location;
     data['photo'] = photo;
     data['prerequisite'] = prerequisite;
+    data['status'] = status;
     data['title'] = title;
     data['createdAt'] = createdAt;
     data['updatedAt'] = updatedAt;
     return data;
   }
 }
-
-
 
 class Contact {
   String? name;

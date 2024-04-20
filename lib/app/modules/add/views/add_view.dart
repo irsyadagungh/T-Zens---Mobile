@@ -326,6 +326,7 @@ class AddView extends StatelessWidget {
 
                 contentC.addData(
                   controller.listBenefitController.map((e) => e.text).toList(),
+                  controller.date.text,
                   controller.descriptionController.text,
                   addContact(),
                   auth.user.toJson(),
@@ -333,6 +334,7 @@ class AddView extends StatelessWidget {
                   controller.listPrasyaratController
                       .map((e) => e.text)
                       .toList(),
+                  controller.status.text,
                   controller.titleController.text,
                   controller.locationController.text,
                   DateTime.now().toString(),

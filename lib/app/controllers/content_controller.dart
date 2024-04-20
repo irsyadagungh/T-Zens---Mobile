@@ -35,6 +35,7 @@ class ContentController extends GetxController {
 
   WebinarModel content = WebinarModel();
   RxList<WebinarModel> contentList = RxList<WebinarModel>([]);
+  RxList<WebinarModel> contentList2 = RxList<WebinarModel>([]);
 
 // UPLOAD IMAGE
   Future<void> uploadImage(File imageFile, String name) async {
@@ -57,11 +58,13 @@ class ContentController extends GetxController {
   // ADD DATA
   Future<void> addData(
     List<String> benefits,
+    String date,
     String description,
     List<Map<String, dynamic>> contact,
     Map<String, dynamic> administrator,
     String photoUrl,
     List<String> prerequisite,
+    String status,
     String title,
     String location,
     String timestamp,
@@ -72,11 +75,13 @@ class ContentController extends GetxController {
         "benefits": benefits,
         "createdAt": timestamp,
         "contact": contact,
+        "date": date,
         "description": description,
         "id": "",
         "location": location,
         "photo": photoUrl,
         "prerequisite": prerequisite,
+        "status": status,
         "title": title,
         "updatedAt": "",
       });
@@ -95,7 +100,7 @@ class ContentController extends GetxController {
   }
 
   // READ DATA
-  Future<void> readData() async {
+  Future<void> readDataProvider() async {
     try {
       final result = await db
           .where('administrator.uid', isEqualTo: auth.user.uid)
@@ -111,6 +116,25 @@ class ContentController extends GetxController {
       contentList.value = result.docs
           .map((e) => WebinarModel.fromJson(e.data() as Map<String, dynamic>))
           .toList();
+    } catch (e) {
+      print("ERROR READ DATA" + e.toString());
+    }
+  }
+
+  Future<void> readDataUser() async {
+    try {
+      final result = await db.get();
+
+      if (result.docs.isEmpty) {
+        print("No data found for current user.");
+        // Handle empty data scenario (show a message, etc.)
+        return;
+      }
+
+      contentList.value = result.docs
+          .map((e) => WebinarModel.fromJson(e.data() as Map<String, dynamic>))
+          .toList();
+      print(contentList.value.toString() + "tESTINGGGGG");
     } catch (e) {
       print("ERROR READ DATA" + e.toString());
     }

@@ -16,11 +16,13 @@
         "name": "",
         "phone": ""
     }],
+    "date" : "",
     "description": "",
     "id": "",
     "location": "",
     "photo": "",
     "prerequisite": [""],
+    "status" : "",
     "title": "",
     "createdAt" : "",
     "updatedAt" : ""
