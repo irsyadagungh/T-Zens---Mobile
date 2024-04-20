@@ -30,9 +30,11 @@ class ContentController extends GetxController {
   late CollectionReference db =
       FirebaseFirestore.instance.collection("webinar");
   late Reference storage = FirebaseStorage.instance.ref();
-  final RxString picLink = "".obs;
+  RxString picLink = "".obs;
+  RxInt length = 0.obs;
 
   WebinarModel content = WebinarModel();
+  RxList<WebinarModel> contentList = RxList<WebinarModel>([]);
 
 // UPLOAD IMAGE
   Future<void> uploadImage(File imageFile, String name) async {
@@ -65,33 +67,52 @@ class ContentController extends GetxController {
     String timestamp,
   ) async {
     try {
-      // content = WebinarModel(
-      //   benefits: benefits,
-      //   description: description,
-      //   contact: contact,
-      //   administrator: administrator,
-      //   photo: photoUrl,
-      //   prerequisite: prerequisite,
-      //   title: title,
-      //   location: location,
-      // );
-
-      await db.add({
+      DocumentReference docRef = await db.add({
         "administrator": administrator,
         "benefits": benefits,
+        "createdAt": timestamp,
         "contact": contact,
         "description": description,
+        "id": "",
         "location": location,
         "photo": photoUrl,
         "prerequisite": prerequisite,
         "title": title,
-        "timestamp": timestamp,
+        "updatedAt": "",
+      });
+
+      String docId = docRef.id;
+
+      await db.doc(docId).update({
+        "id": docId,
       });
 
       print(content.toJson());
       print("Data added");
     } catch (e) {
       print(e);
+    }
+  }
+
+  // READ DATA
+  Future<void> readData() async {
+    try {
+      final result = await db
+          .where('administrator.uid', isEqualTo: auth.user.uid)
+          .orderBy('createdAt', descending: false)
+          .get();
+
+      if (result.docs.isEmpty) {
+        print("No data found for current user.");
+        // Handle empty data scenario (show a message, etc.)
+        return;
+      }
+
+      contentList.value = result.docs
+          .map((e) => WebinarModel.fromJson(e.data() as Map<String, dynamic>))
+          .toList();
+    } catch (e) {
+      print("ERROR READ DATA" + e.toString());
     }
   }
 

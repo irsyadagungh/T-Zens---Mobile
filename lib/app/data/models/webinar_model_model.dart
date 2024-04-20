@@ -5,22 +5,26 @@ class WebinarModel {
   List<String>? benefits;
   List<Contact>? contact;
   String? description;
+  String? id;
   String? location;
   String? photo;
   List<String>? prerequisite;
   String? title;
-  String? timestamp;
+  String? createdAt;
+  String? updatedAt;
 
   WebinarModel(
       {this.administrator,
       this.benefits,
       this.contact,
       this.description,
+      this.id,
       this.location,
       this.photo,
       this.prerequisite,
       this.title,
-      this.timestamp});
+      this.createdAt,
+      this.updatedAt});
 
   WebinarModel.fromJson(Map<String, dynamic> json) {
     administrator = json['administrator'] != null
@@ -34,11 +38,13 @@ class WebinarModel {
       });
     }
     description = json['description'];
+    id = json['id'];
     location = json['location'];
     photo = json['photo'];
     prerequisite = json['prerequisite'].cast<String>();
     title = json['title'];
-    timestamp = json['timestamp'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
   }
 
   Map<String, dynamic> toJson() {
@@ -51,11 +57,13 @@ class WebinarModel {
       data['contact'] = contact?.map((v) => v.toJson()).toList();
     }
     data['description'] = description;
+    data['id'] = id;
     data['location'] = location;
     data['photo'] = photo;
     data['prerequisite'] = prerequisite;
     data['title'] = title;
-    data['timestamp'] = timestamp;
+    data['createdAt'] = createdAt;
+    data['updatedAt'] = updatedAt;
     return data;
   }
 }

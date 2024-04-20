@@ -2,8 +2,12 @@ import 'package:animated_float_action_button/animated_floating_action_button.dar
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:tzens/app/controllers/auth_controller.dart';
+import 'package:tzens/app/controllers/content_controller.dart';
+import 'package:tzens/app/data/models/webinar_model_model.dart';
 import 'package:tzens/app/modules/add/views/add_view.dart';
+import 'package:tzens/app/modules/detailPage/views/detail_page_view.dart';
 import 'package:tzens/app/routes/app_pages.dart';
 import 'package:tzens/app/utils/constant/color.dart';
 import 'package:tzens/app/utils/widget/top_app_bar.dart';
@@ -12,35 +16,33 @@ import '../controllers/home_provider_controller.dart';
 
 class HomeProviderView extends GetView<HomeProviderController> {
   final auth = Get.find<AuthController>();
+  final webinar = Get.find<ContentController>();
 
   @override
   Widget build(BuildContext context) {
+    controller.onInit();
     return Scaffold(
       backgroundColor: customWhite,
-      body: NotificationListener<UserScrollNotification>(
-        onNotification: (notification) {
-          if (notification.direction == ScrollDirection.forward) {
-            controller.isScrolling.value = true;
-          } else if (notification.direction == ScrollDirection.reverse) {
-            controller.isScrolling.value = false;
-          }
-          return true;
-        },
-        child: CustomScrollView(
-          slivers: [
-            TopAppBar(
-              auth: auth,
-              title: Routes.getTitleFromRoute(Get.currentRoute),
-            ),
-            SliverPadding(
-              padding: EdgeInsets.only(
-                  bottom: kToolbarHeight + kFloatingActionButtonMargin),
-              sliver: SliverList.builder(
-                  itemCount: 10,
+      body: CustomScrollView(
+        slivers: [
+          TopAppBar(
+            auth: auth,
+            title: Routes.getTitleFromRoute(Get.currentRoute),
+          ),
+          SliverPadding(
+            padding: EdgeInsets.only(
+                bottom: kToolbarHeight + kFloatingActionButtonMargin),
+            sliver: Obx(
+              () => SliverList.builder(
+                  itemCount: webinar.contentList.length,
                   itemBuilder: (context, index) {
+                    WebinarModel content = webinar.contentList[index];
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ListTile(
+                        onTap: () {
+                          // Get.to(() => DetailPageView(model: content));
+                        },
                         contentPadding:
                             EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                         shape: RoundedRectangleBorder(
@@ -49,9 +51,12 @@ class HomeProviderView extends GetView<HomeProviderController> {
                             Theme.of(context).colorScheme.secondaryContainer,
                         leading: ClipRRect(
                             borderRadius: BorderRadius.circular(10),
-                            child: Icon(Icons.abc)),
-                        title: Text("Title"),
-                        subtitle: Text("data"),
+                            child: Image.network("${content.photo}")),
+                        title: Text("${content.title}"),
+                        subtitle: Text(
+                          "${content.description}",
+                          overflow: TextOverflow.ellipsis,
+                        ),
                         trailing: IconButton(
                           onPressed: () {
                             Get.bottomSheet(
@@ -82,9 +87,9 @@ class HomeProviderView extends GetView<HomeProviderController> {
                       ),
                     );
                   }),
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
       bottomNavigationBar: Obx(
         () => WaterDropNavBar(
