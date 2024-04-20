@@ -17,9 +17,11 @@
         "phone": ""
     }],
     "description": "",
+    "id": "",
     "location": "",
     "photo": "",
     "prerequisite": [""],
     "title": "",
-    "timestamp": ""
+    "createdAt" : "",
+    "updatedAt" : ""
 }

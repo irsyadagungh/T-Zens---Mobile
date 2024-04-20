@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tzens/app/controllers/auth_controller.dart';
 import 'package:tzens/app/controllers/content_controller.dart';
+import 'package:tzens/app/modules/home_provider/views/home_provider_view.dart';
 import 'package:tzens/app/utils/constant/color.dart';
 import 'package:tzens/app/utils/widget/Form_Widget.dart';
 import 'package:tzens/app/utils/widget/dynamic_form_one_field.dart';
@@ -328,7 +329,7 @@ class AddView extends StatelessWidget {
                   controller.descriptionController.text,
                   addContact(),
                   auth.user.toJson(),
-                  controller.imageFile.value!.path,
+                  contentC.picLink.value,
                   controller.listPrasyaratController
                       .map((e) => e.text)
                       .toList(),
@@ -337,10 +338,33 @@ class AddView extends StatelessWidget {
                   DateTime.now().toString(),
                 );
 
+                Get.dialog(AlertDialog(
+                  title: Text("Success"),
+                  content: Column(
+                    children: [
+                      Text(contentC.picLink.value),
+                      Text(controller.pickedFile!.path),
+                      Text(controller.titleController.text),
+                      Text("Data added successfully"),
+                    ],
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Get.back();
+                        Get.to(() => HomeProviderView());
+                      },
+                      child: Text("OK"),
+                    ),
+                  ],
+                ));
+
                 Get.snackbar("Success", "Data added successfully",
                     snackPosition: SnackPosition.BOTTOM,
                     backgroundColor: Colors.green,
                     colorText: Colors.white);
+
+                // Get.to(() => HomeProviderView());
               } catch (e) {
                 print("ERROR DISINI" + e.toString());
               }
