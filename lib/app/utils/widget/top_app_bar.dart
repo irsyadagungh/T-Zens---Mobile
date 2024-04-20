@@ -60,6 +60,7 @@ class TopAppBar extends StatelessWidget {
                           width: 20,
                         ),
                         Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text("${auth.user.name}"),
                             Text("${auth.user.email}")
@@ -100,7 +101,7 @@ class TopAppBar extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
                 borderSide: BorderSide.none),
             filled: true,
-            fillColor: Theme.of(context).colorScheme.surfaceVariant,
+            fillColor: Theme.of(context).colorScheme.background,
           ),
         ),
       ),
