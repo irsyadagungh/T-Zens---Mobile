@@ -37,24 +37,29 @@ class WebinarView extends StatelessWidget {
                 ],
               ),
             ),
-            Obx(() => Wrap(
-                  spacing: 10.0, // Jarak antara item secara horizontal
-                  runSpacing: 10.0, // Jarak antara baris secara vertikal
-                  children: List.generate(
-                    contentController.contentList.length,
-                    (index) {
-                      WebinarModel content =
-                          contentController.contentList[index];
-                      print(content.toString() + "dadadada");
-                      return CardPotret(
-                        model: WebinarModel(
-                          title: content.title,
-                          photo: content.photo,
-                        ),
-                      );
-                    },
-                  ),
-                )),
+            Obx(
+              () => GridView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 5.0,
+                  mainAxisSpacing: 5.0,
+                  childAspectRatio: 0.68,
+                ),
+                itemCount: contentController.contentList.length,
+                itemBuilder: (context, index) {
+                  WebinarModel content = contentController.contentList[index];
+                  print(content.toString() + "dadadada");
+                  return CardPotret(
+                    model: WebinarModel(
+                      title: content.title,
+                      photo: content.photo,
+                    ),
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ),

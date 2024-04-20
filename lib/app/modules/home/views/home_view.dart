@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tzens/app/controllers/auth_controller.dart';
 import 'package:tzens/app/routes/app_pages.dart';
+import 'package:tzens/app/utils/constant/color.dart';
 import 'package:tzens/app/utils/screen/organisasi_Screen.dart';
 import 'package:tzens/app/utils/screen/webinar_Screen.dart';
 import 'package:tzens/app/utils/widget/top_app_bar.dart';
@@ -21,6 +22,7 @@ class HomeView extends GetView<HomeController> {
     }
 
     return Scaffold(
+      backgroundColor: customWhite,
       body: CustomScrollView(
         scrollDirection: Axis.vertical,
         slivers: <Widget>[
