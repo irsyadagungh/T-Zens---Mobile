@@ -6,9 +6,11 @@ environment:
   sdk: '>=3.2.4 <4.0.0'
 
 dependencies: 
+  another_carousel_pro: ^1.0.0
   cupertino_icons: ^1.0.2
   get: 4.6.6
   firebase_core: ^2.29.0
+  flutter_svg: ^1.1.4
   liquid_swipe: 3.1.0
   lottie: 3.1.0
   flutter_config: ^2.0.2

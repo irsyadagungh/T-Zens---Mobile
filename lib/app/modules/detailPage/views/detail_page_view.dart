@@ -19,7 +19,9 @@ class DetailPageView extends GetView<DetailPageController> {
       home: Scaffold(
         body: CustomScrollView(
           slivers: <Widget>[
-            const SliverAppbarDetail(),
+            SliverAppbarDetail(
+              image: "${model.photo}",
+            ),
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24.0),

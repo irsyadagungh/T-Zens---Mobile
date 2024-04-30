@@ -10,6 +10,7 @@ import 'package:tzens/app/modules/add/views/add_view.dart';
 import 'package:tzens/app/modules/detailPage/views/detail_page_view.dart';
 import 'package:tzens/app/routes/app_pages.dart';
 import 'package:tzens/app/utils/constant/color.dart';
+import 'package:tzens/app/utils/screen/webinar_provider.dart';
 import 'package:tzens/app/utils/widget/top_app_bar.dart';
 import 'package:water_drop_nav_bar/water_drop_nav_bar.dart';
 import '../controllers/home_provider_controller.dart';
@@ -29,66 +30,8 @@ class HomeProviderView extends GetView<HomeProviderController> {
             auth: auth,
             title: Routes.getTitleFromRoute(Get.currentRoute),
           ),
-          SliverPadding(
-            padding: EdgeInsets.only(
-                bottom: kToolbarHeight + kFloatingActionButtonMargin),
-            sliver: Obx(
-              () => SliverList.builder(
-                  itemCount: webinar.contentList.length,
-                  itemBuilder: (context, index) {
-                    WebinarModel content = webinar.contentList[index];
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ListTile(
-                        onTap: () {
-                          // Get.to(() => DetailPageView(model: content));
-                        },
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        tileColor:
-                            Theme.of(context).colorScheme.secondaryContainer,
-                        leading: ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: Image.network("${content.photo}")),
-                        title: Text("${content.title}"),
-                        subtitle: Text(
-                          "${content.description}",
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        trailing: IconButton(
-                          onPressed: () {
-                            Get.bottomSheet(
-                                backgroundColor: Colors.white,
-                                Container(
-                                  height: 200,
-                                  child: ListView(
-                                    children: [
-                                      ListTile(
-                                        title: Text("Edit"),
-                                        leading: Icon(Icons.edit),
-                                      ),
-                                      ListTile(
-                                        title: Text("Delete"),
-                                        leading: Icon(Icons.delete),
-                                      ),
-                                      ListTile(
-                                        title: Text("View"),
-                                        leading:
-                                            Icon(Icons.remove_red_eye_rounded),
-                                      )
-                                    ],
-                                  ),
-                                ));
-                          },
-                          icon: Icon(Icons.more_vert),
-                        ),
-                      ),
-                    );
-                  }),
-            ),
-          )
+          // WebinarProvider(webinar: webinar)
+          _buildSliverWidget()
         ],
       ),
       bottomNavigationBar: Obx(
@@ -106,6 +49,7 @@ class HomeProviderView extends GetView<HomeProviderController> {
             selectedIndex: controller.selectedIndex.value,
             onItemSelected: (index) {
               controller.selectedIndex.value = index;
+              print(controller.selectedIndex.value);
             }),
       ),
       floatingActionButton: AnimatedFloatingActionButton(
@@ -129,4 +73,32 @@ class HomeProviderView extends GetView<HomeProviderController> {
       ),
     );
   }
+}
+
+Widget _buildSliverWidget() {
+  final controller = Get.find<HomeProviderController>();
+  final webinar = Get.find<ContentController>();
+
+  return Obx(() {
+    switch (controller.selectedIndex.value) {
+      case 0:
+        // Mengembalikan widget untuk kasus 0
+        return WebinarProvider(webinar: webinar);
+      case 1:
+        // Mengembalikan widget untuk kasus 1
+        return SliverToBoxAdapter(
+          child: Container(
+            color: Colors.amber,
+            height: 250,
+          ),
+        );
+      default:
+        // Mengembalikan widget default jika selectedIndex tidak cocok dengan kasus apa pun
+        return SliverToBoxAdapter(
+          child: Container(
+              // Widget default
+              ),
+        );
+    }
+  });
 }

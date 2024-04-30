@@ -1,7 +1,14 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:tzens/app/utils/screen/webinar_Screen.dart';
 
 class SliverAppbarDetail extends StatelessWidget {
-  const SliverAppbarDetail({super.key});
+  const SliverAppbarDetail({Key? key, required this.image}) : super(key: key);
+
+  final String image;
 
   @override
   Widget build(BuildContext context) {
@@ -11,8 +18,8 @@ class SliverAppbarDetail extends StatelessWidget {
       stretch: true,
       backgroundColor: Colors.white,
       flexibleSpace: FlexibleSpaceBar(
-        background: Image.asset(
-          'assets/images/gambar.png',
+        background: Image.network(
+          image,
           fit: BoxFit.cover,
         ),
         stretchModes: const [
@@ -33,7 +40,35 @@ class SliverAppbarDetail extends StatelessWidget {
           child: Container(
             width: 45.0,
             height: 5.0,
-            decoration: BoxDecoration(color: Colors.grey[700]),
+            decoration:
+                BoxDecoration(color: const Color.fromARGB(255, 255, 18, 18)),
+          ),
+        ),
+      ),
+      leadingWidth: 80.0,
+      leading: Container(
+        margin: const EdgeInsets.only(left: 24.0),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(56.0),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
+            child: ElevatedButton(
+              onPressed: () {
+                Get.back();
+              },
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.zero,
+                shape: CircleBorder(),
+              ),
+              child: Container(
+                height: 56.0,
+                width: 56.0,
+                alignment: Alignment.center,
+                child: SvgPicture.asset(
+                  'assets/icons/arrow-ios-back-outline.svg',
+                ),
+              ),
+            ),
           ),
         ),
       ),

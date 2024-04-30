@@ -66,10 +66,13 @@ class CardPotret extends StatelessWidget {
                           children: [
                             Text(
                               // Harusnya Tanggal
-                              "${model.date}",
+                              // "${model.date}",
+                              "24 Januari 2024",
                               style: TextStyle(fontSize: 12),
                             ),
-                            Text("${model.status}",
+                            Text(
+                                // "${model.status}",
+                                "GRATIS",
                                 style: TextStyle(
                                     fontSize: 12, fontWeight: FontWeight.bold))
                           ],
