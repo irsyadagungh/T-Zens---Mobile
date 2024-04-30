@@ -7,11 +7,17 @@ class FormText extends StatelessWidget {
   final int minLines;
   final int maxLines;
   final Icon icon;
+  final String? helperText;
+  final Function()? onTap;
+  final bool enabled;
 
   const FormText({
     super.key,
     required this.hintText,
     required this.controller,
+    this.enabled = true,
+    this.onTap,
+    this.helperText,
     this.minLines = 1,
     this.maxLines = 1,
     this.icon = const Icon(Icons.person, color: primaryColor),
@@ -20,11 +26,14 @@ class FormText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enabled: enabled,
       minLines: minLines,
       maxLines: maxLines,
       controller: controller,
+      onTap: onTap,
       obscureText: hintText == "Password" ? true : false,
       decoration: InputDecoration(
+        helperText: hintText == "Location" ? helperText : null,
         prefixIconColor: primaryColor.withOpacity(0.8),
         prefixIcon: icon,
         focusColor: primaryColor,

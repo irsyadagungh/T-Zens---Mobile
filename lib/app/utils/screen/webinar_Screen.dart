@@ -12,6 +12,27 @@ class WebinarView extends StatelessWidget {
 
   final contentController = Get.find<ContentController>();
 
+  double convertToDp(BuildContext context, double valueInDouble) {
+    // Dapatkan faktor skala dari MediaQuery
+    double scaleFactor = MediaQuery.of(context).devicePixelRatio;
+
+    // Hitung nilai dalam satuan dp
+    double valueInDp = valueInDouble / scaleFactor;
+
+    return valueInDp;
+  }
+
+  double calculateAspectRatio(BuildContext context) {
+    // Dapatkan faktor skala dari MediaQuery
+    double scaleFactor = MediaQuery.of(context).devicePixelRatio;
+
+    // Hitung aspect ratio secara dinamis berdasarkan tinggi item
+    double itemHeight =
+        convertToDp(context, 100); // Misalnya, tinggi item 100 dp
+    return itemHeight /
+        (2 * scaleFactor); // Misalnya, bagi dengan 2 untuk aspect ratio 2:1
+  }
+
   @override
   Widget build(BuildContext context) {
     contentController.readDataUser();
@@ -45,7 +66,7 @@ class WebinarView extends StatelessWidget {
                   crossAxisCount: 2,
                   crossAxisSpacing: 5.0,
                   mainAxisSpacing: 5.0,
-                  childAspectRatio: 0.68,
+                  childAspectRatio: convertToDp(context, 2),
                 ),
                 itemCount: contentController.contentList.length,
                 itemBuilder: (context, index) {

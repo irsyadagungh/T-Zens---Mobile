@@ -3,8 +3,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:intl/intl.dart';
 import 'package:tzens/app/controllers/auth_controller.dart';
 import 'package:tzens/app/controllers/content_controller.dart';
+import 'package:tzens/app/modules/home_provider/controllers/home_provider_controller.dart';
 import 'package:tzens/app/modules/home_provider/views/home_provider_view.dart';
 import 'package:tzens/app/utils/constant/color.dart';
 import 'package:tzens/app/utils/widget/Form_Widget.dart';
@@ -21,6 +24,11 @@ class AddView extends StatelessWidget {
     final controller = Get.put(AddController());
     final auth = Get.find<AuthController>();
     final contentC = Get.put(ContentController());
+    final homeController = Get.put(HomeProviderController());
+
+    RxString type = controller.eventType[0].obs;
+
+    print(controller.date.text);
 
     return Hero(
       tag: 'add_event',
@@ -171,6 +179,102 @@ class AddView extends StatelessWidget {
                         hintText: "Location",
                         controller: controller.locationController,
                       ),
+
+                      SizedBox(
+                        height: 20,
+                      ),
+
+                      Obx(
+                        () => Container(
+                          decoration: BoxDecoration(
+                            color: secondaryColor,
+                            shape: BoxShape.rectangle,
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                              color: Colors.grey,
+                              width: 1,
+                            ),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 20),
+                                child: Text(
+                                  "Event Type",
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: RadioListTile(
+                                      title: Text("Online"),
+                                      value: controller.eventType[0],
+                                      groupValue: type.value,
+                                      onChanged: (value) {
+                                        type.value = value.toString();
+                                        controller.update();
+                                        print(type);
+                                      },
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: RadioListTile(
+                                      title: Text("Offline"),
+                                      value: controller.eventType[1],
+                                      groupValue: type.value,
+                                      onChanged: (value) {
+                                        type.value = value.toString();
+                                        controller.update();
+                                        print(type);
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      SizedBox(
+                        height: 20,
+                      ),
+
+                      Obx(
+                        () => FormText(
+                          hintText: "Link",
+                          controller: controller.linkController,
+                          enabled: type.value == "Online" ? true : false,
+                        ),
+                      ),
+
+                      SizedBox(
+                        height: 20,
+                      ),
+
+                      FormText(
+                        hintText: "Date",
+                        controller: controller.date,
+                        icon: Icon(Icons.calendar_today),
+                        onTap: () async {
+                          DateTime? pickedDate = await showDatePicker(
+                            context: context,
+                            firstDate: DateTime(1950),
+                            lastDate: DateTime(2090),
+                          );
+
+                          if (pickedDate != null) {
+                            controller.date.text =
+                                DateFormat.yMd().format(pickedDate);
+                          }
+                        },
+                      )
                     ],
                   ),
                 ),
@@ -190,7 +294,7 @@ class AddView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Benefits",
+                        "Benefits (Optional)",
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
@@ -223,7 +327,7 @@ class AddView extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Prasyarat",
+                            "Prerequisite (Optional)",
                             style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
@@ -268,7 +372,7 @@ class AddView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Benefits",
+                        "Contact",
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
@@ -325,48 +429,30 @@ class AddView extends StatelessWidget {
                 print(controller.pickedFile!.name);
 
                 contentC.addData(
+                  auth.user.toJson(),
                   controller.listBenefitController.map((e) => e.text).toList(),
+                  DateTime.now().toString(),
+                  addContact(),
                   controller.date.text,
                   controller.descriptionController.text,
-                  addContact(),
-                  auth.user.toJson(),
-                  contentC.picLink.value,
+                  controller.linkController.text,
+                  controller.locationController.text,
+                  await contentC.picLink.value,
                   controller.listPrasyaratController
                       .map((e) => e.text)
                       .toList(),
-                  controller.status.text,
+                  type.value,
                   controller.titleController.text,
-                  controller.locationController.text,
-                  DateTime.now().toString(),
                 );
 
-                Get.dialog(AlertDialog(
-                  title: Text("Success"),
-                  content: Column(
-                    children: [
-                      Text(contentC.picLink.value),
-                      Text(controller.pickedFile!.path),
-                      Text(controller.titleController.text),
-                      Text("Data added successfully"),
-                    ],
-                  ),
-                  actions: [
-                    TextButton(
-                      onPressed: () {
-                        Get.back();
-                        Get.to(() => HomeProviderView());
-                      },
-                      child: Text("OK"),
-                    ),
-                  ],
-                ));
+                Get.to(() => HomeProviderView());
+                homeController.onInit();
+                homeController.update();
 
                 Get.snackbar("Success", "Data added successfully",
                     snackPosition: SnackPosition.BOTTOM,
                     backgroundColor: Colors.green,
                     colorText: Colors.white);
-
-                // Get.to(() => HomeProviderView());
               } catch (e) {
                 print("ERROR DISINI" + e.toString());
               }

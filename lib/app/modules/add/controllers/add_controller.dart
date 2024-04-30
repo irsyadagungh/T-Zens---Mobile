@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/get_rx.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:tzens/app/data/models/webinar_model_model.dart';
 
 class AddController extends GetxController {
@@ -17,12 +19,22 @@ class AddController extends GetxController {
     print("title");
   }
 
-  final TextEditingController name = TextEditingController();
   final TextEditingController date = TextEditingController();
-  final TextEditingController status = TextEditingController();
+  DateTime selectedDate = DateTime.now();
+
+  DateTime formatDate() {
+    DateFormat.yMd().format(selectedDate);
+    return selectedDate;
+  }
+
+  RxList<String> eventType = ["Online", "Offline"].obs;
+  
+
+  final TextEditingController name = TextEditingController();
   final TextEditingController phone = TextEditingController();
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
+  final TextEditingController linkController = TextEditingController();
   final TextEditingController locationController = TextEditingController();
 
   final List<TextEditingController> listBenefitController = [
