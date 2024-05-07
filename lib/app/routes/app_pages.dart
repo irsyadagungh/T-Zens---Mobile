@@ -1,7 +1,10 @@
 import 'package:get/get.dart';
+import 'package:tzens/app/data/models/webinar_model_model.dart';
 
 import '../modules/add/bindings/add_binding.dart';
 import '../modules/add/views/add_view.dart';
+import '../modules/detail_page/bindings/detail_page_binding.dart';
+import '../modules/detail_page/views/detail_page_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/home_provider/bindings/home_provider_binding.dart';
@@ -25,6 +28,7 @@ class AppPages {
   AppPages._();
 
   // static const INITIAL = Routes.HOME;
+  static final WebinarModel model = WebinarModel();
 
   static final routes = [
     GetPage(
@@ -72,5 +76,11 @@ class AppPages {
       page: () => AddView(),
       binding: AddBinding(),
     ),
+    GetPage(
+      name: _Paths.DETAIL_PAGE,
+      page: () => DetailPageView(model: model),
+      binding: DetailPageBinding(),
+    ),
   ];
+  
 }

@@ -4,11 +4,14 @@ import 'package:tzens/app/utils/constant/color.dart';
 
 class SliverAppbarDetail extends StatelessWidget {
   final String image;
-  const SliverAppbarDetail({super.key, required this.image});
+  final String title;
+  const SliverAppbarDetail(
+      {super.key, required this.image, required this.title});
 
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
+      title: Text(title),
       leading: IconButton(
         style: ButtonStyle(
           backgroundColor:
@@ -50,14 +53,6 @@ class SliverAppbarDetail extends StatelessWidget {
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(40.0),
               topRight: Radius.circular(40.0),
-            ),
-          ),
-          child: Container(
-            width: 45.0,
-            height: 3.0,
-            decoration: BoxDecoration(
-              color: Colors.grey[700],
-              borderRadius: BorderRadius.circular(50),
             ),
           ),
         ),

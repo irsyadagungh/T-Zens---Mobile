@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 
 class DetailPageController extends GetxController {
+  //TODO: Implement DetailPageController
+
   final count = 0.obs;
   @override
   void onInit() {

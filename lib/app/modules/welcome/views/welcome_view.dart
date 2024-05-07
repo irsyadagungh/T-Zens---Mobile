@@ -44,7 +44,8 @@ class WelcomeView extends GetView<WelcomeController> {
                     height: 50,
                   ),
                   Text(
-                      "Finding for seminars or organizations with just one click without needing to provide any personal information.")
+                    "Finding for seminars or organizations with just one click without needing to provide any personal information.",
+                  ),
                 ],
               ),
             ),
@@ -59,24 +60,26 @@ class WelcomeView extends GetView<WelcomeController> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30),
               child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Align(
-                        alignment: Alignment.center,
-                        child: Text("Choose your role")),
-                    LargeButton(
-                        text: "Student",
-                        onPressed: () {
-                          auth.role.value = "student";
-                          Get.to(() => LoginView());
-                        }),
-                    LargeOutlinedButton(
-                      onPressed: () {
-                        auth.role.value = "provider";
-                        Get.to(() => RegisterView());
-                      },
-                    )
-                  ]),
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Align(
+                      alignment: Alignment.center,
+                      child: Text("Choose your role")),
+                  LargeButton(
+                    text: "Student",
+                    onPressed: () {
+                      auth.role.value = "student";
+                      Get.to(() => RegisterView());
+                    },
+                  ),
+                  LargeOutlinedButton(
+                    onPressed: () {
+                      auth.role.value = "provider";
+                      Get.to(() => RegisterView());
+                    },
+                  )
+                ],
+              ),
             ),
           ),
 
