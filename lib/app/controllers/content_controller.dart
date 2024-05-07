@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 import 'package:tzens/app/controllers/auth_controller.dart';
 import 'package:tzens/app/data/models/webinar_model_model.dart';
+import 'package:tzens/app/modules/home_provider/views/home_provider_view.dart';
 
 class ContentController extends GetxController {
   final auth = Get.find<AuthController>();
@@ -30,7 +31,7 @@ class ContentController extends GetxController {
   late CollectionReference db =
       FirebaseFirestore.instance.collection("webinar");
   late Reference storage = FirebaseStorage.instance.ref();
-  RxString picLink = "".obs;
+  late RxString picLink = "".obs;
   RxInt length = 0.obs;
 
   WebinarModel content = WebinarModel();
@@ -57,17 +58,18 @@ class ContentController extends GetxController {
 
   // ADD DATA
   Future<void> addData(
+    Map<String, dynamic> administrator,
     List<String> benefits,
+    String timestamp,
+    List<Map<String, dynamic>> contact,
     String date,
     String description,
-    List<Map<String, dynamic>> contact,
-    Map<String, dynamic> administrator,
+    String link,
+    String location,
     String photoUrl,
     List<String> prerequisite,
     String status,
     String title,
-    String location,
-    String timestamp,
   ) async {
     try {
       DocumentReference docRef = await db.add({
@@ -78,6 +80,7 @@ class ContentController extends GetxController {
         "date": date,
         "description": description,
         "id": "",
+        "link": "",
         "location": location,
         "photo": photoUrl,
         "prerequisite": prerequisite,
@@ -88,12 +91,15 @@ class ContentController extends GetxController {
 
       String docId = docRef.id;
 
-      await db.doc(docId).update({
-        "id": docId,
-      });
-
-      print(content.toJson());
-      print("Data added");
+      try {
+        await db.doc(docId).update({
+          "id": docId,
+        });
+        print("ID BARU :" + docId);
+        print("DATA ADDED");
+      } catch (e) {
+        print(e);
+      }
     } catch (e) {
       print(e);
     }
@@ -102,10 +108,8 @@ class ContentController extends GetxController {
   // READ DATA
   Future<void> readDataProvider() async {
     try {
-      final result = await db
-          .where('administrator.uid', isEqualTo: auth.user.uid)
-          .orderBy('createdAt', descending: false)
-          .get();
+      final result =
+          await db.where('administrator.uid', isEqualTo: auth.user.uid).get();
 
       if (result.docs.isEmpty) {
         print("No data found for current user.");
@@ -134,9 +138,21 @@ class ContentController extends GetxController {
       contentList.value = result.docs
           .map((e) => WebinarModel.fromJson(e.data() as Map<String, dynamic>))
           .toList();
-      print(contentList.value.toString() + "tESTINGGGGG");
+      print(contentList.toString() + "tESTINGGGGG");
     } catch (e) {
       print("ERROR READ DATA" + e.toString());
+    }
+  }
+
+  Future<void> deleteData(String id) async {
+    try {
+      await db.doc(id).delete();
+      print("Data deleted");
+      Get.back();
+      Get.back();
+      
+    } catch (e) {
+      print("ERROR DELETE DATA" + e.toString());
     }
   }
 

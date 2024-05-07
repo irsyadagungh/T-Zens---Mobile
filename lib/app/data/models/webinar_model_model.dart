@@ -7,6 +7,7 @@ class WebinarModel {
   String? date;
   String? description;
   String? id;
+  String? link;
   String? location;
   String? photo;
   List<String>? prerequisite;
@@ -22,6 +23,7 @@ class WebinarModel {
       this.date,
       this.description,
       this.id,
+      this.link,
       this.location,
       this.photo,
       this.prerequisite,
@@ -44,6 +46,7 @@ class WebinarModel {
     date = json['date'];
     description = json['description'];
     id = json['id'];
+    link = json['link'];
     location = json['location'];
     photo = json['photo'];
     prerequisite = json['prerequisite'].cast<String>();
@@ -65,6 +68,7 @@ class WebinarModel {
     data['date'] = date;
     data['description'] = description;
     data['id'] = id;
+    data['link'] = link;
     data['location'] = location;
     data['photo'] = photo;
     data['prerequisite'] = prerequisite;
