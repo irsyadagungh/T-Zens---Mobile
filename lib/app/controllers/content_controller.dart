@@ -38,6 +38,28 @@ class ContentController extends GetxController {
   RxList<WebinarModel> contentList = RxList<WebinarModel>([]);
   RxList<WebinarModel> contentList2 = RxList<WebinarModel>([]);
 
+// SEARCH
+  Future<void> search(String keyword) async {
+    try {
+      final result = await db.where('title', arrayContains: keyword).get();
+
+      if (result.docs.isEmpty) {
+        print("No data found for keyword: $keyword");
+        // Handle empty data scenario (show a message, etc.)
+        return;
+      }
+
+      contentList.value = result.docs
+          .map((e) => WebinarModel.fromJson(e.data() as Map<String, dynamic>))
+          .toList();
+
+      print("Data found for keyword: $keyword");
+      print(contentList.toString());
+    } catch (e) {
+      print("ERROR SEARCH DATA: $e");
+    }
+  }
+
 // UPLOAD IMAGE
   Future<void> uploadImage(File imageFile, String name) async {
     try {
@@ -120,6 +142,8 @@ class ContentController extends GetxController {
       contentList.value = result.docs
           .map((e) => WebinarModel.fromJson(e.data() as Map<String, dynamic>))
           .toList();
+
+      update();
     } catch (e) {
       print("ERROR READ DATA" + e.toString());
     }
@@ -150,7 +174,6 @@ class ContentController extends GetxController {
       print("Data deleted");
       Get.back();
       Get.back();
-      
     } catch (e) {
       print("ERROR DELETE DATA" + e.toString());
     }

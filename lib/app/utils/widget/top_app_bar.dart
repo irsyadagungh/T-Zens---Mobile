@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tzens/app/controllers/auth_controller.dart';
+import 'package:tzens/app/data/models/webinar_model_model.dart';
 import 'package:tzens/app/modules/profile/views/profile_view.dart';
 import 'package:tzens/app/utils/constant/color.dart';
+import 'package:tzens/app/utils/screen/SearchPageUser.dart';
 
 class TopAppBar extends StatelessWidget {
   const TopAppBar({
@@ -16,6 +18,7 @@ class TopAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final FocusNode _focusNode = FocusNode();
     print(auth.user.name);
 
     return SliverAppBar(
@@ -88,6 +91,13 @@ class TopAppBar extends StatelessWidget {
 
         // Search
         title: TextField(
+          focusNode: _focusNode,
+          readOnly: true,
+          onTap: () {
+            _focusNode.requestFocus();
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => SearchPage()));
+          },
           decoration: InputDecoration(
             prefixIcon: Icon(
               Icons.search,
