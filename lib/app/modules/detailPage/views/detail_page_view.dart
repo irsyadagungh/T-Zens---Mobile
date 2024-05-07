@@ -3,11 +3,10 @@ import 'package:flutter/widgets.dart';
 
 import 'package:get/get.dart';
 import 'package:tzens/app/data/models/webinar_model_model.dart';
+import 'package:tzens/app/modules/detail_page/controllers/detail_page_controller.dart';
 import 'package:tzens/app/utils/model/dataModels.dart';
 import 'package:tzens/app/utils/widget/detail_sliverAppBar.dart';
 import 'package:tzens/app/utils/widget/valueSection.dart';
-
-import '../controllers/detail_page_controller.dart';
 
 class DetailPageView extends GetView<DetailPageController> {
   const DetailPageView({Key? key, required this.model}) : super(key: key);
@@ -21,6 +20,7 @@ class DetailPageView extends GetView<DetailPageController> {
           slivers: <Widget>[
             SliverAppbarDetail(
               image: "${model.photo}",
+              title: '',
             ),
             SliverToBoxAdapter(
               child: Padding(

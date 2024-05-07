@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:tzens/app/data/models/webinar_model_model.dart';
 
+import '../data/models/webinar_model_model.dart';
 import '../modules/add/bindings/add_binding.dart';
 import '../modules/add/views/add_view.dart';
 import '../modules/detail_page/bindings/detail_page_binding.dart';
@@ -19,6 +19,8 @@ import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/views/profile_view.dart';
 import '../modules/register/bindings/register_binding.dart';
 import '../modules/register/views/register_view.dart';
+import '../modules/search_page/bindings/search_page_binding.dart';
+import '../modules/search_page/views/search_page_view.dart';
 import '../modules/welcome/bindings/welcome_binding.dart';
 import '../modules/welcome/views/welcome_view.dart';
 
@@ -81,6 +83,10 @@ class AppPages {
       page: () => DetailPageView(model: model),
       binding: DetailPageBinding(),
     ),
+    GetPage(
+      name: _Paths.SEARCH_PAGE,
+      page: () => SearchPageView(),
+      binding: SearchPageBinding(),
+    ),
   ];
-  
 }

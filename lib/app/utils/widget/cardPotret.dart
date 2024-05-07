@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tzens/app/data/models/webinar_model_model.dart';
 
 class CardPotret extends StatelessWidget {
   const CardPotret({
@@ -48,7 +49,9 @@ class CardPotret extends StatelessWidget {
                       Text(
                         // Judul
                         "${title}",
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(fontWeight: FontWeight.bold),
+                        maxLines: 2,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

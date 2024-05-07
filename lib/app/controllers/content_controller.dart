@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -41,20 +42,27 @@ class ContentController extends GetxController {
 // SEARCH
   Future<void> search(String keyword) async {
     try {
-      final result = await db.where('title', arrayContains: keyword).get();
+      final result = await db
+          .where('title', isGreaterThanOrEqualTo: keyword)
+          .where('title', isLessThanOrEqualTo: keyword + '\uf8ff')
+          .get();
 
       if (result.docs.isEmpty) {
         print("No data found for keyword: $keyword");
         // Handle empty data scenario (show a message, etc.)
         return;
+      } else {
+        contentList.clear();
       }
 
-      contentList.value = result.docs
-          .map((e) => WebinarModel.fromJson(e.data() as Map<String, dynamic>))
-          .toList();
+      result.docs.forEach((element) {
+        contentList
+            .add(WebinarModel.fromJson(element.data() as Map<String, dynamic>));
+      });
 
       print("Data found for keyword: $keyword");
       print(contentList.toString());
+      update(); // Memperbarui tampilan setelah menambahkan data ke contentList
     } catch (e) {
       print("ERROR SEARCH DATA: $e");
     }

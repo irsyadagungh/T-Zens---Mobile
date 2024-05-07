@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:tzens/app/controllers/auth_controller.dart';
 import 'package:tzens/app/data/models/webinar_model_model.dart';
 import 'package:tzens/app/modules/profile/views/profile_view.dart';
+import 'package:tzens/app/modules/search_page/views/search_page_view.dart';
 import 'package:tzens/app/utils/constant/color.dart';
 import 'package:tzens/app/utils/screen/SearchPageUser.dart';
 
@@ -94,9 +95,7 @@ class TopAppBar extends StatelessWidget {
           focusNode: _focusNode,
           readOnly: true,
           onTap: () {
-            _focusNode.requestFocus();
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => SearchPage()));
+            Get.to(() => SearchPageView());
           },
           decoration: InputDecoration(
             prefixIcon: Icon(
