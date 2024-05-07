@@ -21,6 +21,8 @@ class AddController extends GetxController {
 
   final TextEditingController date = TextEditingController();
   DateTime selectedDate = DateTime.now();
+  final TextEditingController startTime = TextEditingController();
+  final TextEditingController endTime = TextEditingController();
 
   DateTime formatDate() {
     DateFormat.yMd().format(selectedDate);
@@ -28,7 +30,6 @@ class AddController extends GetxController {
   }
 
   RxList<String> eventType = ["Online", "Offline"].obs;
-  
 
   final TextEditingController name = TextEditingController();
   final TextEditingController phone = TextEditingController();

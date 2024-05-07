@@ -10,11 +10,13 @@ class FormText extends StatelessWidget {
   final String? helperText;
   final Function()? onTap;
   final bool enabled;
+  final TextInputType? keyboardType;
 
   const FormText({
     super.key,
     required this.hintText,
     required this.controller,
+    this.keyboardType,
     this.enabled = true,
     this.onTap,
     this.helperText,
@@ -26,6 +28,7 @@ class FormText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      keyboardType: keyboardType,
       enabled: enabled,
       minLines: minLines,
       maxLines: maxLines,

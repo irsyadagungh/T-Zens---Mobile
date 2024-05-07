@@ -23,7 +23,7 @@ dependencies:
   file_picker: ^8.0.1
   image_picker: ^1.0.8
   permission_handler: ^11.3.1
-  firebase_storage: 11.7.2
+  firebase_storage: ^11.7.4
   liquid_pull_to_refresh: 3.0.1
   intl: 0.19.0
   flutter: 

@@ -12,6 +12,7 @@ import 'package:tzens/app/modules/home_provider/views/home_provider_view.dart';
 import 'package:tzens/app/utils/constant/color.dart';
 import 'package:tzens/app/utils/widget/Form_Widget.dart';
 import 'package:tzens/app/utils/widget/dynamic_form_one_field.dart';
+import 'package:tzens/app/utils/widget/dynamic_form_two_field.dart';
 import 'package:tzens/app/utils/widget/large_button.dart';
 
 import '../controllers/add_controller.dart';
@@ -163,6 +164,7 @@ class AddView extends StatelessWidget {
                         height: 20,
                       ),
 
+                      /** DESCRIPTION */
                       FormText(
                         hintText: "Description",
                         controller: controller.descriptionController,
@@ -174,6 +176,7 @@ class AddView extends StatelessWidget {
                         height: 20,
                       ),
 
+                      /** LOCATION */
                       FormText(
                         icon: Icon(Icons.location_on),
                         hintText: "Location",
@@ -184,6 +187,7 @@ class AddView extends StatelessWidget {
                         height: 20,
                       ),
 
+                      /** EVENT TYPE */
                       Obx(
                         () => Container(
                           decoration: BoxDecoration(
@@ -246,8 +250,10 @@ class AddView extends StatelessWidget {
                         height: 20,
                       ),
 
+                      /** LINK */
                       Obx(
                         () => FormText(
+                          icon: Icon(Icons.link),
                           hintText: "Link",
                           controller: controller.linkController,
                           enabled: type.value == "Online" ? true : false,
@@ -258,7 +264,9 @@ class AddView extends StatelessWidget {
                         height: 20,
                       ),
 
+                      /** DATE */
                       FormText(
+                        keyboardType: TextInputType.none,
                         hintText: "Date",
                         controller: controller.date,
                         icon: Icon(Icons.calendar_today),
@@ -274,6 +282,64 @@ class AddView extends StatelessWidget {
                                 DateFormat.yMd().format(pickedDate);
                           }
                         },
+                      ),
+
+                      SizedBox(
+                        height: 20,
+                      ),
+
+                      /** TIME */
+                      Row(
+                        children: [
+                          /** START TIME */
+                          Expanded(
+                            child: FormText(
+                              icon: Icon(Icons.access_time),
+                              keyboardType: TextInputType.none,
+                              hintText: "Start Time",
+                              controller: controller.startTime,
+                              onTap: () async {
+                                TimeOfDay? pickedTime = await showTimePicker(
+                                  context: context,
+                                  initialTime: TimeOfDay.now(),
+                                );
+
+                                if (pickedTime != null) {
+                                  controller.startTime.text =
+                                      pickedTime.format(context);
+                                }
+                              },
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text("-"),
+                          SizedBox(
+                            width: 5,
+                          ),
+
+                          /** END TIME */
+                          Expanded(
+                            child: FormText(
+                              icon: Icon(Icons.access_time),
+                              keyboardType: TextInputType.none,
+                              hintText: "End Time",
+                              controller: controller.endTime,
+                              onTap: () async {
+                                TimeOfDay? pickedTime = await showTimePicker(
+                                  context: context,
+                                  initialTime: TimeOfDay.now(),
+                                );
+
+                                if (pickedTime != null) {
+                                  controller.endTime.text =
+                                      pickedTime.format(context);
+                                }
+                              },
+                            ),
+                          ),
+                        ],
                       )
                     ],
                   ),
@@ -407,6 +473,17 @@ class AddView extends StatelessWidget {
             onPressed: () async {
               // await contentC.setCollection(Get.currentRoute);
 
+              Map<String, dynamic> addTime() {
+                Map<String, dynamic> time = {};
+
+                time.addAll({
+                  "endTime": controller.endTime.text,
+                  "startTime": controller.startTime.text
+                });
+
+                return time;
+              }
+
               List<Map<String, dynamic>> addContact() {
                 List<Map<String, dynamic>> contact = [];
                 int i = 0;
@@ -442,8 +519,11 @@ class AddView extends StatelessWidget {
                       .map((e) => e.text)
                       .toList(),
                   type.value,
+                  addTime(),
                   controller.titleController.text,
                 );
+
+                print(addTime());
 
                 Get.to(() => HomeProviderView());
                 homeController.onInit();
@@ -460,93 +540,6 @@ class AddView extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class DynamicFormTwoField extends StatelessWidget {
-  const DynamicFormTwoField({
-    super.key,
-    required this.controller,
-    required this.itemCount,
-    required this.textEditingController1,
-    required this.textEditingController2,
-    required this.increment,
-    required this.decrement,
-    required this.iconField1,
-    required this.iconField2,
-  });
-
-  final AddController controller;
-  final int itemCount;
-  final List<TextEditingController> textEditingController1;
-  final List<TextEditingController> textEditingController2;
-  final Function() increment;
-  final Function() decrement;
-  final Icon iconField1;
-  final Icon iconField2;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      physics: NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      itemCount: itemCount,
-      itemBuilder: (ctx, index) {
-        return Container(
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 10),
-            child: Row(
-              children: [
-                Expanded(
-                  child: FormText(
-                    icon: iconField1,
-                    hintText: "Contact Name",
-                    controller: textEditingController1[index],
-                  ),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                  child: FormText(
-                    icon: iconField2,
-                    hintText: "Contact Phone",
-                    controller: textEditingController2[index],
-                  ),
-                ),
-                index < 1
-                    ? IconButton(
-                        color: Colors.black,
-                        onPressed: () {
-                          textEditingController1.add(TextEditingController());
-                          textEditingController2.add(TextEditingController());
-                          increment();
-                          controller.update();
-                          print(controller.totalContact.value);
-                        },
-                        icon: Icon(Icons.add),
-                      )
-                    : IconButton(
-                        color: Colors.red,
-                        onPressed: () {
-                          textEditingController1[index].clear();
-                          textEditingController2[index].clear();
-                          textEditingController1[index].dispose();
-                          textEditingController2[index].dispose();
-                          textEditingController1.removeAt(index);
-                          textEditingController2.removeAt(index);
-                          decrement();
-                          controller.update();
-                          print(controller.totalContact.value);
-                        },
-                        icon: Icon(Icons.delete),
-                      ),
-              ],
-            ),
-          ),
-        );
-      },
     );
   }
 }

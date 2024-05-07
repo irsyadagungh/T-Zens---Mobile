@@ -31,7 +31,7 @@ class ContentController extends GetxController {
   late CollectionReference db =
       FirebaseFirestore.instance.collection("webinar");
   late Reference storage = FirebaseStorage.instance.ref();
-  late RxString picLink = "".obs;
+  RxString picLink = "".obs;
   RxInt length = 0.obs;
 
   WebinarModel content = WebinarModel();
@@ -91,6 +91,7 @@ class ContentController extends GetxController {
     String photoUrl,
     List<String> prerequisite,
     String status,
+    Map<String, dynamic> time,
     String title,
   ) async {
     try {
@@ -107,6 +108,7 @@ class ContentController extends GetxController {
         "photo": photoUrl,
         "prerequisite": prerequisite,
         "status": status,
+        "time": time,
         "title": title,
         "updatedAt": "",
       });

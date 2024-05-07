@@ -4,6 +4,9 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:tzens/app/controllers/content_controller.dart';
 import 'package:tzens/app/data/models/webinar_model_model.dart';
+import 'package:tzens/app/modules/detail_page/views/detail_page_view.dart';
+import 'package:tzens/app/utils/constant/webinar_utils.dart';
+import 'package:tzens/app/utils/model/dataModels.dart';
 import 'package:tzens/app/utils/widget/cardPotret.dart';
 
 class WebinarView extends StatelessWidget {
@@ -93,10 +96,22 @@ class WebinarView extends StatelessWidget {
                 itemBuilder: (context, index) {
                   WebinarModel content = contentController.contentList[index];
                   print(content.toString() + "dadadada");
-                  return CardPotret(
-                    model: WebinarModel(
-                      title: content.title,
-                      photo: content.photo,
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return DetailPageView(model: content);
+                          },
+                        ),
+                      );
+                    },
+                    child: CardPotret(
+                      photo: "${content.photo}",
+                      title: "${content.title}",
+                      date: "${content.date}",
+                      status: "${content.status}",
                     ),
                   );
                 },

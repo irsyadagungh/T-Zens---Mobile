@@ -12,6 +12,7 @@ class WebinarModel {
   String? photo;
   List<String>? prerequisite;
   String? status;
+  Time? time;
   String? title;
   String? createdAt;
   String? updatedAt;
@@ -28,6 +29,7 @@ class WebinarModel {
       this.photo,
       this.prerequisite,
       this.status,
+      this.time,
       this.title,
       this.createdAt,
       this.updatedAt});
@@ -51,6 +53,7 @@ class WebinarModel {
     photo = json['photo'];
     prerequisite = json['prerequisite'].cast<String>();
     status = json['status'];
+    time = json['time'] != null ? Time?.fromJson(json['time']) : null;
     title = json['title'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
@@ -73,9 +76,65 @@ class WebinarModel {
     data['photo'] = photo;
     data['prerequisite'] = prerequisite;
     data['status'] = status;
+    if (time != null) {
+      data['time'] = time?.toJson();
+    }
     data['title'] = title;
     data['createdAt'] = createdAt;
     data['updatedAt'] = updatedAt;
+    return data;
+  }
+}
+
+class Administrator {
+  String? email;
+  String? faculty;
+  String? major;
+  String? name;
+  String? nim;
+  String? phone;
+  String? role;
+  String? uid;
+  String? username;
+  String? photo;
+
+  Administrator(
+      {this.email,
+      this.faculty,
+      this.major,
+      this.name,
+      this.nim,
+      this.phone,
+      this.role,
+      this.uid,
+      this.username,
+      this.photo});
+
+  Administrator.fromJson(Map<String, dynamic> json) {
+    email = json['email'];
+    faculty = json['faculty'];
+    major = json['major'];
+    name = json['name'];
+    nim = json['nim'];
+    phone = json['phone'];
+    role = json['role'];
+    uid = json['uid'];
+    username = json['username'];
+    photo = json['photo'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final data = <String, dynamic>{};
+    data['email'] = email;
+    data['faculty'] = faculty;
+    data['major'] = major;
+    data['name'] = name;
+    data['nim'] = nim;
+    data['phone'] = phone;
+    data['role'] = role;
+    data['uid'] = uid;
+    data['username'] = username;
+    data['photo'] = photo;
     return data;
   }
 }
@@ -95,6 +154,25 @@ class Contact {
     final data = <String, dynamic>{};
     data['name'] = name;
     data['phone'] = phone;
+    return data;
+  }
+}
+
+class Time {
+  String? endTime;
+  String? startTime;
+
+  Time({this.endTime, this.startTime});
+
+  Time.fromJson(Map<String, dynamic> json) {
+    endTime = json['endTime'];
+    startTime = json['startTime'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final data = <String, dynamic>{};
+    data['endTime'] = endTime;
+    data['startTime'] = startTime;
     return data;
   }
 }

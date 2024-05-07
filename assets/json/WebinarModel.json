@@ -25,6 +25,10 @@
     "prerequisite": [""],
     
     "status" : "",
+    "time" : {
+        "endTime" : "",
+        "startTime": ""
+    },
     "title": "",
     "createdAt" : "",
     "updatedAt" : ""

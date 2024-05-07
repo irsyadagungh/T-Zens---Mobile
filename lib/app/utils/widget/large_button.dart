@@ -3,7 +3,7 @@ import 'package:tzens/app/utils/constant/color.dart';
 
 class LargeButton extends StatelessWidget {
   final String text;
-  final VoidCallback onPressed;
+  final Function()? onPressed;
 
   const LargeButton({
     super.key,

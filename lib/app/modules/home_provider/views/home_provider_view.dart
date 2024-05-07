@@ -7,7 +7,7 @@ import 'package:tzens/app/controllers/auth_controller.dart';
 import 'package:tzens/app/controllers/content_controller.dart';
 import 'package:tzens/app/data/models/webinar_model_model.dart';
 import 'package:tzens/app/modules/add/views/add_view.dart';
-import 'package:tzens/app/modules/detailPage/views/detail_page_view.dart';
+import 'package:tzens/app/modules/detail_page/views/detail_page_view.dart';
 import 'package:tzens/app/routes/app_pages.dart';
 import 'package:tzens/app/utils/constant/color.dart';
 import 'package:tzens/app/utils/screen/organisasi_provider.dart';
