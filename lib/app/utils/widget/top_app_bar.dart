@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tzens/app/controllers/auth_controller.dart';
-import 'package:tzens/app/data/models/webinar_model_model.dart';
 import 'package:tzens/app/modules/profile/views/profile_view.dart';
 import 'package:tzens/app/modules/search_page/views/search_page_view.dart';
 import 'package:tzens/app/utils/constant/color.dart';
-import 'package:tzens/app/utils/screen/SearchPageUser.dart';
 
 class TopAppBar extends StatelessWidget {
   const TopAppBar({
@@ -20,7 +18,7 @@ class TopAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final FocusNode _focusNode = FocusNode();
-    print(auth.user.name);
+    print(auth.user.value.name);
 
     return SliverAppBar(
       backgroundColor: customWhite,
@@ -49,7 +47,7 @@ class TopAppBar extends StatelessWidget {
                     // Profile
                     Row(
                       children: [
-                        auth.user.photoUrl == ""
+                        Obx(() => auth.user.value.photoUrl == ""
                             ? ClipOval(
                                 child: Icon(
                                   Icons.person,
@@ -58,16 +56,16 @@ class TopAppBar extends StatelessWidget {
                               )
                             : CircleAvatar(
                                 backgroundImage:
-                                    NetworkImage("${auth.user.photoUrl}"),
-                              ),
+                                    NetworkImage("${auth.user.value.photoUrl}"),
+                              )),
                         SizedBox(
                           width: 20,
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("${auth.user.name}"),
-                            Text("${auth.user.email}")
+                            Obx(() => Text("${auth.user.value.name}")),
+                            Obx(() => Text("${auth.user.value.email}"))
                           ],
                         ),
                       ],

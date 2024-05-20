@@ -2,6 +2,8 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tzens/app/controllers/auth_controller.dart';
 import 'package:tzens/app/controllers/content_controller.dart';
 
@@ -16,6 +18,9 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await GetStorage.init();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  print("FCM Token: ${prefs.getString("fcmToken")}");
   runApp(MyApp());
   print(Firebase.apps.length > 0);
   print("DARI MAIN");
@@ -48,15 +53,23 @@ class MyApp extends StatelessWidget {
                         ),
                         debugShowCheckedModeBanner: false,
                         title: "Application",
-                        initialRoute: authC.isSkipIntro.value == true
-                            ? Routes.WELCOME
-                            : Routes.HOME,
+                        initialRoute: authC.isSkipIntro.isTrue
+                            ? authC.isAuth.isTrue
+                                ? authC.user.value.role == "provider"
+                                    ? Routes.HOME_PROVIDER
+                                    : Routes.HOME
+                                : Routes.LOGIN
+                            : Routes.INTRODUCTION,
                         getPages: AppPages.routes,
                       );
                     });
                   }
 
-                  return SplashScreen();
+                  return FutureBuilder(
+                      future: authC.firstInitialized(),
+                      builder: (ctx, snapshot) {
+                        return SplashScreen();
+                      });
                 });
           }
 

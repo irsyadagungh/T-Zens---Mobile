@@ -1,17 +1,15 @@
 import 'package:animated_float_action_button/animated_floating_action_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
-import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:tzens/app/controllers/auth_controller.dart';
 import 'package:tzens/app/controllers/content_controller.dart';
-import 'package:tzens/app/data/models/webinar_model_model.dart';
 import 'package:tzens/app/modules/add/views/add_view.dart';
-import 'package:tzens/app/modules/detail_page/views/detail_page_view.dart';
+import 'package:tzens/app/modules/profile/views/profile_view.dart';
 import 'package:tzens/app/routes/app_pages.dart';
 import 'package:tzens/app/utils/constant/color.dart';
 import 'package:tzens/app/utils/screen/organisasi_provider.dart';
 import 'package:tzens/app/utils/screen/webinar_providers.dart';
+import 'package:tzens/app/utils/widget/nav_bar.dart';
 import 'package:tzens/app/utils/widget/top_app_bar.dart';
 import 'package:water_drop_nav_bar/water_drop_nav_bar.dart';
 import '../controllers/home_provider_controller.dart';
@@ -23,6 +21,7 @@ class HomeProviderView extends GetView<HomeProviderController> {
   @override
   Widget build(BuildContext context) {
     controller.onInit();
+    print(Get.currentRoute);
     return Scaffold(
       backgroundColor: customWhite,
       body: RefreshIndicator(
@@ -41,24 +40,7 @@ class HomeProviderView extends GetView<HomeProviderController> {
           ],
         ),
       ),
-      bottomNavigationBar: Obx(
-        () => WaterDropNavBar(
-            bottomPadding: 20,
-            waterDropColor: Theme.of(context).colorScheme.primary,
-            barItems: [
-              BarItem(
-                  filledIcon: Icons.event, outlinedIcon: Icons.event_outlined),
-              BarItem(
-                  filledIcon: Icons.group, outlinedIcon: Icons.group_outlined),
-              BarItem(
-                  filledIcon: Icons.person, outlinedIcon: Icons.person_outlined)
-            ],
-            selectedIndex: controller.selectedIndex.value,
-            onItemSelected: (index) {
-              controller.selectedIndex.value = index;
-              print(controller.selectedIndex.value);
-            }),
-      ),
+      bottomNavigationBar: NavBar(controller: controller),
       floatingActionButton: AnimatedFloatingActionButton(
         fabButtons: [
           FloatingActionButton(

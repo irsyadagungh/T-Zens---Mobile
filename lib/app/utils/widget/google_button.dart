@@ -3,12 +3,15 @@ import 'package:flutter/material.dart';
 class GoogleButton extends StatelessWidget {
   const GoogleButton({
     super.key,
+    required this.onPressed,
   });
+
+  final void Function() onPressed;
 
   @override
   Widget build(BuildContext context) {
     return FilledButton(
-      onPressed: () {},
+      onPressed: onPressed,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -29,8 +32,8 @@ class GoogleButton extends StatelessWidget {
             MaterialStateColor.resolveWith((states) => Colors.white),
         foregroundColor:
             MaterialStateColor.resolveWith((states) => Colors.black),
-        shape: MaterialStateProperty.all(RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10))),
+        shape: MaterialStateProperty.all(
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
       ),
     );
   }

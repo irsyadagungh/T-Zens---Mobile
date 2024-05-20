@@ -19,7 +19,7 @@ class DetailPageView extends GetView<DetailPageController> {
         body: CustomScrollView(
           slivers: <Widget>[
             SliverAppbarDetail(
-              image: "${model.photo}",
+              image: "${model.photoUrl}",
               title: '',
             ),
             SliverToBoxAdapter(

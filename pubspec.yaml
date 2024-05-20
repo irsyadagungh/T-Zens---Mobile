@@ -26,6 +26,12 @@ dependencies:
   firebase_storage: ^11.7.4
   liquid_pull_to_refresh: 3.0.1
   intl: 0.19.0
+  get_storage: 2.1.1
+  google_sign_in: 6.2.1
+  shared_preferences: 2.2.3
+  dropdown_textfield: 1.0.8
+  flutter_screenutil: 5.9.1
+  firebase_messaging: 14.9.2
   flutter: 
     sdk: flutter
 

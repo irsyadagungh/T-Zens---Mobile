@@ -146,7 +146,11 @@ class LoginView extends GetView<LoginController> {
             ),
 
             // Google Button
-            GoogleButton(),
+            GoogleButton(
+              onPressed: () {
+                auth.login();
+              },
+            ),
           ],
         ),
       ),

@@ -50,7 +50,7 @@ class CardPotret extends StatelessWidget {
                         // Judul
                         "${title}",
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: TextStyle(fontWeight: FontWeight.values[8]),
                         maxLines: 2,
                       ),
                       Row(

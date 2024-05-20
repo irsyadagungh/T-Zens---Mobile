@@ -16,9 +16,9 @@ class OrganisasiProvider extends StatelessWidget {
       padding:
           EdgeInsets.only(bottom: kToolbarHeight + kFloatingActionButtonMargin),
       sliver: Obx(() => SliverList.builder(
-          itemCount: organisasi.contentList.length,
+          itemCount: organisasi.contentListProvider.length,
           itemBuilder: (context, index) {
-            WebinarModel content = organisasi.contentList[index];
+            WebinarModel content = organisasi.contentListProvider[index];
             return Padding(
               padding: EdgeInsets.all(8.0),
               child: ListTile(
@@ -29,7 +29,7 @@ class OrganisasiProvider extends StatelessWidget {
                 tileColor: Theme.of(context).colorScheme.secondaryContainer,
                 leading: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
-                  child: Image.network("${content.photo}"),
+                  child: Image.network("${content.photoUrl}"),
                 ),
                 title: Text("${content.title}"),
                 subtitle: Text(
@@ -39,7 +39,8 @@ class OrganisasiProvider extends StatelessWidget {
                 trailing: IconButton(
                   onPressed: () async {
                     controller.onInit();
-                    late Rx<String?> id = organisasi.contentList[index].id.obs;
+                    late Rx<String?> id =
+                        organisasi.contentListProvider[index].id.obs;
                     print(id);
                     Get.bottomSheet(
                       backgroundColor: Colors.white,

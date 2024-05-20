@@ -1,11 +1,13 @@
 {
     "administrator" : {
+        "bookmark" : "",
         "email": "",
         "faculty": "",
         "major": "",
         "name": "",
         "nim": "",
         "phone": "",
+        "registeredWebinar" : [""],
         "role": "",
         "uid" : "",
         "username": "",
@@ -21,9 +23,9 @@
     "id": "",
     "link": "",
     "location": "",
-    "photo": "",
+    "photoUrl": "",
     "prerequisite": [""],
-    
+    "registeredAccount" : [""],
     "status" : "",
     "time" : {
         "endTime" : "",

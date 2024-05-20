@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:intl/intl.dart';
 import 'package:tzens/app/controllers/auth_controller.dart';
 import 'package:tzens/app/controllers/content_controller.dart';
@@ -14,6 +13,7 @@ import 'package:tzens/app/utils/widget/Form_Widget.dart';
 import 'package:tzens/app/utils/widget/dynamic_form_one_field.dart';
 import 'package:tzens/app/utils/widget/dynamic_form_two_field.dart';
 import 'package:tzens/app/utils/widget/large_button.dart';
+import 'package:tzens/app/utils/widget/pick_image.dart';
 
 import '../controllers/add_controller.dart';
 
@@ -83,71 +83,28 @@ class AddView extends StatelessWidget {
                         height: 10,
                       ),
 
-                      Container(
-                        clipBehavior: Clip.antiAlias,
-                        height: 300,
-                        width: 200,
-                        decoration: BoxDecoration(
-                          color: secondaryColor.withOpacity(0.3),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Obx(
-                          () => controller.imageFile.value == null
-                              ? IconButton(
-                                  onPressed: () => controller.pickImage(),
-                                  icon:
-                                      Icon(Icons.add_photo_alternate_outlined),
-                                )
-                              : Stack(
-                                  alignment: Alignment.topRight,
-                                  children: [
-                                    Container(
-                                      width: 200,
-                                      height: 300,
-                                      child: Image.file(
-                                        controller.imageFile.value!,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                    IconButton(
-                                      style: ButtonStyle(
-                                        foregroundColor:
-                                            MaterialStateProperty.all<Color>(
-                                          Colors.black,
-                                        ),
-                                        backgroundColor:
-                                            MaterialStateProperty.all<Color>(
-                                          Colors.white.withOpacity(0.5),
-                                        ),
-                                      ),
-                                      onPressed: () {
-                                        Get.dialog(AlertDialog(
-                                          title: Text("Remove Image"),
-                                          content: Text(
-                                              "Are you sure want to remove this image?"),
-                                          actions: [
-                                            TextButton(
-                                              onPressed: () {
-                                                controller.removeImage();
-                                                Get.back();
-                                              },
-                                              child: Text("Yes"),
-                                            ),
-                                            TextButton(
-                                              onPressed: () {
-                                                Get.back();
-                                              },
-                                              child: Text("No"),
-                                            ),
-                                          ],
-                                        ));
-                                      },
-                                      icon: Icon(Icons.close),
-                                    ),
-                                  ],
-                                ),
-                        ),
-                      ),
+                      PickImage(
+                          controller: controller,
+                          height: 300,
+                          width: 200,
+                          radius: 20,
+                          pickImageButton: IconButton(
+                            onPressed: () async {
+                              await controller.pickImage();
+                              print(controller.imageFile.value);
+                              print(controller.imageFile.value?.path);
+                            },
+                            icon: Icon(Icons.add_photo_alternate_outlined),
+                          ),
+                          image: Obx(
+                            () => controller.imageFile.value != null &&
+                                    controller.imageFile.value!.path != ""
+                                ? Image.file(
+                                    File(controller.imageFile.value!.path),
+                                    fit: BoxFit.cover,
+                                  )
+                                : Icon(Icons.image),
+                          )),
 
                       SizedBox(
                         height: 20,
@@ -497,27 +454,66 @@ class AddView extends StatelessWidget {
                 return contact;
               }
 
-              print(auth.user.toJson());
+              if (type.value == "Offline") {
+                if (controller.pickedFile == null ||
+                    controller.pickedFile!.path.isEmpty ||
+                    controller.titleController.text.isEmpty ||
+                    controller.descriptionController.text.isEmpty ||
+                    controller.locationController.text.isEmpty ||
+                    controller.date.text.isEmpty ||
+                    controller.startTime.text.isEmpty ||
+                    controller.endTime.text.isEmpty) {
+                  Get.snackbar("Error", "Please fill all the form",
+                      snackPosition: SnackPosition.BOTTOM,
+                      backgroundColor: Colors.red,
+                      colorText: Colors.white);
+                  return;
+                }
+              } else {
+                if (controller.pickedFile == null ||
+                    controller.pickedFile!.path.isEmpty ||
+                    controller.titleController.text.isEmpty ||
+                    controller.descriptionController.text.isEmpty ||
+                    controller.locationController.text.isEmpty ||
+                    controller.date.text.isEmpty ||
+                    controller.startTime.text.isEmpty ||
+                    controller.endTime.text.isEmpty ||
+                    controller.linkController.text.isEmpty) {
+                  Get.snackbar("Error", "Please fill all the form",
+                      snackPosition: SnackPosition.BOTTOM,
+                      backgroundColor: Colors.red,
+                      colorText: Colors.white);
+                  return;
+                }
+              }
+
               try {
                 await contentC.uploadImage(File(controller.pickedFile!.path),
                     controller.pickedFile!.name);
+                print("LINK" + contentC.picLink.value);
 
                 print(controller.pickedFile!.path);
                 print(controller.pickedFile!.name);
 
                 contentC.addData(
                   auth.user.toJson(),
-                  controller.listBenefitController.map((e) => e.text).toList(),
+                  controller.listBenefitController.isNotEmpty
+                      ? controller.listBenefitController
+                          .map((e) => e.text)
+                          .toList()
+                      : [],
                   DateTime.now().toString(),
                   addContact(),
                   controller.date.text,
                   controller.descriptionController.text,
                   controller.linkController.text,
                   controller.locationController.text,
-                  await contentC.picLink.value,
-                  controller.listPrasyaratController
-                      .map((e) => e.text)
-                      .toList(),
+                  contentC.picLink.value,
+                  controller.listPrasyaratController.isNotEmpty
+                      ? controller.listPrasyaratController
+                          .map((e) => e.text)
+                          .toList()
+                      : [],
                   type.value,
                   addTime(),
                   controller.titleController.text,

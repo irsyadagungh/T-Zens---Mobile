@@ -5,44 +5,33 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 import 'package:tzens/app/controllers/auth_controller.dart';
+import 'package:tzens/app/data/models/user_model_model.dart';
 import 'package:tzens/app/data/models/webinar_model_model.dart';
 import 'package:tzens/app/modules/home_provider/views/home_provider_view.dart';
 
 class ContentController extends GetxController {
-  final auth = Get.find<AuthController>();
+  final authC = Get.find<AuthController>();
 
   RxString collection = "".obs;
 
-  String setCollection(String value) {
-    switch (value) {
-      case '/add':
-        collection.value = 'webinar';
-        break;
-      case '/profile':
-        collection.value = 'organisasi';
-        break;
-      // Tambahkan case lainnya sesuai dengan rute yang Anda miliki
-      default:
-        setCollection('defaultCollection');
-    }
-
-    return collection.value;
-  }
-
-  late CollectionReference db =
+  late CollectionReference dbUser =
+      FirebaseFirestore.instance.collection("users");
+  late CollectionReference dbWebinar =
       FirebaseFirestore.instance.collection("webinar");
   late Reference storage = FirebaseStorage.instance.ref();
   RxString picLink = "".obs;
   RxInt length = 0.obs;
 
   WebinarModel content = WebinarModel();
-  RxList<WebinarModel> contentList = RxList<WebinarModel>([]);
-  RxList<WebinarModel> contentList2 = RxList<WebinarModel>([]);
+  RxList<WebinarModel> contentListProvider = RxList<WebinarModel>([]);
+  RxList<WebinarModel> contentListUser = RxList<WebinarModel>([]);
+  RxList<WebinarModel> contentListSearch = RxList<WebinarModel>([]);
+  RxList<WebinarModel> bookmarkedWebinars = RxList<WebinarModel>([]);
 
-// SEARCH
+  /** SEARCH */
   Future<void> search(String keyword) async {
     try {
-      final result = await db
+      final result = await dbWebinar
           .where('title', isGreaterThanOrEqualTo: keyword)
           .where('title', isLessThanOrEqualTo: keyword + '\uf8ff')
           .get();
@@ -52,41 +41,44 @@ class ContentController extends GetxController {
         // Handle empty data scenario (show a message, etc.)
         return;
       } else {
-        contentList.clear();
+        contentListSearch.clear();
       }
 
       result.docs.forEach((element) {
-        contentList
+        contentListSearch
             .add(WebinarModel.fromJson(element.data() as Map<String, dynamic>));
       });
 
       print("Data found for keyword: $keyword");
-      print(contentList.toString());
+      print(contentListProvider.toString());
       update(); // Memperbarui tampilan setelah menambahkan data ke contentList
     } catch (e) {
       print("ERROR SEARCH DATA: $e");
     }
   }
 
-// UPLOAD IMAGE
+  /** UPLOAD IMAGE */
   Future<void> uploadImage(File imageFile, String name) async {
     try {
       final path = "webinar/${name}";
       final file = File(imageFile.path);
 
       final ref = storage.child(path);
-      ref.putFile(file).then((value) async {
-        picLink.value = await value.ref.getDownloadURL();
+      final uploadTask = ref.putFile(file);
+
+      // Menunggu hingga proses upload selesai
+      await uploadTask.whenComplete(() async {
+        picLink.value = await ref.getDownloadURL();
       });
 
-      print(picLink.value);
-      print("Image uploaded");
+      // Setelah proses upload selesai, picLink.value sudah diupdate
+      print("Image uploaded with link = " + picLink.value);
     } catch (e) {
       print("ERROR UPLOAD" + e.toString());
     }
   }
 
-  // ADD DATA
+  /** ADD DATA WEBINAR */
   Future<void> addData(
     Map<String, dynamic> administrator,
     List<String> benefits,
@@ -103,7 +95,7 @@ class ContentController extends GetxController {
     String title,
   ) async {
     try {
-      DocumentReference docRef = await db.add({
+      DocumentReference docRef = await dbWebinar.add({
         "administrator": administrator,
         "benefits": benefits,
         "createdAt": timestamp,
@@ -115,6 +107,7 @@ class ContentController extends GetxController {
         "location": location,
         "photo": photoUrl,
         "prerequisite": prerequisite,
+        "registeredAccount": [""],
         "status": status,
         "time": time,
         "title": title,
@@ -124,7 +117,7 @@ class ContentController extends GetxController {
       String docId = docRef.id;
 
       try {
-        await db.doc(docId).update({
+        await dbWebinar.doc(docId).update({
           "id": docId,
         });
         print("ID BARU :" + docId);
@@ -137,11 +130,12 @@ class ContentController extends GetxController {
     }
   }
 
-  // READ DATA
+  /** READ DATA PROVIDER */
   Future<void> readDataProvider() async {
     try {
-      final result =
-          await db.where('administrator.uid', isEqualTo: auth.user.uid).get();
+      final result = await dbWebinar
+          .where('administrator.uid', isEqualTo: authC.user.value.uid)
+          .get();
 
       if (result.docs.isEmpty) {
         print("No data found for current user.");
@@ -149,19 +143,20 @@ class ContentController extends GetxController {
         return;
       }
 
-      contentList.value = result.docs
+      contentListProvider.value = result.docs
           .map((e) => WebinarModel.fromJson(e.data() as Map<String, dynamic>))
           .toList();
 
       update();
     } catch (e) {
-      print("ERROR READ DATA" + e.toString());
+      print("ERROR READ DATA WEBINAR PROVIDER : " + e.toString());
     }
   }
 
+  /** READ DATA USER */
   Future<void> readDataUser() async {
     try {
-      final result = await db.get();
+      final result = await dbWebinar.get();
 
       if (result.docs.isEmpty) {
         print("No data found for current user.");
@@ -169,23 +164,52 @@ class ContentController extends GetxController {
         return;
       }
 
-      contentList.value = result.docs
+      contentListUser.value = result.docs
           .map((e) => WebinarModel.fromJson(e.data() as Map<String, dynamic>))
           .toList();
-      print(contentList.toString() + "tESTINGGGGG");
+      print(contentListUser.toString() + "tESTINGGGGG");
     } catch (e) {
       print("ERROR READ DATA" + e.toString());
     }
   }
 
+  /** BOOKMARK */
+  Future<void> readBookmarkedWebinars() async {
+    try {
+      // Ambil data user dari Firestore berdasarkan UID
+      final id =
+          await dbUser.where('uid', isEqualTo: authC.user.value.uid).get();
+    } catch (e) {
+      print("ERROR READING BOOKMARKED WEBINARS: $e");
+    }
+  }
+
+  /** DELETE DATA WEBINAR */
   Future<void> deleteData(String id) async {
     try {
-      await db.doc(id).delete();
+      await dbWebinar.doc(id).delete();
       print("Data deleted");
       Get.back();
       Get.back();
     } catch (e) {
       print("ERROR DELETE DATA" + e.toString());
+    }
+  }
+
+  /** REGISTER WEBINAR */
+  Future<void> registerWebinar(String idWebinar, String uid) async {
+    try {
+      await dbWebinar.doc(idWebinar).update({
+        "registeredAccount": FieldValue.arrayUnion([uid])
+      });
+
+      await dbUser.doc(uid).update({
+        "registeredWebinar": FieldValue.arrayUnion([idWebinar])
+      });
+
+      print("Registered to webinar");
+    } catch (e) {
+      print("ERROR REGISTER WEBINAR" + e.toString());
     }
   }
 

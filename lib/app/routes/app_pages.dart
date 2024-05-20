@@ -3,8 +3,14 @@ import 'package:get/get.dart';
 import '../data/models/webinar_model_model.dart';
 import '../modules/add/bindings/add_binding.dart';
 import '../modules/add/views/add_view.dart';
+import '../modules/bookmark/bindings/bookmark_binding.dart';
+import '../modules/bookmark/views/bookmark_view.dart';
+import '../modules/bookmark_user/bindings/bookmark_user_binding.dart';
+import '../modules/bookmark_user/views/bookmark_user_view.dart';
 import '../modules/detail_page/bindings/detail_page_binding.dart';
 import '../modules/detail_page/views/detail_page_view.dart';
+import '../modules/edit_profile/bindings/edit_profile_binding.dart';
+import '../modules/edit_profile/views/edit_profile_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/home_provider/bindings/home_provider_binding.dart';
@@ -13,8 +19,6 @@ import '../modules/introduction/bindings/introduction_binding.dart';
 import '../modules/introduction/views/introduction_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
-import '../modules/profilPage/bindings/profil_page_binding.dart';
-import '../modules/profilPage/views/profil_page_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/views/profile_view.dart';
 import '../modules/register/bindings/register_binding.dart';
@@ -64,16 +68,6 @@ class AppPages {
       binding: HomeProviderBinding(),
     ),
     GetPage(
-      name: _Paths.PROFILE,
-      page: () => ProfileView(),
-      binding: ProfileBinding(),
-    ),
-    GetPage(
-      name: _Paths.PROFIL_PAGE,
-      page: () => const ProfilPageView(),
-      binding: ProfilPageBinding(),
-    ),
-    GetPage(
       name: _Paths.ADD,
       page: () => AddView(),
       binding: AddBinding(),
@@ -87,6 +81,26 @@ class AppPages {
       name: _Paths.SEARCH_PAGE,
       page: () => SearchPageView(),
       binding: SearchPageBinding(),
+    ),
+    GetPage(
+      name: _Paths.PROFILE,
+      page: () => ProfileView(),
+      binding: ProfileBinding(),
+    ),
+    GetPage(
+      name: _Paths.EDIT_PROFILE,
+      page: () => EditProfileView(),
+      binding: EditProfileBinding(),
+    ),
+    GetPage(
+      name: _Paths.BOOKMARK_USER,
+      page: () => BookmarkUserView(),
+      binding: BookmarkUserBinding(),
+    ),
+    GetPage(
+      name: _Paths.BOOKMARK,
+      page: () => BookmarkView(),
+      binding: BookmarkBinding(),
     ),
   ];
 }
