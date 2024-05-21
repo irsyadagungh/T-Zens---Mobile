@@ -1,19 +1,30 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:tzens/app/controllers/auth_controller.dart';
+import 'package:tzens/app/controllers/content_controller.dart';
+import 'package:tzens/app/controllers/messages.dart';
 import 'package:tzens/app/data/models/webinar_model_model.dart';
 import 'package:tzens/app/utils/constant/color.dart';
+import 'package:tzens/app/utils/constant/webinar_utils.dart';
+import 'package:tzens/app/utils/function/SnackBar.dart';
 import 'package:tzens/app/utils/widget/detail_sliverAppBar.dart';
+import 'package:tzens/app/utils/widget/large_button.dart';
 
 import '../controllers/detail_page_controller.dart';
 
 class DetailPageView extends GetView<DetailPageController> {
   DetailPageView({Key? key, required this.model}) : super(key: key);
 
-  WebinarModel model;
+  final WebinarModel model;
+  final controller = Get.put(DetailPageController());
+  final contentC = Get.find<ContentController>();
+  final authC = Get.find<AuthController>();
+  final messageC = Get.find<Messages>();
 
   @override
   Widget build(BuildContext context) {
+    controller.onInit();
     return Scaffold(
       body: CustomScrollView(
         slivers: <Widget>[
@@ -163,7 +174,7 @@ class DetailPageView extends GetView<DetailPageController> {
                         ),
 
                         /** BENEFIT */
-                        model.benefits != null
+                        model.benefits?[0] != ""
                             ? Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -183,7 +194,7 @@ class DetailPageView extends GetView<DetailPageController> {
                             : SizedBox(height: 0),
 
                         /** PREQUISITE */
-                        model.prerequisite != null
+                        model.prerequisite?[0] != ""
                             ? Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -203,7 +214,8 @@ class DetailPageView extends GetView<DetailPageController> {
                             : SizedBox(height: 0),
 
                         /** CONTACT */
-                        model.contact != null
+                        model.contact?[0].name != "" &&
+                                model.contact?[0].phone != ""
                             ? Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -245,15 +257,37 @@ class DetailPageView extends GetView<DetailPageController> {
         ],
       ),
       bottomNavigationBar: BottomAppBar(
-          // child: LargeButton(
-          //   text: "Register",
-          //   onPressed: controller.isDisabled.value
-          //       ? null
-          //       : () {
-          //           print("object");
-          //         },
-          // ),
-          ),
+        child: LargeButton(
+          text: "Register",
+          onPressed: () async {
+            controller.isDisabled.value
+                ? controller.authC.user.value.role == "provider"
+                    ? CustomSnackBar(
+                        "You are a provider",
+                        "You can't register this event",
+                        Icons.error,
+                        Colors.red,
+                      )
+                    : CustomSnackBar(
+                        "Your profile is not complete",
+                        "Please complete your profile first",
+                        Icons.error,
+                        Colors.red,
+                      )
+                : {
+                    contentC.registerWebinar(model.id!, authC.user.value.uid!),
+                    // await messageC.sendNotificationToAdmin(adminToken, title, body);
+                    print(model.id),
+                    CustomSnackBar(
+                      "Success",
+                      "You are registered to webinar",
+                      Icons.check,
+                      Colors.green,
+                    )
+                  };
+          },
+        ),
+      ),
     );
   }
 }

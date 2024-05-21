@@ -1,15 +1,18 @@
 {
     "administrator" : {
+        "bookmark": [""],
         "email": "",
         "faculty": "",
         "major": "",
         "name": "",
         "nim": "",
         "phone": "",
+        "registeredWebinar": [""],
         "role": "",
+        "token": "",
         "uid" : "",
         "username": "",
-        "photo": ""
+        "photoUrl": ""
     },
     "benefits": [""],
     "contact" : [{
@@ -23,7 +26,7 @@
     "location": "",
     "photo": "",
     "prerequisite": [""],
-    
+    "registeredAccount" : [""],
     "status" : "",
     "time" : {
         "endTime" : "",

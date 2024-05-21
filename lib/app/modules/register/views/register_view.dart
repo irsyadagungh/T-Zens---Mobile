@@ -143,7 +143,11 @@ class RegisterView extends GetView<RegisterController> {
               ),
 
               // Google Button
-              GoogleButton(),
+              GoogleButton(
+                onPressed: () {
+                  auth.login();
+                },
+              ),
             ],
           ),
         ),

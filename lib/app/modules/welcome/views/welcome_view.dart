@@ -77,6 +77,7 @@ class WelcomeView extends GetView<WelcomeController> {
                       auth.role.value = "provider";
                       Get.to(() => RegisterView());
                     },
+                    text: "Provider",
                   )
                 ],
               ),

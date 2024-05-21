@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tzens/app/controllers/content_controller.dart';
 import 'package:tzens/app/data/models/webinar_model_model.dart';
+import 'package:tzens/app/modules/detail_page/views/detail_page_view.dart';
 import 'package:tzens/app/utils/constant/color.dart';
 
 import '../controllers/search_page_controller.dart';
@@ -10,9 +11,11 @@ import '../controllers/search_page_controller.dart';
 class SearchPageView extends GetView<SearchPageController> {
   SearchPageView({Key? key}) : super(key: key);
   final contenteController = Get.find<ContentController>();
+  final controller = Get.put(SearchPageController());
 
   @override
   Widget build(BuildContext context) {
+    contenteController.readDataUser();
     return Container(
       height: double.infinity,
       color: Colors.white,
@@ -58,89 +61,97 @@ class SearchPageView extends GetView<SearchPageController> {
           SliverPadding(
             padding: EdgeInsets.all(8.0),
             sliver: Obx(
-              () => contenteController.contentList.isEmpty
+              () => contenteController.contentListSearch.isEmpty
                   ? SliverToBoxAdapter(
                       child: Center(
                         child: Text(
-                          "Data tidak ditemukan",
-                          style: TextStyle(fontSize: 16),
+                          "No Data",
+                          style: TextStyle(fontSize: 16, color: Colors.black),
                         ),
                       ),
                     )
                   : SliverList.builder(
-                      itemCount: contenteController.contentList.length,
+                      itemCount: contenteController.contentListUser.length,
                       itemBuilder: (context, index) {
                         WebinarModel content =
-                            contenteController.contentList[index];
-                        return Card(
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          color: Colors.white,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              child: Column(
-                                children: [
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Flexible(
-                                        child: Container(
-                                          width: 280,
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                "${content.title}",
-                                                maxLines: 2,
-                                                style: TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              Text(
-                                                "${content.description}",
-                                                maxLines: 3,
-                                                style: TextStyle(fontSize: 12),
-                                                overflow: TextOverflow.clip,
-                                              ),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Icon(Icons
-                                                      .free_cancellation_rounded),
-                                                  SizedBox(
-                                                    width: 5,
+                            contenteController.contentListUser[index];
+                        return GestureDetector(
+                          onTap: () {
+                            Get.to(() => DetailPageView(model: content));
+                          },
+                          child: Card(
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            color: Colors.white,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Flexible(
+                                          child: Container(
+                                            width: 280,
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  "${content.title}",
+                                                  maxLines: 2,
+                                                  style: TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.bold,
                                                   ),
-                                                  Text("${content.status}")
-                                                ],
-                                              )
-                                            ],
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Text(
+                                                  "${content.description}",
+                                                  maxLines: 3,
+                                                  style:
+                                                      TextStyle(fontSize: 12),
+                                                  overflow: TextOverflow.clip,
+                                                ),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Icon(Icons
+                                                        .free_cancellation_rounded),
+                                                    SizedBox(
+                                                      width: 5,
+                                                    ),
+                                                    Text("${content.status}")
+                                                  ],
+                                                )
+                                              ],
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(5),
-                                        child: Image.network(
-                                          "${content.photo}",
-                                          height: 100,
-                                          width: 100,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  Divider()
-                                ],
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                          child: Image.network(
+                                            "${content.photo}",
+                                            height: 100,
+                                            width: 100,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    Divider()
+                                  ],
+                                ),
                               ),
                             ),
                           ),

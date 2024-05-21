@@ -2,7 +2,7 @@ import 'package:tzens/app/data/models/user_model_model.dart';
 
 class WebinarModel {
   UserModel? administrator;
-  List<String>? benefits;
+  List<dynamic>? benefits;
   List<Contact>? contact;
   String? date;
   String? description;
@@ -10,35 +10,38 @@ class WebinarModel {
   String? link;
   String? location;
   String? photo;
-  List<String>? prerequisite;
+  List<dynamic>? prerequisite;
+  List<dynamic>? registeredAccount;
   String? status;
   Time? time;
   String? title;
   String? createdAt;
   String? updatedAt;
 
-  WebinarModel(
-      {this.administrator,
-      this.benefits,
-      this.contact,
-      this.date,
-      this.description,
-      this.id,
-      this.link,
-      this.location,
-      this.photo,
-      this.prerequisite,
-      this.status,
-      this.time,
-      this.title,
-      this.createdAt,
-      this.updatedAt});
+  WebinarModel({
+    this.administrator,
+    this.benefits,
+    this.contact,
+    this.date,
+    this.description,
+    this.id,
+    this.link,
+    this.location,
+    this.photo,
+    this.prerequisite,
+    this.registeredAccount,
+    this.status,
+    this.time,
+    this.title,
+    this.createdAt,
+    this.updatedAt,
+  });
 
   WebinarModel.fromJson(Map<String, dynamic> json) {
     administrator = json['administrator'] != null
-        ? UserModel?.fromJson(json['administrator'])
+        ? UserModel.fromJson(json['administrator'])
         : null;
-    benefits = json['benefits'].cast<String>();
+    benefits = json['benefits'];
     if (json['contact'] != null) {
       contact = <Contact>[];
       json['contact'].forEach((v) {
@@ -51,9 +54,10 @@ class WebinarModel {
     link = json['link'];
     location = json['location'];
     photo = json['photo'];
-    prerequisite = json['prerequisite'].cast<String>();
+    prerequisite = json['prerequisite'];
+    registeredAccount = List<String>.from(json['registeredAccount'] ?? []);
     status = json['status'];
-    time = json['time'] != null ? Time?.fromJson(json['time']) : null;
+    time = json['time'] != null ? Time.fromJson(json['time']) : null;
     title = json['title'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
@@ -75,6 +79,7 @@ class WebinarModel {
     data['location'] = location;
     data['photo'] = photo;
     data['prerequisite'] = prerequisite;
+    data['registeredAccount'] = registeredAccount;
     data['status'] = status;
     if (time != null) {
       data['time'] = time?.toJson();
@@ -82,59 +87,6 @@ class WebinarModel {
     data['title'] = title;
     data['createdAt'] = createdAt;
     data['updatedAt'] = updatedAt;
-    return data;
-  }
-}
-
-class Administrator {
-  String? email;
-  String? faculty;
-  String? major;
-  String? name;
-  String? nim;
-  String? phone;
-  String? role;
-  String? uid;
-  String? username;
-  String? photo;
-
-  Administrator(
-      {this.email,
-      this.faculty,
-      this.major,
-      this.name,
-      this.nim,
-      this.phone,
-      this.role,
-      this.uid,
-      this.username,
-      this.photo});
-
-  Administrator.fromJson(Map<String, dynamic> json) {
-    email = json['email'];
-    faculty = json['faculty'];
-    major = json['major'];
-    name = json['name'];
-    nim = json['nim'];
-    phone = json['phone'];
-    role = json['role'];
-    uid = json['uid'];
-    username = json['username'];
-    photo = json['photo'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final data = <String, dynamic>{};
-    data['email'] = email;
-    data['faculty'] = faculty;
-    data['major'] = major;
-    data['name'] = name;
-    data['nim'] = nim;
-    data['phone'] = phone;
-    data['role'] = role;
-    data['uid'] = uid;
-    data['username'] = username;
-    data['photo'] = photo;
     return data;
   }
 }

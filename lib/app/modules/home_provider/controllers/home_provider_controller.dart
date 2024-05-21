@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/get_rx.dart';
 import 'package:tzens/app/controllers/content_controller.dart';
 
 class HomeProviderController extends GetxController {
@@ -10,23 +11,9 @@ class HomeProviderController extends GetxController {
   PageController pageController = PageController();
   ScrollController scrollController = ScrollController();
   RxBool isScrolling = true.obs;
+  RxString idContent = "".obs;
 
   RxInt selectedIndex = 0.obs;
-
-  final pages = [
-    GridView.builder(
-      gridDelegate:
-          SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 200),
-      itemBuilder: (context, index) {
-        return Container(
-          color: Color((Random().nextDouble() * 0xFFFFFF).toInt())
-              .withOpacity(1.0),
-        );
-      },
-    ),
-    Container(color: Colors.green),
-    Container(color: Colors.blue),
-  ];
 
   @override
   void onInit() {
