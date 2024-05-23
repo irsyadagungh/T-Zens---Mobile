@@ -262,9 +262,13 @@ class DetailPageView extends GetView<DetailPageController> {
           children: [
             IconButton(
               onPressed: () {
-                authC.addBookmark("${model.id}");
+                authC.bookmarkWebinar(model.id!);
               },
-              icon: Icon(Icons.bookmark_border),
+              icon: Obx(() => Icon(
+                    authC.bookmarked.value == true
+                        ? Icons.bookmark
+                        : Icons.bookmark_border,
+                  )),
             ),
             Expanded(
               child: LargeButton(
@@ -285,8 +289,7 @@ class DetailPageView extends GetView<DetailPageController> {
                               Colors.red,
                             )
                       : {
-                          contentC.registerWebinar(
-                              model.id!, authC.user.value.uid!),
+                          contentC.registerWebinar(model.id!, authC.user.value.uid!),
                           // await messageC.sendNotificationToAdmin(adminToken, title, body);
                           print(model.id),
                           CustomSnackBar(

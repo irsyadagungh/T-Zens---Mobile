@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tzens/app/controllers/auth_controller.dart';
 import 'package:tzens/app/controllers/content_controller.dart';
-import 'package:tzens/app/data/models/webinar_model_model.dart';
-import 'package:tzens/app/modules/detailPage/views/detail_page_view.dart';
+import 'package:tzens/app/modules/detail_page/views/detail_page_view.dart';
 import 'package:tzens/app/utils/widget/cardPotret.dart';
 
 import '../controllers/bookmark_controller.dart';
@@ -16,8 +15,9 @@ class BookmarkView extends GetView<BookmarkController> {
 
   @override
   Widget build(BuildContext context) {
-    contentController.readBookmarkedWebinars();
-
+    controller.onInit();
+    print(authC.user.value.bookmark!.length);
+    print(contentController.bookmarkedWebinars.length);
     return DefaultTabController(
       initialIndex: 0,
       length: 2,
@@ -44,40 +44,44 @@ class BookmarkView extends GetView<BookmarkController> {
               child: Column(
                 children: [
                   Obx(
-                    () => GridView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 5.0,
-                        mainAxisSpacing: 5.0,
-                        childAspectRatio: 9 / 14.5,
-                      ),
-                      itemCount: authC.user.value.bookmark!.length,
-                      itemBuilder: (context, index) {
-                        WebinarModel content =
-                            contentController.bookmarkedWebinars[index];
-                        print(content.toString() + "dadadada");
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return DetailPageView(model: content);
-                                },
-                              ),
-                            );
-                          },
-                          child: CardPotret(
-                            photo: "${content.photoUrl}",
-                            title: "${content.title}",
-                            date: "${content.date}",
-                            status: "${content.status}",
-                          ),
-                        );
-                      },
-                    ),
+                    () {
+                      return GridView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 5.0,
+                          mainAxisSpacing: 5.0,
+                          childAspectRatio: 9 / 14.5,
+                        ),
+                        itemCount:
+                            contentController.bookmarkedWebinars.value.length,
+                        itemBuilder: (context, index) {
+                          var content =
+                              contentController.bookmarkedWebinars.value[index];
+
+                          print(content.toString());
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return DetailPageView(model: content);
+                                  },
+                                ),
+                              );
+                            },
+                            child: CardPotret(
+                              photo: "${content.photoUrl}",
+                              title: "${content.title}",
+                              date: "${content.date}",
+                              status: "${content.status}",
+                            ),
+                          );
+                        },
+                      );
+                    },
                   ),
                 ],
               ),

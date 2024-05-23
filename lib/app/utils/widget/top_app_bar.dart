@@ -47,7 +47,7 @@ class TopAppBar extends StatelessWidget {
                     // Profile
                     Row(
                       children: [
-                        Obx(() => auth.user.value.photoUrl == ""
+                        auth.user.value.photoUrl == ""
                             ? ClipOval(
                                 child: Icon(
                                   Icons.person,
@@ -57,15 +57,15 @@ class TopAppBar extends StatelessWidget {
                             : CircleAvatar(
                                 backgroundImage:
                                     NetworkImage("${auth.user.value.photoUrl}"),
-                              )),
+                              ),
                         SizedBox(
                           width: 20,
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Obx(() => Text("${auth.user.value.name}")),
-                            Obx(() => Text("${auth.user.value.email}"))
+                            Text("${auth.user.value.name}"),
+                            Text("${auth.user.value.email}")
                           ],
                         ),
                       ],

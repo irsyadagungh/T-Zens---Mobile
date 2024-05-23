@@ -495,6 +495,9 @@ class AddView extends StatelessWidget {
                 print(controller.pickedFile!.path);
                 print(controller.pickedFile!.name);
 
+                print("UserModel: ${auth.user}");
+                print("UserModel toJson: ${auth.user.toJson()}");
+
                 contentC.addData(
                   auth.user.toJson(),
                   controller.listBenefitController.isNotEmpty

@@ -178,9 +178,14 @@ class ContentController extends GetxController {
   /** BOOKMARK */
   Future<void> readBookmarkedWebinars() async {
     try {
-      // Ambil data user dari Firestore berdasarkan UID
-      final id =
-          await dbUser.where('uid', isEqualTo: authC.user.value.uid).get();
+      List<dynamic> id = authC.user.value.bookmark!;
+      print("ID BOOKMARK: $id");
+
+      final result = await dbWebinar.get();
+      bookmarkedWebinars.value = result.docs
+          .map((e) => WebinarModel.fromJson(e.data() as Map<String, dynamic>))
+          .where((element) => id.contains(element.id))
+          .toList();
     } catch (e) {
       print("ERROR READING BOOKMARKED WEBINARS: $e");
     }
