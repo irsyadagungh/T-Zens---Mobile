@@ -44,7 +44,7 @@ class WebinarProviders extends StatelessWidget {
                 leading: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Image.network(
-                    "${content.photo}",
+                    "${content.photoUrl}",
                   ),
                 ),
 

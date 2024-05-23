@@ -1,12 +1,12 @@
 class UserModel {
-  List<String>? bookmark;
+  List<dynamic>? bookmark;
   String? email;
   String? faculty;
   String? major;
   String? name;
   String? nim;
   String? phone;
-  List<String>? registeredWebinar;
+  List<dynamic>? registeredWebinar;
   String? role;
   String? uid;
   String? username;

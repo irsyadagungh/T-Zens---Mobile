@@ -101,6 +101,9 @@ class ProfileView extends GetView<ProfileController> {
 
               /** BOOKMARK */
               ListTile(
+                onTap: () {
+                  Get.toNamed(Routes.BOOKMARK_USER);
+                },
                 leading: Icon(Icons.bookmark),
                 title: Text("Bookmark"),
               ),

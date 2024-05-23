@@ -35,7 +35,7 @@ class WebinarView extends StatelessWidget {
                         width: double.infinity,
                         child: AnotherCarousel(
                           images: [
-                            AssetImage("./assets/images/poster1.jpg"),
+                            AssetImage("./assets/images/poster1.jpeg"),
                             AssetImage("./assets/images/gambar.png"),
                           ],
                           dotSize: 4.0,
@@ -80,7 +80,7 @@ class WebinarView extends StatelessWidget {
                       Get.to(() => DetailPageView(model: content));
                     },
                     child: CardPotret(
-                      photo: "${content.photo}",
+                      photo: "${content.photoUrl}",
                       title: "${content.title}",
                       date: "${content.date}",
                       status: "${content.status}",

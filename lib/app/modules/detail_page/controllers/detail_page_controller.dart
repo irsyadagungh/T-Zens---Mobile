@@ -6,7 +6,7 @@ class DetailPageController extends GetxController {
   //TODO: Implement DetailPageController
 
   AuthController authC = Get.find<AuthController>();
-  Messages messageC = Get.find<Messages>();
+  Messages messageC = Get.put(Messages());
 
   final count = 0.obs;
   RxBool isDisabled = true.obs;
@@ -27,8 +27,6 @@ class DetailPageController extends GetxController {
   final adminToken = 'admin-fcm-token-here'; // Replace with the actual token
   final title = 'Webinar Update';
   final body = 'The webinar will start in 10 minutes.';
-
-
 
   @override
   void onInit() {

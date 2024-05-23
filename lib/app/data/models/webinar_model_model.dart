@@ -9,7 +9,7 @@ class WebinarModel {
   String? id;
   String? link;
   String? location;
-  String? photo;
+  String? photoUrl;
   List<dynamic>? prerequisite;
   List<dynamic>? registeredAccount;
   String? status;
@@ -27,7 +27,7 @@ class WebinarModel {
     this.id,
     this.link,
     this.location,
-    this.photo,
+    this.photoUrl,
     this.prerequisite,
     this.registeredAccount,
     this.status,
@@ -53,7 +53,7 @@ class WebinarModel {
     id = json['id'];
     link = json['link'];
     location = json['location'];
-    photo = json['photo'];
+    photoUrl = json['photo'];
     prerequisite = json['prerequisite'];
     registeredAccount = List<String>.from(json['registeredAccount'] ?? []);
     status = json['status'];
@@ -77,7 +77,7 @@ class WebinarModel {
     data['id'] = id;
     data['link'] = link;
     data['location'] = location;
-    data['photo'] = photo;
+    data['photo'] = photoUrl;
     data['prerequisite'] = prerequisite;
     data['registeredAccount'] = registeredAccount;
     data['status'] = status;

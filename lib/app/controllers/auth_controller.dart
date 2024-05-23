@@ -1,9 +1,15 @@
 import 'dart:io';
 
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/get_rx.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -15,6 +21,8 @@ class AuthController extends GetxController {
   RxBool isSkipIntro = false.obs;
   RxBool isAuth = false.obs;
 
+  RxBool isAuth = false.obs;
+
   UserCredential? userCredential;
   GoogleSignIn _googleSignIn = GoogleSignIn();
   GoogleSignInAccount? _currentUser;
@@ -24,6 +32,7 @@ class AuthController extends GetxController {
   Rx<UserModel> user = Rx<UserModel>(UserModel());
 
   RxString role = "".obs;
+  final box = GetStorage();
   final box = GetStorage();
 
   // final _isLogedIn = false.obs;
@@ -92,9 +101,14 @@ class AuthController extends GetxController {
     try {
       userCredential = await auth.createUserWithEmailAndPassword(
           email: email, password: password);
+      userCredential = await auth.createUserWithEmailAndPassword(
+          email: email, password: password);
 
-      final checkUser = await db.doc(userCredential!.user!.uid).get();
+      final checkUser = await dbUser.doc(userCredential!.user!.uid).get();
       final userId = userCredential!.user!.uid;
+      final userToken = await userCredential!.user!.getIdToken();
+
+      print("USER TOKEN = ${userToken}");
       final userToken = await userCredential!.user!.getIdToken();
 
       print("USER TOKEN = ${userToken}");
@@ -112,10 +126,12 @@ class AuthController extends GetxController {
           'nim': "",
           'phone': "",
           "registeredWebinar": [""],
+          "registeredWebinar": [""],
           'role': role,
           'uid': userCredential!.user!.uid,
           'username': username,
           'photoUrl': "",
+          'token': userToken,
           'token': userToken,
         });
       }
@@ -125,14 +141,20 @@ class AuthController extends GetxController {
   }
 
   /** LOGIN WITH EMAIL */
+  /** LOGIN WITH EMAIL */
   Future<void> signInWithEmailAndPassword(email, password) async {
     try {
       userCredential = await auth.signInWithEmailAndPassword(
           email: email, password: password);
       await loadUserData();
+      userCredential = await auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      await loadUserData();
 
-      final currUser = await db.doc(userCredential!.user!.uid).get();
+      final currUser = await dbUser.doc(userCredential!.user!.uid).get();
 
+      user.value = UserModel(
+        bookmark: currUser['bookmark'],
       user.value = UserModel(
         bookmark: currUser['bookmark'],
         email: currUser['email'],
@@ -142,17 +164,23 @@ class AuthController extends GetxController {
         nim: currUser['nim'],
         phone: currUser['phone'],
         registeredWebinar: currUser['registeredWebinar'],
+        registeredWebinar: currUser['registeredWebinar'],
         role: currUser['role'],
         uid: currUser['uid'],
         username: currUser['username'],
         photoUrl: currUser['photoUrl'],
+        token: currUser['token'],
         token: currUser['token'],
       );
 
       print(user.value.name);
 
       box.write('skipIntro', true);
+      print(user.value.name);
 
+      box.write('skipIntro', true);
+
+      if (user.value.role == "student") {
       if (user.value.role == "student") {
         Get.toNamed(Routes.HOME);
       } else {

@@ -24,6 +24,8 @@ abstract class Routes {
         return 'Profile';
       case _Paths.EDIT_PROFILE:
         return 'Edit Profile';
+      case _Paths.BOOKMARK:
+        return 'Bookmark';
       default:
         return 'Judul Default';
     }
@@ -42,6 +44,8 @@ abstract class Routes {
   static const SEARCH_PAGE = _Paths.SEARCH_PAGE;
   static const PROFILE = _Paths.PROFILE;
   static const EDIT_PROFILE = _Paths.EDIT_PROFILE;
+  static const BOOKMARK_USER = _Paths.BOOKMARK_USER;
+  static const BOOKMARK = _Paths.BOOKMARK;
 }
 
 abstract class _Paths {
@@ -58,4 +62,6 @@ abstract class _Paths {
   static const SEARCH_PAGE = '/search-page';
   static const PROFILE = '/ProfileView';
   static const EDIT_PROFILE = '/edit-profile';
+  static const BOOKMARK_USER = '/bookmark-user';
+  static const BOOKMARK = '/bookmark';
 }

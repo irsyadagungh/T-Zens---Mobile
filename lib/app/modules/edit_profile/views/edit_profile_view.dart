@@ -252,10 +252,10 @@ class EditProfileView extends GetView<EditProfileController> {
                                                 controller.emailController.text,
                                                 controller.nimController.text,
                                                 controller.facultyController
-                                                        .dropDownValue!.name ??
+                                                        .dropDownValue?.name ??
                                                     "",
                                                 controller.majorController
-                                                        .dropDownValue!.name ??
+                                                        .dropDownValue?.name ??
                                                     "",
                                                 controller.phoneController.text,
                                                 authC.picLink != ""

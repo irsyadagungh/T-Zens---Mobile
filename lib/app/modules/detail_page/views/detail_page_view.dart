@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import 'package:get/get.dart';
 import 'package:tzens/app/controllers/auth_controller.dart';
@@ -30,7 +31,7 @@ class DetailPageView extends GetView<DetailPageController> {
         slivers: <Widget>[
           SliverAppbarDetail(
             title: "${model.title}",
-            image: "${model.photo}",
+            image: "${model.photoUrl}",
           ),
           SliverToBoxAdapter(
             /* OUTER CONTAINER */
@@ -257,35 +258,48 @@ class DetailPageView extends GetView<DetailPageController> {
         ],
       ),
       bottomNavigationBar: BottomAppBar(
-        child: LargeButton(
-          text: "Register",
-          onPressed: () async {
-            controller.isDisabled.value
-                ? controller.authC.user.value.role == "provider"
-                    ? CustomSnackBar(
-                        "You are a provider",
-                        "You can't register this event",
-                        Icons.error,
-                        Colors.red,
-                      )
-                    : CustomSnackBar(
-                        "Your profile is not complete",
-                        "Please complete your profile first",
-                        Icons.error,
-                        Colors.red,
-                      )
-                : {
-                    contentC.registerWebinar(model.id!, authC.user.value.uid!),
-                    // await messageC.sendNotificationToAdmin(adminToken, title, body);
-                    print(model.id),
-                    CustomSnackBar(
-                      "Success",
-                      "You are registered to webinar",
-                      Icons.check,
-                      Colors.green,
-                    )
-                  };
-          },
+        child: Row(
+          children: [
+            IconButton(
+              onPressed: () {
+                authC.addBookmark("${model.id}");
+              },
+              icon: Icon(Icons.bookmark_border),
+            ),
+            Expanded(
+              child: LargeButton(
+                text: "Register",
+                onPressed: () async {
+                  controller.isDisabled.value
+                      ? controller.authC.user.value.role == "provider"
+                          ? CustomSnackBar(
+                              "You are a provider",
+                              "You can't register this event",
+                              Icons.error,
+                              Colors.red,
+                            )
+                          : CustomSnackBar(
+                              "Your profile is not complete",
+                              "Please complete your profile first",
+                              Icons.error,
+                              Colors.red,
+                            )
+                      : {
+                          contentC.registerWebinar(
+                              model.id!, authC.user.value.uid!),
+                          // await messageC.sendNotificationToAdmin(adminToken, title, body);
+                          print(model.id),
+                          CustomSnackBar(
+                            "Success",
+                            "You are registered to webinar",
+                            Icons.check,
+                            Colors.green,
+                          )
+                        };
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );

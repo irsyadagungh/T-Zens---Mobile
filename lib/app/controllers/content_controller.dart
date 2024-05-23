@@ -6,6 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 import 'package:tzens/app/controllers/auth_controller.dart';
 import 'package:tzens/app/data/models/user_model_model.dart';
+import 'package:tzens/app/data/models/user_model_model.dart';
 import 'package:tzens/app/data/models/webinar_model_model.dart';
 import 'package:tzens/app/modules/home_provider/views/home_provider_view.dart';
 
@@ -26,7 +27,9 @@ class ContentController extends GetxController {
   RxList<WebinarModel> contentListProvider = RxList<WebinarModel>([]);
   RxList<WebinarModel> contentListUser = RxList<WebinarModel>([]);
   RxList<WebinarModel> contentListSearch = RxList<WebinarModel>([]);
+  RxList<WebinarModel> bookmarkedWebinars = RxList<WebinarModel>([]);
 
+  /** SEARCH */
   /** SEARCH */
   Future<void> search(String keyword) async {
     try {
@@ -169,6 +172,17 @@ class ContentController extends GetxController {
       print(contentListUser.toString() + "tESTINGGGGG");
     } catch (e) {
       print("ERROR READ DATA" + e.toString());
+    }
+  }
+
+  /** BOOKMARK */
+  Future<void> readBookmarkedWebinars() async {
+    try {
+      // Ambil data user dari Firestore berdasarkan UID
+      final id =
+          await dbUser.where('uid', isEqualTo: authC.user.value.uid).get();
+    } catch (e) {
+      print("ERROR READING BOOKMARKED WEBINARS: $e");
     }
   }
 

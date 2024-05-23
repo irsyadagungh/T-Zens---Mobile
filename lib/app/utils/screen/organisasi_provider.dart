@@ -29,7 +29,7 @@ class OrganisasiProvider extends StatelessWidget {
                 tileColor: Theme.of(context).colorScheme.secondaryContainer,
                 leading: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
-                  child: Image.network("${content.photo}"),
+                  child: Image.network("${content.photoUrl}"),
                 ),
                 title: Text("${content.title}"),
                 subtitle: Text(

@@ -24,8 +24,9 @@
     "id": "",
     "link": "",
     "location": "",
-    "photo": "",
+    "photoUrl": "",
     "prerequisite": [""],
+    "registeredAccount" : [""],
     "registeredAccount" : [""],
     "status" : "",
     "time" : {

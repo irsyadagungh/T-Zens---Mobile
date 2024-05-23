@@ -142,7 +142,7 @@ class SearchPageView extends GetView<SearchPageController> {
                                           borderRadius:
                                               BorderRadius.circular(5),
                                           child: Image.network(
-                                            "${content.photo}",
+                                            "${content.photoUrl}",
                                             height: 100,
                                             width: 100,
                                           ),
