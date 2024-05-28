@@ -1,5 +1,10 @@
 import 'package:get/get.dart';
 
+import 'package:tzens/app/modules/detail_history/bindings/detail_history_binding.dart';
+import 'package:tzens/app/modules/detail_history/views/detail_history_view.dart';
+import 'package:tzens/app/modules/history/bindings/history_binding.dart';
+import 'package:tzens/app/modules/history/views/history_view.dart';
+
 import '../data/models/webinar_model_model.dart';
 import '../modules/add/bindings/add_binding.dart';
 import '../modules/add/views/add_view.dart';
@@ -94,6 +99,16 @@ class AppPages {
       name: _Paths.BOOKMARK,
       page: () => BookmarkView(),
       binding: BookmarkBinding(),
+    ),
+    GetPage(
+      name: _Paths.HISTORY,
+      page: () => HistoryView(),
+      binding: HistoryBinding(),
+    ),
+    GetPage(
+      name: _Paths.DETAIL_HISTORY,
+      page: () => DetailHistoryView(),
+      binding: DetailHistoryBinding(),
     ),
   ];
 }

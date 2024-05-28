@@ -21,7 +21,7 @@ class CardPotret extends StatelessWidget {
       // height: 550,
       width: 190,
       child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         color: Color.fromARGB(255, 255, 255, 255),
         elevation: 1,
         child: Padding(
@@ -29,7 +29,7 @@ class CardPotret extends StatelessWidget {
           child: Column(
             children: [
               ClipRRect(
-                borderRadius: BorderRadius.circular(5),
+                borderRadius: BorderRadius.circular(10),
                 child: Image.network(
                     width: 250,
                     height: 200,

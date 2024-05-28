@@ -110,6 +110,9 @@ class ProfileView extends GetView<ProfileController> {
 
               /** HISTORY */
               ListTile(
+                onTap: () {
+                  Get.toNamed(Routes.HISTORY);
+                },
                 leading: Icon(Icons.history),
                 title: Text("History"),
               ),

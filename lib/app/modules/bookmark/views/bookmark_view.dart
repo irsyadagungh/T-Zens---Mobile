@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:tzens/app/controllers/auth_controller.dart';
 import 'package:tzens/app/controllers/content_controller.dart';
 import 'package:tzens/app/modules/detail_page/views/detail_page_view.dart';
+import 'package:tzens/app/utils/constant/color.dart';
 import 'package:tzens/app/utils/widget/cardPotret.dart';
 
 import '../controllers/bookmark_controller.dart';
@@ -27,7 +28,14 @@ class BookmarkView extends GetView<BookmarkController> {
           elevation: 0,
           title: const Text('Bookmark'),
           centerTitle: true,
-          bottom: const TabBar(
+          bottom: TabBar(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            indicatorSize: TabBarIndicatorSize.tab,
+            indicator: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: secondaryColor,
+            ),
+            dividerColor: Colors.transparent,
             tabs: <Widget>[
               Tab(
                 text: "Webinar / Seminar",
@@ -41,49 +49,53 @@ class BookmarkView extends GetView<BookmarkController> {
         body: TabBarView(
           children: <Widget>[
             SingleChildScrollView(
-              child: Column(
-                children: [
-                  Obx(
-                    () {
-                      return GridView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 5.0,
-                          mainAxisSpacing: 5.0,
-                          childAspectRatio: 9 / 14.5,
-                        ),
-                        itemCount:
-                            contentController.bookmarkedWebinars.value.length,
-                        itemBuilder: (context, index) {
-                          var content =
-                              contentController.bookmarkedWebinars.value[index];
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    Obx(
+                      () {
+                        return GridView.builder(
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 5.0,
+                            mainAxisSpacing: 5.0,
+                            childAspectRatio: 9 / 14.5,
+                          ),
+                          itemCount:
+                              contentController.bookmarkedWebinars.value.length,
+                          itemBuilder: (context, index) {
+                            var content = contentController
+                                .bookmarkedWebinars.value[index];
 
-                          print(content.toString());
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) {
-                                    return DetailPageView(model: content);
-                                  },
-                                ),
-                              );
-                            },
-                            child: CardPotret(
-                              photo: "${content.photoUrl}",
-                              title: "${content.title}",
-                              date: "${content.date}",
-                              status: "${content.status}",
-                            ),
-                          );
-                        },
-                      );
-                    },
-                  ),
-                ],
+                            print(content.toString());
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return DetailPageView(model: content);
+                                    },
+                                  ),
+                                );
+                              },
+                              child: CardPotret(
+                                photo: "${content.photoUrl}",
+                                title: "${content.title}",
+                                date: "${content.date}",
+                                status: "${content.status}",
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
             Center(

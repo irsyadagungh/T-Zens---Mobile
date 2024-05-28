@@ -1,7 +1,6 @@
 import 'package:another_carousel_pro/another_carousel_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:tzens/app/controllers/content_controller.dart';
 import 'package:tzens/app/data/models/webinar_model_model.dart';
@@ -40,23 +39,24 @@ class WebinarView extends StatelessWidget {
                           ],
                           dotSize: 4.0,
                           dotSpacing: 15.0,
-                          dotColor: Colors.lightGreenAccent,
+                          dotColor: Colors.white,
                           indicatorBgPadding: 5.0,
-                          dotBgColor: null,
+                          dotBgColor: Colors.transparent,
                           borderRadius: true,
+                          radius: Radius.circular(15),
                           moveIndicatorFromBottom: 180.0,
                           noRadiusForIndicator: true,
                         ),
                       ),
                     ),
                   ),
-                  Text(
-                    "Webinar dan Seminar",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    "Kumpulan webinar dan seminar yang bisa kamu ikuti ! ",
-                  ),
+                  // Text(
+                  //   "Webinar dan Seminar",
+                  //   style: TextStyle(fontWeight: FontWeight.bold),
+                  // ),
+                  // Text(
+                  //   "Kumpulan webinar dan seminar yang bisa kamu ikuti!",
+                  // ),
                 ],
               ),
             ),
@@ -74,7 +74,6 @@ class WebinarView extends StatelessWidget {
                 itemBuilder: (context, index) {
                   WebinarModel content =
                       contentController.contentListUser[index];
-                  print(content.toString() + "dadadada");
                   return GestureDetector(
                     onTap: () {
                       Get.to(() => DetailPageView(model: content));
