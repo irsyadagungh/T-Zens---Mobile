@@ -1,19 +1,20 @@
 import 'package:get/get.dart';
 
-import 'package:tzens/app/modules/detail_history/bindings/detail_history_binding.dart';
-import 'package:tzens/app/modules/detail_history/views/detail_history_view.dart';
-import 'package:tzens/app/modules/history/bindings/history_binding.dart';
-import 'package:tzens/app/modules/history/views/history_view.dart';
-
 import '../data/models/webinar_model_model.dart';
 import '../modules/add/bindings/add_binding.dart';
 import '../modules/add/views/add_view.dart';
+import '../modules/addOrganisasi/bindings/add_organisasi_binding.dart';
+import '../modules/addOrganisasi/views/add_organisasi_view.dart';
 import '../modules/bookmark/bindings/bookmark_binding.dart';
 import '../modules/bookmark/views/bookmark_view.dart';
+import '../modules/detail_history/bindings/detail_history_binding.dart';
+import '../modules/detail_history/views/detail_history_view.dart';
 import '../modules/detail_page/bindings/detail_page_binding.dart';
 import '../modules/detail_page/views/detail_page_view.dart';
 import '../modules/edit_profile/bindings/edit_profile_binding.dart';
 import '../modules/edit_profile/views/edit_profile_view.dart';
+import '../modules/history/bindings/history_binding.dart';
+import '../modules/history/views/history_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/home_provider/bindings/home_provider_binding.dart';
@@ -109,6 +110,11 @@ class AppPages {
       name: _Paths.DETAIL_HISTORY,
       page: () => DetailHistoryView(),
       binding: DetailHistoryBinding(),
+    ),
+    GetPage(
+      name: _Paths.ADD_ORGANISASI,
+      page: () => AddOrganisasiView(),
+      binding: AddOrganisasiBinding(),
     ),
   ];
 }

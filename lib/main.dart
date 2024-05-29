@@ -65,7 +65,7 @@ class MyApp extends StatelessWidget {
                             ? authC.isAuth.isTrue
                                 ? authC.user.value.role == "provider"
                                     ? Routes.HOME_PROVIDER
-                                    : Routes.HOME
+                                    : Routes.HOME_PROVIDER
                                 : Routes.LOGIN
                             : Routes.INTRODUCTION,
                         getPages: AppPages.routes,

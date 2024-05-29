@@ -13,7 +13,7 @@ class DynamicFormOneField extends StatelessWidget {
     required this.icon,
   });
 
-  final AddController controller;
+  final controller;
   final int itemCount;
   final List<TextEditingController> nameController;
   final Function() onPressedTrue;

@@ -15,7 +15,7 @@ class DynamicFormTwoField extends StatelessWidget {
     required this.iconField2,
   });
 
-  final AddController controller;
+  final controller;
   final int itemCount;
   final List<TextEditingController> textEditingController1;
   final List<TextEditingController> textEditingController2;
