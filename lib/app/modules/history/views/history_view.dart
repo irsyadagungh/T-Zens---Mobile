@@ -1,23 +1,38 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:tzens/app/controllers/content_controller.dart';
 import 'package:tzens/app/utils/constant/color.dart';
 import 'package:tzens/app/utils/widget/event_card.dart';
 
 import '../controllers/history_controller.dart';
 
 class HistoryView extends GetView<HistoryController> {
+  final webinar = Get.find<ContentController>();
+
   @override
   Widget build(BuildContext context) {
+    webinar.readHistoryWebinar();
     return DefaultTabController(
       length: 2,
       child: Scaffold(
         appBar: AppBar(
           title: Text('History'),
           bottom: TabBar(
-            tabs: [
-              Tab(text: 'Belum dimulai'),
-              Tab(text: 'Sudah dimulai'),
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            indicatorSize: TabBarIndicatorSize.tab,
+            indicator: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: secondaryColor,
+            ),
+            dividerColor: Colors.transparent,
+            tabs: <Widget>[
+              Tab(
+                text: "Not Started",
+              ),
+              Tab(
+                text: "Started",
+              ),
             ],
           ),
         ),
@@ -25,38 +40,48 @@ class HistoryView extends GetView<HistoryController> {
           padding: const EdgeInsets.all(8.0),
           child: TabBarView(
             children: [
-              ListView.builder(
-                itemCount: 5,
-                itemBuilder: (context, index) {
-                  return EventCard(
-                    title: '',
-                    date: '',
-                    isFree: false,
-                    location: '',
-                    time: '',
-                    link: '',
-                    color: index % 2 == 0 ? Colors.white : Colors.black,
-                    containerColor:
-                        index % 2 == 0 ? primaryColor : Colors.white,
-                  );
-                },
-              ),
-              ListView.builder(
-                itemCount: 5,
-                itemBuilder: (context, index) {
-                  return EventCard(
-                    title: '',
-                    date: '',
-                    isFree: false,
-                    location: '',
-                    time: '',
-                    link: '',
-                    color: index % 2 == 0 ? Colors.white : Colors.black,
-                    containerColor:
-                        index % 2 == 0 ? primaryColor : Colors.white,
-                  );
-                },
-              ),
+              webinar.historyNotStarted.isEmpty
+                  ? Center(
+                      child: Text('No Data'),
+                    )
+                  : ListView.builder(
+                      itemCount: webinar.historyNotStarted.length,
+                      itemBuilder: (context, index) {
+                        var content = webinar.historyNotStarted[index];
+                        return EventCard(
+                          title: content.title ?? '',
+                          date: content.date ?? '',
+                          status: content.status ?? '',
+                          location: content.location ?? '',
+                          startTime: content.time?.startTime ?? '',
+                          endTime: content.time?.endTime ?? '',
+                          color: index % 2 == 0 ? Colors.white : Colors.black,
+                          containerColor:
+                              index % 2 == 0 ? primaryColor : Colors.white,
+                        );
+                      },
+                    ),
+              webinar.historyStarted.isEmpty
+                  ? Center(
+                      child: Text("No Data"),
+                    )
+                  : ListView.builder(
+                      itemCount: webinar.historyStarted.length,
+                      itemBuilder: (context, index) {
+                        var content = webinar.historyStarted[index];
+                        return EventCard(
+                          title: content.title ?? '',
+                          date: content.date ?? '',
+                          status: content.status ?? '',
+                          location: content.location ?? '',
+                          startTime: content.time?.startTime ?? '',
+                          endTime: content.time?.endTime ?? '',
+                          color: index % 2 == 0 ? Colors.white : Colors.black,
+                          containerColor:
+                              index % 2 == 0 ? primaryColor : Colors.white,
+                        );
+                      },
+                    ),
             ],
           ),
         ),

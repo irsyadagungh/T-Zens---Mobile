@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:tzens/app/controllers/auth_controller.dart';
 import 'package:tzens/app/data/models/user_model_model.dart';
 import 'package:tzens/app/data/models/user_model_model.dart';
@@ -28,6 +29,9 @@ class ContentController extends GetxController {
   RxList<WebinarModel> contentListUser = RxList<WebinarModel>([]);
   RxList<WebinarModel> contentListSearch = RxList<WebinarModel>([]);
   RxList<WebinarModel> bookmarkedWebinars = RxList<WebinarModel>([]);
+
+  RxList<WebinarModel> historyNotStarted = RxList<WebinarModel>([]);
+  RxList<WebinarModel> historyStarted = RxList<WebinarModel>([]);
 
   /** SEARCH */
   /** SEARCH */
@@ -217,6 +221,40 @@ class ContentController extends GetxController {
       print("Registered to webinar");
     } catch (e) {
       print("ERROR REGISTER WEBINAR" + e.toString());
+    }
+  }
+
+  /** READ HISTORY WEBINAR */
+  Future<void> readHistoryWebinar() async {
+    try {
+      final date = DateTime.now();
+      final idUser = authC.user.value.uid;
+
+      // Query for upcoming webinars
+      final upcomingWebinars = await dbWebinar
+          .where('registeredAccount', arrayContains: idUser)
+          .where('date',
+              isGreaterThan: DateFormat.yMd().format(date).toString())
+          .get();
+
+      historyNotStarted.value = upcomingWebinars.docs
+          .map((e) => WebinarModel.fromJson(e.data() as Map<String, dynamic>))
+          .toList();
+      print("HISTORY NOT STARTED: ${historyNotStarted.value}");
+
+      // Query for past webinars
+      final pastWebinars = await dbWebinar
+          .where('registeredAccount', arrayContains: idUser)
+          .where('date',
+              isLessThanOrEqualTo: DateFormat.yMd().format(date).toString())
+          .get();
+
+      historyStarted.value = pastWebinars.docs
+          .map((e) => WebinarModel.fromJson(e.data() as Map<String, dynamic>))
+          .toList();
+      print("HISTORY STARTED: ${historyStarted.value}");
+    } catch (e) {
+      print('Error: $e');
     }
   }
 

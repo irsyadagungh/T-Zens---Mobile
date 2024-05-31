@@ -6,20 +6,20 @@ import 'package:tzens/app/utils/constant/color.dart';
 class EventCard extends StatelessWidget {
   final String title;
   final String date;
-  final bool isFree;
+  final String status;
   final String location;
-  final String time;
-  final String link;
+  final String startTime;
+  final String endTime;
   final Color color;
   final Color containerColor;
 
   EventCard({
     required this.title,
     required this.date,
-    required this.isFree,
+    required this.status,
     required this.location,
-    required this.time,
-    required this.link,
+    required this.startTime,
+    required this.endTime,
     required this.color,
     required this.containerColor,
   });
@@ -62,7 +62,7 @@ class EventCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "title",
+                      title,
                       style: TextStyle(
                         color: color,
                         fontWeight: FontWeight.bold,
@@ -70,7 +70,7 @@ class EventCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "date",
+                      date,
                       style: TextStyle(
                         color: color,
                         fontWeight: FontWeight.normal,
@@ -81,7 +81,7 @@ class EventCard extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          "startTime",
+                          startTime,
                           style: TextStyle(
                             color: color,
                             fontWeight: FontWeight.normal,
@@ -94,7 +94,7 @@ class EventCard extends StatelessWidget {
                                 painter: TicketPainter(color: color))),
                         SizedBox(width: 20.0),
                         Text(
-                          "endTime",
+                          endTime,
                           style: TextStyle(
                             color: color,
                             fontWeight: FontWeight.normal,
@@ -208,7 +208,7 @@ class EventCard extends StatelessWidget {
                   ),
                   SizedBox(width: 10.0),
                   Text(
-                    "location",
+                    location,
                     style: TextStyle(
                       color: color,
                       fontWeight: FontWeight.bold,
@@ -216,23 +216,14 @@ class EventCard extends StatelessWidget {
                     ),
                   ),
                   Spacer(),
-                  isFree
-                      ? Text(
-                          "Free",
-                          style: TextStyle(
-                            color: color,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16.0,
-                          ),
-                        )
-                      : Text(
-                          "Paid",
-                          style: TextStyle(
-                            color: color,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16.0,
-                          ),
-                        ),
+                  Text(
+                    status,
+                    style: TextStyle(
+                      color: color,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16.0,
+                    ),
+                  ),
                 ],
               ),
             ),
