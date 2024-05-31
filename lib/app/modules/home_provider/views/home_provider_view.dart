@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:tzens/app/controllers/auth_controller.dart';
 import 'package:tzens/app/controllers/content_controller.dart';
 import 'package:tzens/app/modules/add/views/add_view.dart';
+import 'package:tzens/app/modules/addOrganisasi/views/add_organisasi_view.dart';
 import 'package:tzens/app/modules/profile/views/profile_view.dart';
 import 'package:tzens/app/routes/app_pages.dart';
 import 'package:tzens/app/utils/constant/color.dart';
@@ -53,7 +54,9 @@ class HomeProviderView extends GetView<HomeProviderController> {
           ),
           FloatingActionButton(
             heroTag: 'add_group',
-            onPressed: () {},
+            onPressed: () {
+              Get.to(() => AddOrganisasiView());
+            },
             tooltip: 'Add Group',
             child: Icon(Icons.group_add),
           ),

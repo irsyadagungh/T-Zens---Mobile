@@ -111,6 +111,17 @@ class AddView extends StatelessWidget {
                       ),
 
                       /* Title */
+                      Text(
+                        "Title",
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
                       FormText(
                         icon: Icon(Icons.title),
                         hintText: "Title",
@@ -122,6 +133,17 @@ class AddView extends StatelessWidget {
                       ),
 
                       /** DESCRIPTION */
+                      Text(
+                        "Description",
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
                       FormText(
                         hintText: "Description",
                         controller: controller.descriptionController,
@@ -134,6 +156,17 @@ class AddView extends StatelessWidget {
                       ),
 
                       /** LOCATION */
+                      Text(
+                        "Location",
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
                       FormText(
                         icon: Icon(Icons.location_on),
                         hintText: "Location",
@@ -145,6 +178,17 @@ class AddView extends StatelessWidget {
                       ),
 
                       /** EVENT TYPE */
+                      Text(
+                        "Event Type",
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
                       Obx(
                         () => Container(
                           decoration: BoxDecoration(
@@ -159,17 +203,6 @@ class AddView extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 20),
-                                child: Text(
-                                  "Event Type",
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 15,
-                                  ),
-                                ),
-                              ),
                               Row(
                                 children: [
                                   Expanded(
@@ -208,6 +241,17 @@ class AddView extends StatelessWidget {
                       ),
 
                       /** LINK */
+                      Text(
+                        "Group Link",
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
                       Obx(
                         () => FormText(
                           icon: Icon(Icons.link),
@@ -222,6 +266,17 @@ class AddView extends StatelessWidget {
                       ),
 
                       /** DATE */
+                      Text(
+                        "Date",
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
                       FormText(
                         keyboardType: TextInputType.none,
                         hintText: "Date",
@@ -246,6 +301,17 @@ class AddView extends StatelessWidget {
                       ),
 
                       /** TIME */
+                      Text(
+                        "Time",
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
                       Row(
                         children: [
                           /** START TIME */
@@ -324,6 +390,9 @@ class AddView extends StatelessWidget {
                           color: Colors.black,
                         ),
                       ),
+                      SizedBox(
+                        height: 10,
+                      ),
                       Obx(
                         () => DynamicFormOneField(
                           icon: Icon(Icons.star_rounded),
@@ -357,6 +426,9 @@ class AddView extends StatelessWidget {
                               color: Colors.black,
                             ),
                           ),
+                          SizedBox(
+                            height: 10,
+                          ),
                           Obx(
                             () => DynamicFormOneField(
                               icon: Icon(Icons.source_rounded),
@@ -384,7 +456,7 @@ class AddView extends StatelessWidget {
                   height: 20,
                 ),
 
-                // Benefit
+                //  Contact
                 Container(
                   decoration: BoxDecoration(
                     color: Colors.white,
