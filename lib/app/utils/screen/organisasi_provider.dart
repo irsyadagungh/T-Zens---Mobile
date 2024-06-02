@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tzens/app/controllers/content_controller.dart';
+import 'package:tzens/app/data/models/organization_model_model.dart';
 import 'package:tzens/app/data/models/webinar_model_model.dart';
 import 'package:tzens/app/modules/home_provider/controllers/home_provider_controller.dart';
 
@@ -12,13 +13,15 @@ class OrganisasiProvider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("PANJANG DATA: ${organisasi.contentListProvider.length}");
     return SliverPadding(
       padding:
           EdgeInsets.only(bottom: kToolbarHeight + kFloatingActionButtonMargin),
       sliver: Obx(() => SliverList.builder(
-          itemCount: organisasi.contentListProvider.length,
+          itemCount: (organisasi.contentListProvider.length / 2).toInt(),
           itemBuilder: (context, index) {
-            WebinarModel content = organisasi.contentListProvider[index];
+            OrganizationModel content =
+                organisasi.contentListOrganizationProvider[index];
             return Padding(
               padding: EdgeInsets.all(8.0),
               child: ListTile(

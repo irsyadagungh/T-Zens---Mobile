@@ -6,6 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:tzens/app/controllers/auth_controller.dart';
+import 'package:tzens/app/data/models/organization_model_model.dart';
 import 'package:tzens/app/data/models/user_model_model.dart';
 import 'package:tzens/app/data/models/user_model_model.dart';
 import 'package:tzens/app/data/models/webinar_model_model.dart';
@@ -20,12 +21,16 @@ class ContentController extends GetxController {
       FirebaseFirestore.instance.collection("users");
   late CollectionReference dbWebinar =
       FirebaseFirestore.instance.collection("webinar");
+  late CollectionReference dbOrganization =
+      FirebaseFirestore.instance.collection("organization");
   late Reference storage = FirebaseStorage.instance.ref();
   RxString picLink = "".obs;
   RxInt length = 0.obs;
 
   WebinarModel content = WebinarModel();
   RxList<WebinarModel> contentListProvider = RxList<WebinarModel>([]);
+  RxList<OrganizationModel> contentListOrganizationProvider =
+      RxList<OrganizationModel>([]);
   RxList<WebinarModel> contentListUser = RxList<WebinarModel>([]);
   RxList<WebinarModel> contentListSearch = RxList<WebinarModel>([]);
   RxList<WebinarModel> bookmarkedWebinars = RxList<WebinarModel>([]);
@@ -257,6 +262,76 @@ class ContentController extends GetxController {
       print('Error: $e');
     }
   }
+
+  /** ADD ORGANIZATION */
+  Future<void> addOrganization(
+    Map<String, dynamic> administrator,
+    List<String> division,
+    String timestamp,
+    List<Map<String, dynamic>> contact,
+    Map<String, dynamic> date,
+    String description,
+    String link,
+    String photoUrl,
+    String title,
+  ) async {
+    try {
+      DocumentReference docRef = await dbOrganization.add({
+        "administrator": administrator,
+        "createdAt": timestamp,
+        "contact": contact,
+        "description": description,
+        "division": division,
+        "link": link,
+        "open_recruitment": null,
+        "photoUrl": photoUrl,
+        "registered_account": [],
+        "title": title,
+        "updatedAt": "",
+      });
+
+      String docId = docRef.id;
+
+      try {
+        await dbOrganization.doc(docId).update({
+          "id": docId,
+        });
+        print("ID BARU :" + docId);
+        print("DATA ADDED");
+      } catch (e) {
+        print(e);
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  /** READ DATA ORGANIZATION */
+  Future<void> readDataOrganization() async {
+  try {
+    final idUser = authC.user.value.uid;
+    final result = await dbOrganization
+        .where('administrator.uid', isEqualTo: idUser)
+        .get();
+
+    if (result.docs.isEmpty) {
+      print("No data found for current user.");
+      // Handle empty data scenario (show a message, etc.)
+      return;
+    }
+
+    // Reset the list before adding new data
+    contentListOrganizationProvider.value.clear();
+    contentListOrganizationProvider.value = result.docs
+        .map((e) =>
+            OrganizationModel.fromJson(e.data() as Map<String, dynamic>))
+        .toList();
+    print(contentListOrganizationProvider.toString() + "ORGANIZATION DATA");
+  } catch (e) {
+    print("ERROR READ DATA" + e.toString());
+  }
+}
+
 
   @override
   void onInit() {

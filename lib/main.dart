@@ -30,7 +30,6 @@ void main() async {
   runApp(MyApp());
 }
 
-mixin authC {}
 
 class MyApp extends StatelessWidget {
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
@@ -65,7 +64,7 @@ class MyApp extends StatelessWidget {
                             ? authC.isAuth.isTrue
                                 ? authC.user.value.role == "provider"
                                     ? Routes.HOME_PROVIDER
-                                    : Routes.HOME_PROVIDER
+                                    : Routes.HOME
                                 : Routes.LOGIN
                             : Routes.INTRODUCTION,
                         getPages: AppPages.routes,

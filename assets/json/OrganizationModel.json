@@ -1,4 +1,19 @@
 {
+    "administrator" : {
+        "bookmark": [""],
+        "email": "",
+        "faculty": "",
+        "major": "",
+        "name": "",
+        "nim": "",
+        "phone": "",
+        "registeredWebinar": [""],
+        "role": "",
+        "token": "",
+        "uid" : "",
+        "username": "",
+        "photoUrl": ""
+    },
     "contact" : [{
         "name" : "",
         "phone" : ""

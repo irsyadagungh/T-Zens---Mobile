@@ -18,7 +18,6 @@ class HomeProviderController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    contentC.readDataProvider();
   }
 
   @override

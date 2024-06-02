@@ -3,13 +3,16 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:tzens/app/controllers/auth_controller.dart';
+import 'package:tzens/app/controllers/content_controller.dart';
+import 'package:tzens/app/modules/home_provider/views/home_provider_view.dart';
 import 'package:tzens/app/utils/constant/color.dart';
+import 'package:tzens/app/utils/function/SnackBar.dart';
 import 'package:tzens/app/utils/widget/Form_Widget.dart';
 import 'package:tzens/app/utils/widget/dynamic_form_one_field.dart';
 import 'package:tzens/app/utils/widget/dynamic_form_two_field.dart';
 import 'package:tzens/app/utils/widget/large_button.dart';
 import 'package:tzens/app/utils/widget/pick_image.dart';
-
 import '../controllers/add_organisasi_controller.dart';
 
 class AddOrganisasiView extends StatelessWidget {
@@ -18,6 +21,9 @@ class AddOrganisasiView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(AddOrganisasiController());
+    final content = Get.find<ContentController>();
+    final authC = Get.find<AuthController>();
+
     return Hero(
       tag: 'add_organisasi',
       child: Scaffold(
@@ -156,14 +162,14 @@ class AddOrganisasiView extends StatelessWidget {
                           icon: Icon(Icons.star_rounded),
                           name: "Divisi",
                           controller: controller,
-                          itemCount: controller.totalBenefit.value,
-                          nameController: controller.listBenefitController,
+                          itemCount: controller.totalDivision.value,
+                          nameController: controller.listDivisionController,
                           onPressedTrue: () {
-                            controller.listBenefitController
+                            controller.listDivisionController
                                 .add(TextEditingController());
                             controller.benefitIncrement();
                             controller.update();
-                            print(controller.totalBenefit.value);
+                            print(controller.totalDivision.value);
                           },
                         ),
                       ),
@@ -310,7 +316,81 @@ class AddOrganisasiView extends StatelessWidget {
           color: Colors.white,
           child: LargeButton(
             text: "Confirm",
-            onPressed: () async {},
+            onPressed: () async {
+              // Add Date
+              Map<String, dynamic> addDate() {
+                Map<String, dynamic> date = {
+                  "startDate": controller.startDate.text,
+                  "endDate": controller.endDate.text,
+                };
+
+                return date;
+              }
+
+              // Add Contact
+              List<Map<String, dynamic>> addContact() {
+                List<Map<String, dynamic>> contact = [];
+                int i = 0;
+                while (i < controller.totalContact.value) {
+                  contact.add({
+                    "name": controller.listContactNameController[i].text,
+                    "phone": controller.listContactPhoneController[i].text
+                  });
+                  i++;
+                }
+                return contact;
+              }
+
+              if (controller.pickedFile == null ||
+                  controller.pickedFile?.path == "" ||
+                  controller.titleController.text.isEmpty ||
+                  controller.descriptionController.text.isEmpty ||
+                  controller.startDate.text.isEmpty ||
+                  controller.endDate.text.isEmpty ||
+                  controller.listContactNameController[0].text.isEmpty) {
+                CustomSnackBar(
+                  "Empty Data",
+                  "You must fill all of the datas except the optional data",
+                  Icons.warning,
+                  Colors.red,
+                );
+                return;
+              }
+
+              try {
+                // Upload Image
+                await content.uploadImage(controller.imageFile.value!,
+                    controller.titleController.text);
+
+                // Add Data
+                await content.addOrganization(
+                  authC.user.toJson(),
+                  controller.listDivisionController.isNotEmpty
+                      ? controller.listDivisionController
+                          .map((e) => e.text)
+                          .toList()
+                      : [],
+                  DateTime.now().toString(),
+                  addContact(),
+                  addDate(),
+                  controller.descriptionController.text,
+                  controller.linkController.text,
+                  content.picLink.value,
+                  controller.titleController.text,
+                );
+
+                CustomSnackBar(
+                  "Success",
+                  "Data has been added",
+                  Icons.check,
+                  Colors.green,
+                );
+
+                Get.to(() => HomeProviderView());
+              } catch (e) {
+                print("ERROR ADD ORGANISASI: $e");
+              }
+            },
           ),
         ),
       ),

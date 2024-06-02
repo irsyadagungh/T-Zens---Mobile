@@ -21,7 +21,8 @@ class HomeProviderView extends GetView<HomeProviderController> {
 
   @override
   Widget build(BuildContext context) {
-    controller.onInit();
+    webinar.readDataProvider();
+    webinar.readDataOrganization();
     print(Get.currentRoute);
     return Scaffold(
       backgroundColor: customWhite,
@@ -69,16 +70,16 @@ class HomeProviderView extends GetView<HomeProviderController> {
 
 Widget _buildSliverWidget() {
   final controller = Get.find<HomeProviderController>();
-  final webinar = Get.find<ContentController>();
+  final content = Get.find<ContentController>();
 
   return Obx(() {
     switch (controller.selectedIndex.value) {
       case 0:
         // Mengembalikan widget untuk kasus 0
-        return WebinarProviders(webinar: webinar, controller: controller);
+        return WebinarProviders(webinar: content, controller: controller);
       case 1:
         // Mengembalikan widget untuk kasus 1
-        return OrganisasiProvider(organisasi: webinar, controller: controller);
+        return OrganisasiProvider(organisasi: content, controller: controller);
       default:
         // Mengembalikan widget default jika selectedIndex tidak cocok dengan kasus apa pun
         return SliverToBoxAdapter(

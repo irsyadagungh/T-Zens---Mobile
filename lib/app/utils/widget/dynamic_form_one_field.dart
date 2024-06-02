@@ -53,7 +53,6 @@ class DynamicFormOneField extends StatelessWidget {
                           nameController.removeAt(index);
                           controller.benefitDecrement();
                           controller.update();
-                          print(controller.totalBenefit.value);
                         },
                         icon: Icon(Icons.delete),
                       ),

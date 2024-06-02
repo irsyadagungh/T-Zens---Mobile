@@ -12,7 +12,7 @@ class AddOrganisasiController extends GetxController {
   DateTime selectedDate = DateTime.now();
   final TextEditingController startDate = TextEditingController();
   final TextEditingController endDate = TextEditingController();
-  final List<TextEditingController> listBenefitController = [
+  final List<TextEditingController> listDivisionController = [
     TextEditingController()
   ];
 
@@ -50,7 +50,7 @@ class AddOrganisasiController extends GetxController {
     }
   }
 
-  final totalBenefit = 1.obs;
+  final totalDivision = 1.obs;
   final totalPrasyarat = 1.obs;
   final totalContact = 1.obs;
 
@@ -72,8 +72,8 @@ class AddOrganisasiController extends GetxController {
 
   void increment() => count.value++;
 
-  void benefitIncrement() => totalBenefit.value++;
-  void benefitDecrement() => totalBenefit.value--;
+  void benefitIncrement() => totalDivision.value++;
+  void benefitDecrement() => totalDivision.value--;
   void contactIncrement() => totalContact.value++;
   void contactDecrement() => totalContact.value--;
 }
