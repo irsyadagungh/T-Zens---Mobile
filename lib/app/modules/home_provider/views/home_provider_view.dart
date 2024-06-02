@@ -21,8 +21,6 @@ class HomeProviderView extends GetView<HomeProviderController> {
 
   @override
   Widget build(BuildContext context) {
-    webinar.readDataProvider();
-    webinar.readDataOrganization();
     print(Get.currentRoute);
     return Scaffold(
       backgroundColor: customWhite,

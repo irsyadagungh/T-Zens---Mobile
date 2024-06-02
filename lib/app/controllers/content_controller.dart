@@ -308,30 +308,41 @@ class ContentController extends GetxController {
 
   /** READ DATA ORGANIZATION */
   Future<void> readDataOrganization() async {
-  try {
-    final idUser = authC.user.value.uid;
-    final result = await dbOrganization
-        .where('administrator.uid', isEqualTo: idUser)
-        .get();
+    try {
+      final idUser = authC.user.value.uid;
+      final result = await dbOrganization
+          .where('administrator.uid', isEqualTo: idUser)
+          .get();
 
-    if (result.docs.isEmpty) {
-      print("No data found for current user.");
-      // Handle empty data scenario (show a message, etc.)
-      return;
+      if (result.docs.isEmpty) {
+        print("No data found for current user.");
+        // Handle empty data scenario (show a message, etc.)
+        return;
+      }
+
+      // Reset the list before adding new data
+      contentListOrganizationProvider.value.clear();
+      contentListOrganizationProvider.value = result.docs
+          .map((e) =>
+              OrganizationModel.fromJson(e.data() as Map<String, dynamic>))
+          .toList();
+      print(contentListOrganizationProvider.toString() + "ORGANIZATION DATA");
+    } catch (e) {
+      print("ERROR READ DATA" + e.toString());
     }
-
-    // Reset the list before adding new data
-    contentListOrganizationProvider.value.clear();
-    contentListOrganizationProvider.value = result.docs
-        .map((e) =>
-            OrganizationModel.fromJson(e.data() as Map<String, dynamic>))
-        .toList();
-    print(contentListOrganizationProvider.toString() + "ORGANIZATION DATA");
-  } catch (e) {
-    print("ERROR READ DATA" + e.toString());
   }
-}
 
+/** DELETE DATA ORGANIZATION */
+  Future<void> deleteDataOrganization(String id) async {
+    try {
+      await dbOrganization.doc(id).delete();
+      print("Data deleted");
+      Get.back();
+      Get.back();
+    } catch (e) {
+      print("ERROR DELETE DATA" + e.toString());
+    }
+  }
 
   @override
   void onInit() {

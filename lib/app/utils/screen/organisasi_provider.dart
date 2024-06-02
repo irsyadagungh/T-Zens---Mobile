@@ -18,7 +18,7 @@ class OrganisasiProvider extends StatelessWidget {
       padding:
           EdgeInsets.only(bottom: kToolbarHeight + kFloatingActionButtonMargin),
       sliver: Obx(() => SliverList.builder(
-          itemCount: (organisasi.contentListProvider.length / 2).toInt(),
+          itemCount: (organisasi.contentListProvider.length ~/ 2).toInt(),
           itemBuilder: (context, index) {
             OrganizationModel content =
                 organisasi.contentListOrganizationProvider[index];
@@ -64,6 +64,8 @@ class OrganisasiProvider extends StatelessWidget {
                                   actions: [
                                     TextButton(
                                       onPressed: () {
+                                        organisasi
+                                            .deleteDataOrganization(id.value!);
                                         Get.back();
                                       },
                                       child: Text("Cancel"),
