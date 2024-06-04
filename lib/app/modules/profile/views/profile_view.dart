@@ -73,9 +73,9 @@ class ProfileView extends GetView<ProfileController> {
                               Text(
                                 "${user.value.name}",
                                 style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    overflow: TextOverflow.ellipsis),
                               ),
                               SizedBox(height: 5),
                               Text("${user.value.email}"),

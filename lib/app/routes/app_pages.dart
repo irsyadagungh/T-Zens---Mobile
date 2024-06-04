@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:tzens/app/data/models/organization_model_model.dart';
 
 import '../data/models/webinar_model_model.dart';
 import '../modules/add/bindings/add_binding.dart';
@@ -7,6 +8,8 @@ import '../modules/addOrganisasi/bindings/add_organisasi_binding.dart';
 import '../modules/addOrganisasi/views/add_organisasi_view.dart';
 import '../modules/bookmark/bindings/bookmark_binding.dart';
 import '../modules/bookmark/views/bookmark_view.dart';
+import '../modules/detailPageOrganisasi/bindings/detail_page_organisasi_binding.dart';
+import '../modules/detailPageOrganisasi/views/detail_page_organisasi_view.dart';
 import '../modules/detail_history/bindings/detail_history_binding.dart';
 import '../modules/detail_history/views/detail_history_view.dart';
 import '../modules/detail_page/bindings/detail_page_binding.dart';
@@ -39,6 +42,7 @@ class AppPages {
 
   // static const INITIAL = Routes.HOME;
   static final WebinarModel model = WebinarModel();
+  static final OrganizationModel modelOrganisasi = OrganizationModel();
 
   static final routes = [
     GetPage(
@@ -115,6 +119,13 @@ class AppPages {
       name: _Paths.ADD_ORGANISASI,
       page: () => AddOrganisasiView(),
       binding: AddOrganisasiBinding(),
+    ),
+    GetPage(
+      name: _Paths.DETAIL_PAGE_ORGANISASI,
+      page: () => DetailPageOrganisasiView(
+        model: modelOrganisasi,
+      ),
+      binding: DetailPageOrganisasiBinding(),
     ),
   ];
 }

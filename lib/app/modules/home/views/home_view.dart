@@ -40,9 +40,9 @@ class HomeView extends GetView<HomeController> {
             Obx(() {
               switch (controller.currentPages.value) {
                 case 0:
-                  return WebinarView();
-                case 1:
                   return OrganisasiView();
+                case 1:
+                  return WebinarView();
                 default:
                   return Container(); // Add your default widget here
               }

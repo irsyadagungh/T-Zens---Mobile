@@ -38,6 +38,9 @@ class ContentController extends GetxController {
   RxList<WebinarModel> historyNotStarted = RxList<WebinarModel>([]);
   RxList<WebinarModel> historyStarted = RxList<WebinarModel>([]);
 
+  RxList<WebinarModel> historyNotStarted2 = RxList<WebinarModel>([]);
+  RxList<WebinarModel> historyStarted2 = RxList<WebinarModel>([]);
+
   /** SEARCH */
   /** SEARCH */
   Future<void> search(String keyword) async {
@@ -303,6 +306,26 @@ class ContentController extends GetxController {
       }
     } catch (e) {
       print(e);
+    }
+  }
+
+  Future<void> readDataUserOrganization() async {
+    try {
+      final result = await dbOrganization.get();
+
+      if (result.docs.isEmpty) {
+        print("No data found for current user.");
+        // Handle empty data scenario (show a message, etc.)
+        return;
+      }
+
+      contentListOrganizationProvider.value = result.docs
+          .map((e) =>
+              OrganizationModel.fromJson(e.data() as Map<String, dynamic>))
+          .toList();
+      print(contentListUser.toString() + "tESTINGGGGG");
+    } catch (e) {
+      print("ERROR READ DATA" + e.toString());
     }
   }
 

@@ -49,6 +49,7 @@ abstract class Routes {
   static const HISTORY = _Paths.HISTORY;
   static const DETAIL_HISTORY = _Paths.DETAIL_HISTORY;
   static const ADD_ORGANISASI = _Paths.ADD_ORGANISASI;
+  static const DETAIL_PAGE_ORGANISASI = _Paths.DETAIL_PAGE_ORGANISASI;
 }
 
 abstract class _Paths {
@@ -70,4 +71,5 @@ abstract class _Paths {
   static const HISTORY = '/history';
   static const DETAIL_HISTORY = '/detail-history';
   static const ADD_ORGANISASI = '/add-organisasi';
+  static const DETAIL_PAGE_ORGANISASI = '/detail-page-organisasi';
 }

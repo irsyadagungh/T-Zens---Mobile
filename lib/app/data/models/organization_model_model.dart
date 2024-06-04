@@ -1,11 +1,11 @@
 import 'package:tzens/app/data/models/user_model_model.dart';
 
 class OrganizationModel {
-  UserModel? administrator;
-  List<Contact>? contact;
-  String? createdAt;
-  String? description;
-  List<String>? division;
+  UserModel? administrator; // done
+  List<Contact>? contact; // done
+  String? createdAt; // done
+  String? description; // Done
+  List<String>? division; // Done
   String? link;
   OpenRecruitment? openRecruitment;
   String? photoUrl;
@@ -79,8 +79,6 @@ class OrganizationModel {
     return data;
   }
 }
-
-
 
 class Contact {
   String? name;
