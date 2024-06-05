@@ -292,12 +292,7 @@ class DetailPageView extends GetView<DetailPageController> {
                           contentC.registerWebinar(model.id!, authC.user.value.uid!),
                           // await messageC.sendNotificationToAdmin(adminToken, title, body);
                           print(model.id),
-                          CustomSnackBar(
-                            "Success",
-                            "You are registered to webinar",
-                            Icons.check,
-                            Colors.green,
-                          )
+                          
                         };
                 },
               ),

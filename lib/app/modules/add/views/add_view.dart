@@ -561,7 +561,7 @@ class AddView extends StatelessWidget {
 
               try {
                 await contentC.uploadImage(File(controller.pickedFile!.path),
-                    controller.pickedFile!.name);
+                    controller.pickedFile!.name, "webinar");
                 print("LINK" + contentC.picLink.value);
 
                 print(controller.pickedFile!.path);

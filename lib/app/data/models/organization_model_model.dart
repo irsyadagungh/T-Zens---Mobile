@@ -1,11 +1,12 @@
 import 'package:tzens/app/data/models/user_model_model.dart';
 
 class OrganizationModel {
-  UserModel? administrator; // done
-  List<Contact>? contact; // done
-  String? createdAt; // done
-  String? description; // Done
-  List<String>? division; // Done
+  UserModel? administrator;
+  List<Contact>? contact;
+  String? createdAt;
+  String? description;
+  List<String>? division;
+  String? id;
   String? link;
   OpenRecruitment? openRecruitment;
   String? photoUrl;
@@ -19,6 +20,7 @@ class OrganizationModel {
       this.createdAt,
       this.description,
       this.division,
+      this.id,
       this.link,
       this.openRecruitment,
       this.photoUrl,
@@ -39,6 +41,7 @@ class OrganizationModel {
     createdAt = json['createdAt'];
     description = json['description'];
     division = json['division'].cast<String>();
+    id = json['id'];
     link = json['link'];
     openRecruitment = json['open_recruitment'] != null
         ? OpenRecruitment?.fromJson(json['open_recruitment'])
@@ -65,6 +68,7 @@ class OrganizationModel {
     data['createdAt'] = createdAt;
     data['description'] = description;
     data['division'] = division;
+    data['id'] = id;
     data['link'] = link;
     if (openRecruitment != null) {
       data['open_recruitment'] = openRecruitment?.toJson();
@@ -76,6 +80,71 @@ class OrganizationModel {
     }
     data['title'] = title;
     data['updatedAt'] = updatedAt;
+    return data;
+  }
+}
+
+class Administrator {
+  List<String>? bookmark;
+  String? email;
+  String? faculty;
+  String? major;
+  String? name;
+  String? nim;
+  String? phone;
+  List<String>? registeredWebinar;
+  String? role;
+  String? token;
+  String? uid;
+  String? username;
+  String? photoUrl;
+
+  Administrator(
+      {this.bookmark,
+      this.email,
+      this.faculty,
+      this.major,
+      this.name,
+      this.nim,
+      this.phone,
+      this.registeredWebinar,
+      this.role,
+      this.token,
+      this.uid,
+      this.username,
+      this.photoUrl});
+
+  Administrator.fromJson(Map<String, dynamic> json) {
+    bookmark = json['bookmark'].cast<String>();
+    email = json['email'];
+    faculty = json['faculty'];
+    major = json['major'];
+    name = json['name'];
+    nim = json['nim'];
+    phone = json['phone'];
+    registeredWebinar = json['registeredWebinar'].cast<String>();
+    role = json['role'];
+    token = json['token'];
+    uid = json['uid'];
+    username = json['username'];
+    photoUrl = json['photoUrl'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final data = <String, dynamic>{};
+    data['bookmark'] = bookmark;
+    data['email'] = email;
+    data['faculty'] = faculty;
+    data['major'] = major;
+    data['name'] = name;
+    data['nim'] = nim;
+    data['phone'] = phone;
+    data['registeredWebinar'] = registeredWebinar;
+    data['role'] = role;
+    data['token'] = token;
+    data['uid'] = uid;
+    data['username'] = username;
+    data['photoUrl'] = photoUrl;
     return data;
   }
 }
@@ -128,7 +197,7 @@ class RegisteredAccount {
   String? role;
   String? uid;
   String? username;
-  String? photo;
+  String? photoUrl;
 
   RegisteredAccount(
       {this.email,
@@ -140,7 +209,7 @@ class RegisteredAccount {
       this.role,
       this.uid,
       this.username,
-      this.photo});
+      this.photoUrl});
 
   RegisteredAccount.fromJson(Map<String, dynamic> json) {
     email = json['email'];
@@ -152,7 +221,7 @@ class RegisteredAccount {
     role = json['role'];
     uid = json['uid'];
     username = json['username'];
-    photo = json['photo'];
+    photoUrl = json['photo'];
   }
 
   Map<String, dynamic> toJson() {
@@ -166,7 +235,7 @@ class RegisteredAccount {
     data['role'] = role;
     data['uid'] = uid;
     data['username'] = username;
-    data['photo'] = photo;
+    data['photo'] = photoUrl;
     return data;
   }
 }

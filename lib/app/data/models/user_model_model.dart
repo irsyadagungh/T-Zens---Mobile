@@ -6,6 +6,7 @@ class UserModel {
   String? name;
   String? nim;
   String? phone;
+  List<dynamic>? registeredOrganization;
   List<dynamic>? registeredWebinar;
   String? role;
   String? uid;
@@ -21,6 +22,7 @@ class UserModel {
       this.name,
       this.nim,
       this.phone,
+      this.registeredOrganization,
       this.registeredWebinar,
       this.role,
       this.uid,
@@ -36,6 +38,7 @@ class UserModel {
     name = json['name'];
     nim = json['nim'];
     phone = json['phone'];
+    registeredOrganization = json['registeredOrganization'];
     registeredWebinar = json['registeredWebinar'];
     role = json['role'];
     uid = json['uid'];
@@ -53,6 +56,7 @@ class UserModel {
     data['name'] = name;
     data['nim'] = nim;
     data['phone'] = phone;
+    data['registeredOrganization'] = registeredOrganization;
     data['registeredWebinar'] = registeredWebinar;
     data['role'] = role;
     data['uid'] = uid;

@@ -38,11 +38,11 @@ class HomeView extends GetView<HomeController> {
               title: Routes.getTitleFromRoute(Get.currentRoute),
             ),
             Obx(() {
-              switch (controller.currentPages.value) {
+              switch (controller.selectedIndex.value) {
                 case 0:
-                  return OrganisasiView();
-                case 1:
                   return WebinarView();
+                case 1:
+                  return OrganisasiView();
                 default:
                   return Container(); // Add your default widget here
               }

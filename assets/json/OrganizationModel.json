@@ -21,6 +21,7 @@
     "createdAt": "",
     "description" :"",
     "division" : [""],
+    "id" : "",
     "link" :"",
     "open_recruitment" : {
         "startDate" : "",

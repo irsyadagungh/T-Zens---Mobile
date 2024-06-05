@@ -360,7 +360,7 @@ class AddOrganisasiView extends StatelessWidget {
               try {
                 // Upload Image
                 await content.uploadImage(controller.imageFile.value!,
-                    controller.titleController.text);
+                    controller.titleController.text, "organization");
 
                 // Add Data
                 await content.addOrganization(
@@ -372,9 +372,9 @@ class AddOrganisasiView extends StatelessWidget {
                       : [],
                   DateTime.now().toString(),
                   addContact(),
-                  addDate(),
                   controller.descriptionController.text,
                   controller.linkController.text,
+                  addDate(),
                   content.picLink.value,
                   controller.titleController.text,
                 );

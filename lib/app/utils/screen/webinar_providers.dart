@@ -27,6 +27,7 @@ class WebinarProviders extends StatelessWidget {
           itemCount: webinar.contentListProvider.length,
           itemBuilder: (context, index) {
             WebinarModel content = webinar.contentListProvider[index];
+            print("PANJANG DATA: ${webinar.contentListProvider.length}");
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: ListTile(
