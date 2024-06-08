@@ -263,15 +263,20 @@ class DetailPageView extends GetView<DetailPageController> {
             IconButton(
               onPressed: () {
                 authC.bookmarkWebinar(model.id!);
+                controller.update();
               },
-              icon: Obx(() => Icon(
-                    authC.bookmarked.value == true
-                        ? Icons.bookmark
-                        : Icons.bookmark_border,
-                  )),
+              icon: Obx(
+                () => Icon(
+                  authC.user.value.bookmark!.contains(model.id)
+                      ? Icons.bookmark_outlined
+                      : Icons.bookmark_border,
+                  color: primaryColor,
+                ),
+              ),
             ),
             Expanded(
               child: LargeButton(
+                color: WidgetStateColor.resolveWith((states) => primaryColor),
                 text: "Register",
                 onPressed: () async {
                   controller.isDisabled.value
@@ -289,10 +294,10 @@ class DetailPageView extends GetView<DetailPageController> {
                               Colors.red,
                             )
                       : {
-                          contentC.registerWebinar(model.id!, authC.user.value.uid!),
+                          contentC.registerWebinar(
+                              model.id!, authC.user.value.uid!),
                           // await messageC.sendNotificationToAdmin(adminToken, title, body);
                           print(model.id),
-                          
                         };
                 },
               ),

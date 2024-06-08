@@ -28,18 +28,7 @@
         "endDate": ""
     },
     "photoUrl" : "",
-    "registered_account" : [{
-        "email": "",
-        "faculty": "",
-        "major": "",
-        "name": "",
-        "nim": "",
-        "phone": "",
-        "role": "",
-        "uid" : "",
-        "username": "",
-        "photo": ""
-    }],
+    "registered_account" : [""],
     "title" : "",
     "updatedAt": ""
 }

@@ -5,6 +5,7 @@ import 'package:lottie/lottie.dart';
 import 'package:tzens/app/controllers/auth_controller.dart';
 import 'package:tzens/app/modules/login/views/login_view.dart';
 import 'package:tzens/app/modules/register/views/register_view.dart';
+import 'package:tzens/app/utils/constant/color.dart';
 import 'package:tzens/app/utils/widget/large_button.dart';
 import 'package:tzens/app/utils/widget/large_outlined_button.dart';
 
@@ -66,6 +67,7 @@ class WelcomeView extends GetView<WelcomeController> {
                       alignment: Alignment.center,
                       child: Text("Choose your role")),
                   LargeButton(
+                    color: WidgetStateColor.resolveWith((states) => primaryColor),
                     text: "Student",
                     onPressed: () {
                       auth.role.value = "student";

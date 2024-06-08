@@ -12,58 +12,49 @@ import 'package:tzens/app/utils/widget/event_card.dart';
 
 class HistoryPageOrganizationView
     extends GetView<HistoryPageOrganizationController> {
-  final contentController = Get.find<ContentController>();
-
+  final controller = Get.put(HistoryPageOrganizationController());
   @override
   Widget build(BuildContext context) {
     // Dummy data for historyNotStarted
 
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text('History Organization'),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: TabBarView(
-            children: [
-              // Displaying historyNotStarted list
-              // historyNotStarted.isEmpty
-              // ? Center(
-              //     child: Text('No Data'),
-              //   )
-              GridView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 5.0,
-                  mainAxisSpacing: 5.0,
-                  childAspectRatio: 0.601,
-                ),
-                itemCount: 2,
-                itemBuilder: (context, index) {
-                  // OrganizationModel content = contentController
-                  //     .contentListOrganizationUser[index];
-                  return GestureDetector(
-                    onTap: () {
-                      // Get.to(
-                      //     // () => DetailPageOrganisasiView(model: content));
-                    },
-                    child: CardPotret(
-                      photo:
-                          "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.istockphoto.com%2Fid%2Ffoto-foto%2Finternet&psig=AOvVaw307y9eEfgpjA11i-q5WrI5&ust=1717933770914000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCLiD25L4y4YDFQAAAAAdAAAAABAE",
-                      title: "tes",
-                      date: "20/02/0100",
-                      status: "done",
-                    ),
-                  );
-                },
-              ),
-            ],
-          ),
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('History Organization'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: controller.content.historyOrganization.isEmpty
+            ? Center(
+                child: Text('No Data'),
+              )
+            : Obx(() => GridView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 5.0,
+                    mainAxisSpacing: 5.0,
+                    childAspectRatio: 0.601,
+                  ),
+                  itemCount: controller.content.historyOrganization.length,
+                  itemBuilder: (context, index) {
+                    OrganizationModel content =
+                        controller.content.historyOrganization[index];
+                    return GestureDetector(
+                      onTap: () {
+                        Get.to(
+                          () => DetailPageOrganisasiView(model: content),
+                        );
+                      },
+                      child: CardPotret(
+                        photo: "${content.photoUrl}",
+                        title: "${content.title}",
+                        date: "${content.openRecruitment?.startDate}",
+                        status: "Organization",
+                      ),
+                    );
+                  },
+                )),
       ),
     );
   }

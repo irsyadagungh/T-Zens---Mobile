@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:tzens/app/controllers/auth_controller.dart';
 import 'package:tzens/app/controllers/content_controller.dart';
 import 'package:tzens/app/controllers/messages.dart';
@@ -23,7 +24,16 @@ class DetailPageOrganisasiView extends GetView<DetailPageOrganisasiController> {
   @override
   Widget build(BuildContext context) {
     print("REGISTERED ACCOUNT = ${model.registeredAccount}");
-    contentC.readRegisteredAccountOrganization("${model.id}");
+    DateFormat dateFormat = DateFormat("M/d/yyyy");
+    DateTime.now()
+            .isBefore(dateFormat.parse("${model.openRecruitment!.startDate}"))
+        ? controller.isDisabled.value = true
+        : controller.isDisabled.value = false;
+
+    DateTime.now()
+            .isAfter(dateFormat.parse("${model.openRecruitment!.endDate}"))
+        ? controller.isDisabled.value = true
+        : controller.isDisabled.value = false;
     return Scaffold(
       body: CustomScrollView(
         slivers: <Widget>[
@@ -267,46 +277,44 @@ class DetailPageOrganisasiView extends GetView<DetailPageOrganisasiController> {
         ],
       ),
       bottomNavigationBar: BottomAppBar(
-        child: Row(
-          children: [
-            IconButton(
-              onPressed: () {
-                // authC.bookmarkWebinar(model.id!);
-              },
-              icon: Obx(() => Icon(
-                    authC.bookmarked.value == true
-                        ? Icons.bookmark
-                        : Icons.bookmark_border,
-                  )),
-            ),
-            Expanded(
-              child: LargeButton(
-                text: "Register",
-                onPressed: () async {
-                  controller.isDisabled.value
-                      ? controller.authC.user.value.role == "provider"
-                          ? CustomSnackBar(
-                              "You are a provider",
-                              "You can't register this event",
-                              Icons.error,
-                              Colors.red,
-                            )
-                          : CustomSnackBar(
-                              "Your profile is not complete",
-                              "Please complete your profile first",
-                              Icons.error,
-                              Colors.red,
-                            )
-                      : {
-                          contentC.registerOrganization(
-                              model.id!, authC.user.value.uid!),
-                          // await messageC.sendNotificationToAdmin(adminToken, title, body);
-                          print(model.id),
-                        };
-                },
-              ),
-            ),
-          ],
+        child: LargeButton(
+          color: controller.isDisabled.value == true
+              ? WidgetStateColor.resolveWith((states) => Colors.grey)
+              : WidgetStateColor.resolveWith((states) => primaryColor),
+          text: "Register",
+          onPressed: () async {
+            if (controller.isDisabled.value) {
+              if (DateTime.now().isBefore(dateFormat
+                      .parse("${model.openRecruitment!.startDate}")) ||
+                  DateTime.now().isAfter(
+                      dateFormat.parse("${model.openRecruitment!.endDate}"))) {
+                CustomSnackBar(
+                  "Registration is closed",
+                  "Registration is closed",
+                  Icons.error,
+                  Colors.red,
+                );
+              } else if (controller.authC.user.value.role == "provider") {
+                CustomSnackBar(
+                  "You are a provider",
+                  "You can't register this event",
+                  Icons.error,
+                  Colors.red,
+                );
+              } else {
+                CustomSnackBar(
+                  "Your profile is not complete",
+                  "Please complete your profile first",
+                  Icons.error,
+                  Colors.red,
+                );
+              }
+            } else {
+              contentC.registerOrganization(model.id!, authC.user.value.uid!);
+              // await messageC.sendNotificationToAdmin(adminToken, title, body);
+              print(model.id);
+            }
+          },
         ),
       ),
     );

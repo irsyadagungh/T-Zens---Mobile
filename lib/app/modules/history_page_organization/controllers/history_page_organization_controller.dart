@@ -8,6 +8,7 @@ class HistoryPageOrganizationController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    content.readOrganizationHistory();
   }
 
   @override

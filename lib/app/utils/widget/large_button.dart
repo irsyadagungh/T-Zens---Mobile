@@ -4,11 +4,13 @@ import 'package:tzens/app/utils/constant/color.dart';
 class LargeButton extends StatelessWidget {
   final String text;
   final Function()? onPressed;
+  final WidgetStateColor color;
 
   const LargeButton({
     super.key,
     required this.text,
     required this.onPressed,
+    required this.color
   });
 
   @override
@@ -17,13 +19,11 @@ class LargeButton extends StatelessWidget {
       onPressed: onPressed,
       child: Text(text),
       style: ButtonStyle(
-        minimumSize: MaterialStateProperty.all(Size(370, 40)),
-        shadowColor: MaterialStateProperty.all(Colors.transparent),
-        backgroundColor:
-            MaterialStateColor.resolveWith((states) => primaryColor),
-        foregroundColor:
-            MaterialStateColor.resolveWith((states) => Colors.white),
-        shape: MaterialStateProperty.all(
+        minimumSize: WidgetStateProperty.all(Size(370, 40)),
+        shadowColor: WidgetStateProperty.all(Colors.transparent),
+        backgroundColor: color,
+        foregroundColor: WidgetStateColor.resolveWith((states) => Colors.white),
+        shape: WidgetStateProperty.all(
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
       ),
     );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:tzens/app/controllers/auth_controller.dart';
+import 'package:tzens/app/utils/constant/color.dart';
 import 'package:tzens/app/utils/widget/Form_Widget.dart';
 import 'package:tzens/app/utils/widget/google_button.dart';
 import 'package:tzens/app/utils/widget/large_button.dart';
@@ -77,6 +78,7 @@ class LoginView extends GetView<LoginController> {
 
             // Button
             LargeButton(
+              color: WidgetStateColor.resolveWith((states) => primaryColor),
               text: "Login",
               onPressed: () {
                 auth.signInWithEmailAndPassword(
