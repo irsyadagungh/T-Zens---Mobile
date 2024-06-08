@@ -14,7 +14,11 @@ import 'package:tzens/app/modules/home_provider/views/home_provider_view.dart';
 import 'package:tzens/app/utils/function/SnackBar.dart';
 
 class ContentController extends GetxController {
+  RxBool isEdit = false.obs;
+
   final authC = Get.find<AuthController>();
+  WebinarModel webinarModel = WebinarModel();
+  OrganizationModel organizationModel = OrganizationModel();
 
   RxString collection = "".obs;
 
@@ -43,6 +47,8 @@ class ContentController extends GetxController {
 
   RxList<WebinarModel> historyNotStarted2 = RxList<WebinarModel>([]);
   RxList<WebinarModel> historyStarted2 = RxList<WebinarModel>([]);
+
+  RxList<RegisteredAccount> accountImage = <RegisteredAccount>[].obs;
 
   /** SEARCH */
   Future<void> search(String keyword) async {
@@ -117,7 +123,7 @@ class ContentController extends GetxController {
         "date": date,
         "description": description,
         "id": "",
-        "link": "",
+        "link": link,
         "location": location,
         "photo": photoUrl,
         "prerequisite": prerequisite,
@@ -141,6 +147,47 @@ class ContentController extends GetxController {
       }
     } catch (e) {
       print(e);
+    }
+  }
+
+  /** UPDATE DATA WEBINAR */
+  Future<void> updateData(
+    String id,
+    Map<String, dynamic> administrator,
+    List<String> benefits,
+    String timestamp,
+    List<Map<String, dynamic>> contact,
+    String date,
+    String description,
+    String link,
+    String location,
+    String photoUrl,
+    List<String> prerequisite,
+    String status,
+    Map<String, dynamic> time,
+    String title,
+  ) async {
+    try {
+      await dbWebinar.doc(id).update({
+        "administrator": administrator,
+        "benefits": benefits,
+        "createdAt": timestamp,
+        "contact": contact,
+        "date": date,
+        "description": description,
+        "link": link,
+        "location": location,
+        "photo": photoUrl,
+        "prerequisite": prerequisite,
+        "status": status,
+        "time": time,
+        "title": title,
+        "updatedAt": timestamp,
+      });
+
+      print("Data updated");
+    } catch (e) {
+      print("ERROR UPDATE DATA" + e.toString());
     }
   }
 
@@ -335,6 +382,39 @@ class ContentController extends GetxController {
     }
   }
 
+  /** UPDATE ORGANIZATION */
+  Future<void> updateOrganization(
+    String id,
+    Map<String, dynamic> administrator,
+    List<String> division,
+    String timestamp,
+    List<Map<String, dynamic>> contact,
+    String description,
+    String link,
+    Map<String, dynamic> openRecruitment,
+    String photoUrl,
+    String title,
+  ) async {
+    try {
+      await dbOrganization.doc(id).update({
+        "administrator": administrator,
+        "createdAt": timestamp,
+        "contact": contact,
+        "description": description,
+        "division": division,
+        "link": link,
+        "open_recruitment": openRecruitment,
+        "photoUrl": photoUrl,
+        "title": title,
+        "updatedAt": timestamp,
+      });
+
+      print("Data updated");
+    } catch (e) {
+      print("ERROR UPDATE DATA" + e.toString());
+    }
+  }
+
   /** READ ORGANIZATION */
   void readDataUserOrganization() {
     try {
@@ -393,37 +473,102 @@ class ContentController extends GetxController {
   Future<void> registerOrganization(String idOrganization, String uid) async {
     try {
       // Mengecek apakah user sudah terdaftar di webinar
-      if (contentListOrganizationUser
-          .where((element) => element.id == idOrganization)
-          .first
-          .registeredAccount!
-          .contains(uid)) {
-        print("User already registered to this organization.");
-        CustomSnackBar(
-            "Registered!",
-            "You are already registered to this organization",
-            Icons.warning_amber_rounded,
-            Colors.red);
-      } else {
-        await dbOrganization.doc(idOrganization).update({
-          "registeredAccount": FieldValue.arrayUnion([uid])
-        });
+      // if (contentListOrganizationUser
+      //     .where((element) => element.id == idOrganization)
+      //     .first
+      //     .registeredAccount!
+      //     .contains(uid)) {
+      //   print("User already registered to this organization.");
+      //   CustomSnackBar(
+      //       "Registered!",
+      //       "You are already registered to this organization",
+      //       Icons.warning_amber_rounded,
+      //       Colors.red);
+      // } else {
+      await dbOrganization.doc(idOrganization).update({
+        "registeredAccount": FieldValue.arrayUnion([
+          RegisteredAccount(
+                  email: authC.user.value.email,
+                  faculty: authC.user.value.faculty,
+                  major: authC.user.value.major,
+                  name: authC.user.value.name,
+                  nim: authC.user.value.nim,
+                  phone: authC.user.value.phone,
+                  role: authC.user.value.role,
+                  uid: authC.user.value.uid,
+                  username: authC.user.value.username,
+                  photoUrl: authC.user.value.photoUrl)
+              .toJson()
+        ])
+      });
 
-        await dbUser.doc(uid).update({
-          "registeredOrganization": FieldValue.arrayUnion([idOrganization])
-        });
+      await dbUser.doc(uid).update({
+        "registeredOrganization": FieldValue.arrayUnion([idOrganization])
+      });
 
-        CustomSnackBar(
-          "Success",
-          "You are registered to organization",
-          Icons.check,
-          Colors.green,
-        );
-      }
+      CustomSnackBar(
+        "Success",
+        "You are registered to organization",
+        Icons.check,
+        Colors.green,
+      );
+      // }
+
+      readDataOrganization();
 
       print("Registered to organization");
     } catch (e) {
       print("ERROR REGISTER ORGANIZATION" + e.toString());
+    }
+  }
+
+  Future<void> readRegisteredAccountOrganization(String id) async {
+    try {
+      accountImage.clear();
+      print("Account image cleared"); // Logging tambahan
+      // Mendapatkan dokumen organisasi berdasarkan ID
+      DocumentSnapshot docSnapshot = await dbOrganization.doc(id).get();
+      print("Document snapshot obtained"); // Logging tambahan
+
+      // Mengecek apakah dokumen tersebut ada
+      if (docSnapshot.exists) {
+        print("Document exists"); // Logging tambahan
+        // Mengambil data dari dokumen
+        Map<String, dynamic> data = docSnapshot.data() as Map<String, dynamic>;
+        print("Data extracted: $data"); // Logging tambahan
+
+        // Mengambil daftar registeredAccount
+        List<dynamic> registeredAccounts = data['registeredAccount'];
+        print("Registered accounts: $registeredAccounts"); // Logging tambahan
+
+        // Loop melalui daftar registeredAccount untuk mendapatkan photoUrl
+        for (var account in registeredAccounts) {
+          RegisteredAccount registeredAccount =
+              RegisteredAccount.fromJson(account as Map<String, dynamic>);
+          print(
+              "Registered account created: $registeredAccount"); // Logging tambahan
+
+          accountImage.add(registeredAccount);
+          print("Account image updated: $accountImage"); // Logging tambahan
+
+          if (registeredAccount.uid != null &&
+              registeredAccount.photoUrl != null) {
+            print(
+                'UID: ${registeredAccount.uid}, Photo URL: ${registeredAccount.photoUrl}');
+          } else {
+            print('Missing data for an account: $account');
+          }
+        }
+
+        // Mengambil foto dari daftar
+        for (var account in accountImage) {
+          print('Photo URL from list: ${account.photoUrl}');
+        }
+      } else {
+        print("No such document!");
+      }
+    } catch (e) {
+      print("Error reading registered accounts: $e");
     }
   }
 }

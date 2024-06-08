@@ -45,31 +45,31 @@ class TopAppBar extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     // Profile
-                    Row(
-                      children: [
-                        auth.user.value.photoUrl == ""
-                            ? ClipOval(
-                                child: Icon(
-                                  Icons.person,
-                                  size: 40,
-                                ),
-                              )
-                            : CircleAvatar(
-                                backgroundImage:
-                                    NetworkImage("${auth.user.value.photoUrl}"),
-                              ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                    Obx(() => Row(
                           children: [
-                            Text("${auth.user.value.name}"),
-                            Text("${auth.user.value.email}")
+                            auth.user.value.photoUrl == ""
+                                ? ClipOval(
+                                    child: Icon(
+                                      Icons.person,
+                                      size: 40,
+                                    ),
+                                  )
+                                : CircleAvatar(
+                                    backgroundImage: NetworkImage(
+                                        "${auth.user.value.photoUrl}"),
+                                  ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("${auth.user.value.name}"),
+                                Text("${auth.user.value.email}")
+                              ],
+                            ),
                           ],
-                        ),
-                      ],
-                    ),
+                        )),
 
                     // Notification
                     IconButton(

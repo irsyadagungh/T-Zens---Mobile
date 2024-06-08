@@ -77,7 +77,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.ADD,
-      page: () => AddView(),
+      page: () => AddView(model: model),
       binding: AddBinding(),
     ),
     GetPage(
@@ -112,12 +112,14 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.DETAIL_HISTORY,
-      page: () => DetailHistoryView(),
+      page: () => DetailHistoryView(webinar: model),
       binding: DetailHistoryBinding(),
     ),
     GetPage(
       name: _Paths.ADD_ORGANISASI,
-      page: () => AddOrganisasiView(),
+      page: () => AddOrganisasiView(
+        model: modelOrganisasi,
+      ),
       binding: AddOrganisasiBinding(),
     ),
     GetPage(

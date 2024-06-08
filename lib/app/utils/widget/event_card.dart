@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tzens/app/data/models/webinar_model_model.dart';
+import 'package:tzens/app/modules/detail_history/views/detail_history_view.dart';
 import 'package:tzens/app/routes/app_pages.dart';
 import 'package:tzens/app/utils/constant/color.dart';
 
@@ -12,6 +14,7 @@ class EventCard extends StatelessWidget {
   final String endTime;
   final Color color;
   final Color containerColor;
+  final Function() onTap;
 
   EventCard({
     required this.title,
@@ -22,14 +25,13 @@ class EventCard extends StatelessWidget {
     required this.endTime,
     required this.color,
     required this.containerColor,
+    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Get.toNamed(Routes.DETAIL_HISTORY);
-      },
+      onTap: onTap,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
         child: Column(

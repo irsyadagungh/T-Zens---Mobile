@@ -1,9 +1,11 @@
+import 'package:expansion_tile_list/expansion_tile_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:get/get.dart';
 import 'package:tzens/app/controllers/auth_controller.dart';
 import 'package:tzens/app/modules/edit_profile/views/edit_profile_view.dart';
+import 'package:tzens/app/modules/history/views/history_view.dart';
 import 'package:tzens/app/modules/home_provider/bindings/home_provider_binding.dart';
 import 'package:tzens/app/modules/home_provider/controllers/home_provider_controller.dart';
 import 'package:tzens/app/modules/home_provider/views/home_provider_view.dart';
@@ -109,12 +111,22 @@ class ProfileView extends GetView<ProfileController> {
               ),
 
               /** HISTORY */
-              ListTile(
-                onTap: () {
-                  Get.toNamed(Routes.HISTORY);
-                },
+              ExpansionTile(
                 leading: Icon(Icons.history),
                 title: Text("History"),
+                children: [
+                  ListTile(
+                    onTap: () {
+                      Get.to(() => HistoryView());
+                    },
+                    leading: Icon(Icons.event),
+                    title: Text("Webinar"),
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.group),
+                    title: Text("Organization"),
+                  )
+                ],
               ),
 
               /** LOGOUT */

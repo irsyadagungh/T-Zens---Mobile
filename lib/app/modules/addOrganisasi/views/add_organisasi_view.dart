@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:tzens/app/controllers/auth_controller.dart';
 import 'package:tzens/app/controllers/content_controller.dart';
+import 'package:tzens/app/data/models/organization_model_model.dart';
 import 'package:tzens/app/modules/home_provider/views/home_provider_view.dart';
 import 'package:tzens/app/utils/constant/color.dart';
 import 'package:tzens/app/utils/function/SnackBar.dart';
@@ -16,13 +17,35 @@ import 'package:tzens/app/utils/widget/pick_image.dart';
 import '../controllers/add_organisasi_controller.dart';
 
 class AddOrganisasiView extends StatelessWidget {
-  const AddOrganisasiView({Key? key}) : super(key: key);
+  final OrganizationModel model;
+
+  const AddOrganisasiView({Key? key, required this.model}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(AddOrganisasiController());
     final content = Get.find<ContentController>();
     final authC = Get.find<AuthController>();
+
+    if (model.id != null) {
+      controller.titleController.value.text = model.title!;
+      controller.descriptionController.value.text = model.description!;
+      controller.startDate.value.text = model.openRecruitment!.startDate!;
+      controller.endDate.value.text = model.openRecruitment!.endDate!;
+      controller.linkController.value.text = model.link!;
+      controller.listDivisionController = model.division!
+          .map((e) => TextEditingController(text: e))
+          .toList()
+          .obs;
+      controller.listContactNameController = model.contact!
+          .map((e) => TextEditingController(text: e.name))
+          .toList()
+          .obs;
+      controller.listContactPhoneController = model.contact!
+          .map((e) => TextEditingController(text: e.phone))
+          .toList()
+          .obs;
+    }
 
     return Hero(
       tag: 'add_organisasi',
@@ -117,7 +140,7 @@ class AddOrganisasiView extends StatelessWidget {
                       FormText(
                         icon: Icon(Icons.title),
                         hintText: "Title",
-                        controller: controller.titleController,
+                        controller: controller.titleController.value,
                       ),
 
                       SizedBox(height: 20),
@@ -136,7 +159,7 @@ class AddOrganisasiView extends StatelessWidget {
                       ),
                       FormText(
                         hintText: "Description",
-                        controller: controller.descriptionController,
+                        controller: controller.descriptionController.value,
                         minLines: 5,
                         maxLines: 20,
                       ),
@@ -189,7 +212,7 @@ class AddOrganisasiView extends StatelessWidget {
                       FormText(
                         icon: Icon(Icons.link),
                         hintText: "Link",
-                        controller: controller.linkController,
+                        controller: controller.linkController.value,
                       ),
 
                       SizedBox(
@@ -213,7 +236,7 @@ class AddOrganisasiView extends StatelessWidget {
                             child: FormText(
                               keyboardType: TextInputType.none,
                               hintText: "Start Date",
-                              controller: controller.startDate,
+                              controller: controller.startDate.value,
                               icon: Icon(Icons.calendar_today),
                               onTap: () async {
                                 DateTime? pickedDate = await showDatePicker(
@@ -224,7 +247,7 @@ class AddOrganisasiView extends StatelessWidget {
                                 );
 
                                 if (pickedDate != null) {
-                                  controller.startDate.text =
+                                  controller.startDate.value.text =
                                       DateFormat.yMd().format(pickedDate);
                                 }
                               },
@@ -244,7 +267,7 @@ class AddOrganisasiView extends StatelessWidget {
                                 FormText(
                               keyboardType: TextInputType.none,
                               hintText: "End Date",
-                              controller: controller.endDate,
+                              controller: controller.endDate.value,
                               icon: Icon(Icons.calendar_today),
                               onTap: () async {
                                 DateTime? pickedDate = await showDatePicker(
@@ -255,7 +278,7 @@ class AddOrganisasiView extends StatelessWidget {
                                 );
 
                                 if (pickedDate != null) {
-                                  controller.endDate.text =
+                                  controller.endDate.value.text =
                                       DateFormat.yMd().format(pickedDate);
                                 }
                               },
@@ -320,8 +343,8 @@ class AddOrganisasiView extends StatelessWidget {
               // Add Date
               Map<String, dynamic> addDate() {
                 Map<String, dynamic> date = {
-                  "startDate": controller.startDate.text,
-                  "endDate": controller.endDate.text,
+                  "startDate": controller.startDate..value.text,
+                  "endDate": controller.endDate..value.text,
                 };
 
                 return date;
@@ -343,10 +366,10 @@ class AddOrganisasiView extends StatelessWidget {
 
               if (controller.pickedFile == null ||
                   controller.pickedFile?.path == "" ||
-                  controller.titleController.text.isEmpty ||
-                  controller.descriptionController.text.isEmpty ||
-                  controller.startDate.text.isEmpty ||
-                  controller.endDate.text.isEmpty ||
+                  controller.titleController.value.text.isEmpty ||
+                  controller.descriptionController.value.text.isEmpty ||
+                  controller.startDate.value.text.isEmpty ||
+                  controller.endDate.value.text.isEmpty ||
                   controller.listContactNameController[0].text.isEmpty) {
                 CustomSnackBar(
                   "Empty Data",
@@ -360,24 +383,45 @@ class AddOrganisasiView extends StatelessWidget {
               try {
                 // Upload Image
                 await content.uploadImage(controller.imageFile.value!,
-                    controller.titleController.text, "organization");
+                    controller.titleController.value.text, "organization");
 
-                // Add Data
-                await content.addOrganization(
-                  authC.user.toJson(),
-                  controller.listDivisionController.isNotEmpty
-                      ? controller.listDivisionController
-                          .map((e) => e.text)
-                          .toList()
-                      : [],
-                  DateTime.now().toString(),
-                  addContact(),
-                  controller.descriptionController.text,
-                  controller.linkController.text,
-                  addDate(),
-                  content.picLink.value,
-                  controller.titleController.text,
-                );
+                if (content.isEdit.value == true) {
+                  await content.updateOrganization(
+                    model.id!,
+                    authC.user.toJson(),
+                    controller.listDivisionController.isNotEmpty
+                        ? controller.listDivisionController
+                            .map((e) => e.text)
+                            .toList()
+                        : [],
+                    DateTime.now().toString(),
+                    addContact(),
+                    controller.descriptionController.value.text,
+                    controller.linkController.value.text,
+                    addDate(),
+                    content.picLink.value,
+                    controller.titleController.value.text,
+                  );
+
+                  content.isEdit.value = false;
+                } else {
+                  // Add Data
+                  await content.addOrganization(
+                    authC.user.toJson(),
+                    controller.listDivisionController.isNotEmpty
+                        ? controller.listDivisionController
+                            .map((e) => e.text)
+                            .toList()
+                        : [],
+                    DateTime.now().toString(),
+                    addContact(),
+                    controller.descriptionController.value.text,
+                    controller.linkController.value.text,
+                    addDate(),
+                    content.picLink.value,
+                    controller.titleController.value.text,
+                  );
+                }
 
                 CustomSnackBar(
                   "Success",

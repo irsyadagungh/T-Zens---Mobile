@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:tzens/app/controllers/auth_controller.dart';
 import 'package:tzens/app/controllers/content_controller.dart';
 import 'package:tzens/app/data/models/webinar_model_model.dart';
+import 'package:tzens/app/modules/add/views/add_view.dart';
 import 'package:tzens/app/modules/detail_page/views/detail_page_view.dart';
 import 'package:tzens/app/modules/home_provider/controllers/home_provider_controller.dart';
 
@@ -74,6 +75,10 @@ class WebinarProviders extends StatelessWidget {
                         child: ListView(
                           children: [
                             ListTile(
+                              onTap: () {
+                                webinar.isEdit.value = true;
+                                Get.to(() => AddView(model: content));
+                              },
                               title: Text("Edit"),
                               leading: Icon(Icons.edit),
                             ),

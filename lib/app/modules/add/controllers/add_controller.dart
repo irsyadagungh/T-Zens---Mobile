@@ -12,12 +12,15 @@ class AddController extends GetxController {
   final Map<String, dynamic> contact = Contact().toJson();
   List<Map<String, dynamic>> contactList = [];
 
-  @override
-  void onInit() {
-    super.onInit();
-    print(titleController.text);
-    print("title");
+  late WebinarModel webinarModel =
+      WebinarModel(); // Field untuk menyimpan WebinarModel
+
+  void setModel(WebinarModel newModel) {
+    webinarModel = newModel;
+    update();
   }
+
+  
 
   final TextEditingController date = TextEditingController();
   DateTime selectedDate = DateTime.now();
@@ -31,25 +34,27 @@ class AddController extends GetxController {
 
   RxList<String> eventType = ["Online", "Offline"].obs;
 
-  final TextEditingController name = TextEditingController();
-  final TextEditingController phone = TextEditingController();
-  final TextEditingController titleController = TextEditingController();
-  final TextEditingController descriptionController = TextEditingController();
-  final TextEditingController linkController = TextEditingController();
-  final TextEditingController locationController = TextEditingController();
+  final Rx<TextEditingController> name =
+      Rx<TextEditingController>(TextEditingController());
+  final Rx<TextEditingController> phone =
+      Rx<TextEditingController>(TextEditingController());
+  final Rx<TextEditingController> titleController =
+      Rx<TextEditingController>(TextEditingController());
+  final Rx<TextEditingController> descriptionController =
+      Rx<TextEditingController>(TextEditingController());
+  final Rx<TextEditingController> linkController =
+      Rx<TextEditingController>(TextEditingController());
+  final Rx<TextEditingController> locationController =
+      Rx<TextEditingController>(TextEditingController());
 
-  final List<TextEditingController> listBenefitController = [
-    TextEditingController()
-  ];
-  final List<TextEditingController> listPrasyaratController = [
-    TextEditingController()
-  ];
-  final List<TextEditingController> listContactNameController = [
-    TextEditingController()
-  ];
-  final List<TextEditingController> listContactPhoneController = [
-    TextEditingController()
-  ];
+   RxList<TextEditingController> listBenefitController =
+      RxList([TextEditingController()]);
+   RxList<TextEditingController> listPrasyaratController =
+      RxList([TextEditingController()]);
+   RxList<TextEditingController> listContactNameController =
+      RxList([TextEditingController()]);
+   RxList<TextEditingController> listContactPhoneController =
+      RxList([TextEditingController()]);
 
   Rx<File?> imageFile = Rx<File?>(null); // Initialize with null
   final picker = ImagePicker();
@@ -57,8 +62,8 @@ class AddController extends GetxController {
 
   Future<void> pickImage() async {
     try {
-        // PermissionStatus permission = await Permission.photos.request();
-        // if (await permission.isGranted) {
+      // PermissionStatus permission = await Permission.photos.request();
+      // if (await permission.isGranted) {
       pickedFile = await picker.pickImage(source: ImageSource.gallery);
       // } else if (await permission.isDenied) {
       //   await Permission.photos.request();

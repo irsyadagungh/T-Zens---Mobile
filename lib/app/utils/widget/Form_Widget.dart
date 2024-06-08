@@ -9,6 +9,7 @@ class FormText extends StatelessWidget {
   final Icon icon;
   final String? helperText;
   final Function()? onTap;
+  final Function(String)? onChange;
   final bool enabled;
   final TextInputType? keyboardType;
 
@@ -16,6 +17,7 @@ class FormText extends StatelessWidget {
     super.key,
     required this.hintText,
     required this.controller,
+    this.onChange,
     this.keyboardType,
     this.enabled = true,
     this.onTap,
@@ -33,6 +35,7 @@ class FormText extends StatelessWidget {
       minLines: minLines,
       maxLines: maxLines,
       controller: controller,
+      onChanged: onChange,
       onTap: onTap,
       obscureText: hintText == "Password" ? true : false,
       decoration: InputDecoration(

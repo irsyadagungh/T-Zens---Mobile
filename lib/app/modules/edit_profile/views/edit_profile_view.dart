@@ -66,7 +66,11 @@ class EditProfileView extends GetView<EditProfileController> {
                                     )
                                   : IconButton(
                                       onPressed: () {
-                                        controller.pickImage();
+                                        if (controller.isEdit.value == true) {
+                                          controller.pickImage();
+                                        } else {
+                                          return;
+                                        }
                                       },
                                       icon: Icon(Icons.add_a_photo),
                                     ),
@@ -260,7 +264,7 @@ class EditProfileView extends GetView<EditProfileController> {
                                                 controller.phoneController.text,
                                                 authC.picLink != ""
                                                     ? authC.picLink.value
-                                                    : "",
+                                                    : "${authC.user.value.photoUrl}",
                                               );
                                               controller.isEdit.value = false;
                                               controller.onInit();

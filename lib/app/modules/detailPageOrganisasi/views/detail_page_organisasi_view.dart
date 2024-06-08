@@ -22,6 +22,8 @@ class DetailPageOrganisasiView extends GetView<DetailPageOrganisasiController> {
   final messageC = Get.find<Messages>();
   @override
   Widget build(BuildContext context) {
+    print("REGISTERED ACCOUNT = ${model.registeredAccount}");
+    contentC.readRegisteredAccountOrganization("${model.id}");
     return Scaffold(
       body: CustomScrollView(
         slivers: <Widget>[
@@ -89,9 +91,17 @@ class DetailPageOrganisasiView extends GetView<DetailPageOrganisasiController> {
                                           )
                                         : Icon(Icons.person),
                                   ),
-                                  title: Text("${model.administrator!.name}"),
-                                  subtitle:
-                                      Text("${model.administrator!.email}"),
+                                  title: Text(
+                                    "${model.administrator!.name}",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  subtitle: Text(
+                                    "${model.administrator!.email}",
+                                    style: TextStyle(fontSize: 14),
+                                  ),
                                 )
                               ],
                             ),
@@ -181,71 +191,71 @@ class DetailPageOrganisasiView extends GetView<DetailPageOrganisasiController> {
                                 )
                               : SizedBox(height: 0),
 
-                          /** REGISTERED USER */
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "Registered User",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20),
-                                  ),
-                                  model.registeredAccount!.length > 10
-                                      ? TextButton(
-                                          onPressed: () {},
-                                          child: Row(
-                                            children: [
-                                              Text("See all"),
-                                              Icon(Icons
-                                                  .arrow_forward_ios_rounded)
-                                            ],
-                                          ),
-                                        )
-                                      : SizedBox(height: 0),
-                                ],
-                              ),
-                              SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: model.registeredAccount == null ||
-                                        model.registeredAccount!.isEmpty
-                                    ? Center(
-                                        child: Text(
-                                          "No user registered yet",
-                                          style: TextStyle(
-                                            color:
-                                                Colors.black.withOpacity(0.5),
-                                          ),
-                                        ),
-                                      )
-                                    : Column(
-                                        children: [
-                                          for (var user
-                                              in model.registeredAccount!) ...[
-                                            ClipOval(
-                                              child: user.photoUrl != ""
-                                                  ? Image.network(
-                                                      "${user.photoUrl}",
-                                                      width: 50,
-                                                      height: 50,
-                                                    )
-                                                  : Icon(Icons.person),
-                                            ),
-                                            SizedBox(
-                                                height:
-                                                    8), // Optional: Add spacing between items
-                                          ],
-                                          Divider(),
-                                        ],
-                                      ),
-                              )
-                            ],
-                          ),
+                          // /** REGISTERED USER */
+                          // Column(
+                          //   crossAxisAlignment: CrossAxisAlignment.start,
+                          //   children: [
+                          //     Row(
+                          //       mainAxisAlignment:
+                          //           MainAxisAlignment.spaceBetween,
+                          //       children: [
+                          //         Text(
+                          //           "Registered User",
+                          //           style: TextStyle(
+                          //               color: Colors.black,
+                          //               fontWeight: FontWeight.bold,
+                          //               fontSize: 20),
+                          //         ),
+                          //         model.registeredAccount == null
+                          //             ? SizedBox(height: 0)
+                          //             : TextButton(
+                          //                 onPressed: () {},
+                          //                 child: Row(
+                          //                   children: [
+                          //                     Text("See all"),
+                          //                     Icon(Icons
+                          //                         .arrow_forward_ios_rounded)
+                          //                   ],
+                          //                 ),
+                          //               ),
+                          //       ],
+                          //     ),
+                          //     SingleChildScrollView(
+                          //       scrollDirection: Axis.horizontal,
+                          //       child: model.registeredAccount == null ||
+                          //               model.registeredAccount!.isEmpty
+                          //           ? Center(
+                          //               child: Text(
+                          //                 "No user registered yet",
+                          //                 style: TextStyle(
+                          //                   color:
+                          //                       Colors.black.withOpacity(0.5),
+                          //                 ),
+                          //               ),
+                          //             )
+                          //           : Column(
+                          //               children: [
+                          //                 for (var user
+                          //                     in model.registeredAccount!) ...[
+                          //                   ClipOval(
+                          //                     child: user.photoUrl != ""
+                          //                         ? Image.network(
+                          //                             "${user.photoUrl}",
+                          //                             width: 50,
+                          //                             height: 50,
+                          //                           )
+                          //                         : Icon(Icons.person),
+                          //                   ),
+                          //                   SizedBox(
+                          //                       height:
+                          //                           8), // Optional: Add spacing between items
+                          //                 ],
+                          //                 Divider(),
+                          //               ],
+                          //             ),
+                          //     )
+                          //   ],
+                          // ),
                         ],
                       ),
                     )

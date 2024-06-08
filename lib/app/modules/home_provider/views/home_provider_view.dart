@@ -17,7 +17,7 @@ import '../controllers/home_provider_controller.dart';
 
 class HomeProviderView extends GetView<HomeProviderController> {
   final auth = Get.find<AuthController>();
-  final webinar = Get.find<ContentController>();
+  final content = Get.find<ContentController>();
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,7 @@ class HomeProviderView extends GetView<HomeProviderController> {
           FloatingActionButton(
             heroTag: 'add_event',
             onPressed: () {
-              Get.to(() => AddView());
+              Get.to(() => AddView(model: content.webinarModel,));
             },
             tooltip: 'Add Event',
             child: Icon(Icons.event_note),
@@ -54,7 +54,7 @@ class HomeProviderView extends GetView<HomeProviderController> {
           FloatingActionButton(
             heroTag: 'add_group',
             onPressed: () {
-              Get.to(() => AddOrganisasiView());
+              Get.to(() => AddOrganisasiView(model: content.organizationModel,));
             },
             tooltip: 'Add Group',
             child: Icon(Icons.group_add),

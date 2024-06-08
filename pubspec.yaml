@@ -33,6 +33,8 @@ dependencies:
   google_sign_in: 6.2.1
   get_storage: 2.1.1
   http: 1.2.1
+  url_launcher: ^6.0.20
+  expansion_tile_list: 0.1.1
   flutter: 
     sdk: flutter
 

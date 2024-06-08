@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tzens/app/controllers/content_controller.dart';
 import 'package:tzens/app/data/models/organization_model_model.dart';
+import 'package:tzens/app/modules/addOrganisasi/views/add_organisasi_view.dart';
 import 'package:tzens/app/modules/detailPageOrganisasi/views/detail_page_organisasi_view.dart';
 import 'package:tzens/app/modules/home_provider/controllers/home_provider_controller.dart';
 
@@ -57,6 +58,10 @@ class OrganisasiProvider extends StatelessWidget {
                         child: ListView(
                           children: [
                             ListTile(
+                              onTap: () {
+                                organisasi.isEdit.value = true;
+                                Get.to(() => AddOrganisasiView(model: content));
+                              },
                               title: Text("Edit"),
                               leading: Icon(Icons.edit),
                             ),

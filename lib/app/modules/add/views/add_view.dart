@@ -3,9 +3,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:tzens/app/controllers/auth_controller.dart';
 import 'package:tzens/app/controllers/content_controller.dart';
+import 'package:tzens/app/data/models/webinar_model_model.dart';
 import 'package:tzens/app/modules/home_provider/controllers/home_provider_controller.dart';
 import 'package:tzens/app/modules/home_provider/views/home_provider_view.dart';
 import 'package:tzens/app/utils/constant/color.dart';
@@ -18,18 +20,56 @@ import 'package:tzens/app/utils/widget/pick_image.dart';
 import '../controllers/add_controller.dart';
 
 class AddView extends StatelessWidget {
-  AddView({Key? key}) : super(key: key);
+  final AddController controller = Get.put(AddController());
+  final WebinarModel model;
+
+  AddView({Key? key, required this.model}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(AddController());
     final auth = Get.find<AuthController>();
     final contentC = Get.put(ContentController());
     final homeController = Get.put(HomeProviderController());
 
+    if (model.id != null) {
+      controller.titleController.value.text = model.title ?? "";
+      controller.descriptionController.value.text = model.description ?? "";
+      controller.locationController.value.text = model.location ?? "";
+      controller.linkController.value.text = model.link ?? "";
+      controller.date.text = model.date ?? "";
+      controller.startTime.text = model.time!.startTime ?? "";
+      controller.endTime.text = model.time!.endTime ?? "";
+      controller.listBenefitController.assignAll(
+        model.benefits != null
+            ? model.benefits!
+                .map((e) => TextEditingController(text: e))
+                .toList()
+            : [],
+      );
+      controller.listPrasyaratController.assignAll(
+        model.prerequisite != null
+            ? model.prerequisite!
+                .map((e) => TextEditingController(text: e))
+                .toList()
+            : [],
+      );
+      controller.listContactNameController.assignAll(
+        model.contact != null
+            ? model.contact!
+                .map((e) => TextEditingController(text: e.name))
+                .toList()
+            : [],
+      );
+    }
+
     RxString type = controller.eventType[0].obs;
 
     print(controller.date.text);
+    print("PHOTO URL = ${model.photoUrl}");
+
+    if (model.photoUrl != null && model.photoUrl != "") {
+      controller.pickedFile = XFile(model.photoUrl!);
+    }
 
     return Hero(
       tag: 'add_event',
@@ -84,27 +124,33 @@ class AddView extends StatelessWidget {
                       ),
 
                       PickImage(
-                          controller: controller,
-                          height: 300,
-                          width: 200,
-                          radius: 20,
-                          pickImageButton: IconButton(
-                            onPressed: () async {
-                              await controller.pickImage();
-                              print(controller.imageFile.value);
-                              print(controller.imageFile.value?.path);
-                            },
-                            icon: Icon(Icons.add_photo_alternate_outlined),
-                          ),
-                          image: Obx(
-                            () => controller.imageFile.value != null &&
-                                    controller.imageFile.value!.path != ""
-                                ? Image.file(
-                                    File(controller.imageFile.value!.path),
-                                    fit: BoxFit.cover,
-                                  )
-                                : Icon(Icons.image),
-                          )),
+                        controller: controller,
+                        height: 300,
+                        width: 200,
+                        radius: 20,
+                        pickImageButton: IconButton(
+                          onPressed: () async {
+                            await controller.pickImage();
+                            print(controller.imageFile.value);
+                            print(controller.imageFile.value?.path);
+                          },
+                          icon: Icon(Icons.add_photo_alternate_outlined),
+                        ),
+                        image: model.photoUrl == null || model.photoUrl == ""
+                            ? Obx(
+                                () => controller.imageFile.value != null &&
+                                        controller.imageFile.value!.path != ""
+                                    ? Image.file(
+                                        File(controller.imageFile.value!.path),
+                                        fit: BoxFit.cover,
+                                      )
+                                    : Icon(Icons.image),
+                              )
+                            : Image.network(
+                                model.photoUrl!,
+                                fit: BoxFit.cover,
+                              ),
+                      ),
 
                       SizedBox(
                         height: 20,
@@ -124,8 +170,9 @@ class AddView extends StatelessWidget {
                       ),
                       FormText(
                         icon: Icon(Icons.title),
-                        hintText: "Title",
-                        controller: controller.titleController,
+                        hintText:
+                            model.title == null ? "Title" : "${model.title}",
+                        controller: controller.titleController.value,
                       ),
 
                       SizedBox(
@@ -146,7 +193,7 @@ class AddView extends StatelessWidget {
                       ),
                       FormText(
                         hintText: "Description",
-                        controller: controller.descriptionController,
+                        controller: controller.descriptionController.value,
                         minLines: 5,
                         maxLines: 20,
                       ),
@@ -170,7 +217,7 @@ class AddView extends StatelessWidget {
                       FormText(
                         icon: Icon(Icons.location_on),
                         hintText: "Location",
-                        controller: controller.locationController,
+                        controller: controller.locationController.value,
                       ),
 
                       SizedBox(
@@ -256,8 +303,14 @@ class AddView extends StatelessWidget {
                         () => FormText(
                           icon: Icon(Icons.link),
                           hintText: "Link",
-                          controller: controller.linkController,
+                          controller: controller.linkController.value,
                           enabled: type.value == "Online" ? true : false,
+                          onChange: (value) {
+                            print(value);
+                            controller.linkController.value.text = value;
+                            print("LINKNYA" +
+                                controller.linkController.value.text);
+                          },
                         ),
                       ),
 
@@ -529,9 +582,9 @@ class AddView extends StatelessWidget {
               if (type.value == "Offline") {
                 if (controller.pickedFile == null ||
                     controller.pickedFile!.path.isEmpty ||
-                    controller.titleController.text.isEmpty ||
-                    controller.descriptionController.text.isEmpty ||
-                    controller.locationController.text.isEmpty ||
+                    controller.titleController.value.text.isEmpty ||
+                    controller.descriptionController.value.text.isEmpty ||
+                    controller.locationController.value.text.isEmpty ||
                     controller.date.text.isEmpty ||
                     controller.startTime.text.isEmpty ||
                     controller.endTime.text.isEmpty) {
@@ -544,13 +597,13 @@ class AddView extends StatelessWidget {
               } else {
                 if (controller.pickedFile == null ||
                     controller.pickedFile!.path.isEmpty ||
-                    controller.titleController.text.isEmpty ||
-                    controller.descriptionController.text.isEmpty ||
-                    controller.locationController.text.isEmpty ||
+                    controller.titleController.value.text.isEmpty ||
+                    controller.descriptionController.value.text.isEmpty ||
+                    controller.locationController.value.text.isEmpty ||
                     controller.date.text.isEmpty ||
                     controller.startTime.text.isEmpty ||
                     controller.endTime.text.isEmpty ||
-                    controller.linkController.text.isEmpty) {
+                    controller.linkController.value.text.isEmpty) {
                   Get.snackbar("Error", "Please fill all the form",
                       snackPosition: SnackPosition.BOTTOM,
                       backgroundColor: Colors.red,
@@ -570,29 +623,58 @@ class AddView extends StatelessWidget {
                 print("UserModel: ${auth.user}");
                 print("UserModel toJson: ${auth.user.toJson()}");
 
-                contentC.addData(
-                  auth.user.toJson(),
-                  controller.listBenefitController.isNotEmpty
-                      ? controller.listBenefitController
-                          .map((e) => e.text)
-                          .toList()
-                      : [],
-                  DateTime.now().toString(),
-                  addContact(),
-                  controller.date.text,
-                  controller.descriptionController.text,
-                  controller.linkController.text,
-                  controller.locationController.text,
-                  contentC.picLink.value,
-                  controller.listPrasyaratController.isNotEmpty
-                      ? controller.listPrasyaratController
-                          .map((e) => e.text)
-                          .toList()
-                      : [],
-                  type.value,
-                  addTime(),
-                  controller.titleController.text,
-                );
+                if (contentC.isEdit.value == true) {
+                  contentC.updateData(
+                    model.id!,
+                    auth.user.toJson(),
+                    controller.listBenefitController.isNotEmpty
+                        ? controller.listBenefitController
+                            .map((e) => e.text)
+                            .toList()
+                        : [],
+                    DateTime.now().toString(),
+                    addContact(),
+                    controller.date.text,
+                    controller.descriptionController.value.text,
+                    controller.linkController.value.text,
+                    controller.locationController.value.text,
+                    contentC.picLink.value,
+                    controller.listPrasyaratController.isNotEmpty
+                        ? controller.listPrasyaratController
+                            .map((e) => e.text)
+                            .toList()
+                        : [],
+                    type.value,
+                    addTime(),
+                    controller.titleController.value.text,
+                  );
+
+                  contentC.isEdit.value = false;
+                } else {
+                  contentC.addData(
+                    auth.user.toJson(),
+                    controller.listBenefitController.isNotEmpty
+                        ? controller.listBenefitController
+                            .map((e) => e.text)
+                            .toList()
+                        : [],
+                    DateTime.now().toString(),
+                    addContact(),
+                    controller.date.text,
+                    controller.descriptionController.value.text,
+                    controller.linkController.value.text,
+                    controller.locationController.value.text,
+                    contentC.picLink.value,
+                    controller.listPrasyaratController.isNotEmpty
+                        ? controller.listPrasyaratController
+                            .map((e) => e.text)
+                            .toList()
+                        : [],
+                    type.value,
+                    addTime(),
+                    controller.titleController.value.text,
+                  );
+                }
 
                 print(addTime());
 

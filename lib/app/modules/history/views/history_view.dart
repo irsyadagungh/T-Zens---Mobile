@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:tzens/app/controllers/content_controller.dart';
+import 'package:tzens/app/data/models/webinar_model_model.dart';
+import 'package:tzens/app/modules/detail_history/views/detail_history_view.dart';
 import 'package:tzens/app/utils/constant/color.dart';
 import 'package:tzens/app/utils/widget/event_card.dart';
 
@@ -12,6 +14,7 @@ class HistoryView extends GetView<HistoryController> {
 
   @override
   Widget build(BuildContext context) {
+    WebinarModel webinarModel;
     webinar.readHistoryWebinar();
     return DefaultTabController(
       length: 2,
@@ -38,51 +41,59 @@ class HistoryView extends GetView<HistoryController> {
         ),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: TabBarView(
-            children: [
-              webinar.historyNotStarted.isEmpty
-                  ? Center(
-                      child: Text('No Data'),
-                    )
-                  : ListView.builder(
-                      itemCount: webinar.historyNotStarted.length,
-                      itemBuilder: (context, index) {
-                        var content = webinar.historyNotStarted[index];
-                        return EventCard(
-                          title: content.title ?? '',
-                          date: content.date ?? '',
-                          status: content.status ?? '',
-                          location: content.location ?? '',
-                          startTime: content.time?.startTime ?? '',
-                          endTime: content.time?.endTime ?? '',
-                          color: index % 2 == 0 ? Colors.white : Colors.black,
-                          containerColor:
-                              index % 2 == 0 ? primaryColor : Colors.white,
-                        );
-                      },
-                    ),
-              webinar.historyStarted.isEmpty
-                  ? Center(
-                      child: Text("No Data"),
-                    )
-                  : ListView.builder(
-                      itemCount: webinar.historyStarted.length,
-                      itemBuilder: (context, index) {
-                        var content = webinar.historyStarted[index];
-                        return EventCard(
-                          title: content.title ?? '',
-                          date: content.date ?? '',
-                          status: content.status ?? '',
-                          location: content.location ?? '',
-                          startTime: content.time?.startTime ?? '',
-                          endTime: content.time?.endTime ?? '',
-                          color: index % 2 == 0 ? Colors.white : Colors.black,
-                          containerColor:
-                              index % 2 == 0 ? primaryColor : Colors.white,
-                        );
-                      },
-                    ),
-            ],
+          child: Obx(
+            () => TabBarView(
+              children: [
+                webinar.historyNotStarted.isEmpty
+                    ? Center(
+                        child: Text('No Data'),
+                      )
+                    : ListView.builder(
+                        itemCount: webinar.historyNotStarted.length,
+                        itemBuilder: (context, index) {
+                          var content = webinar.historyNotStarted[index];
+                          return EventCard(
+                            onTap: () {
+                              Get.to(() => DetailHistoryView(webinar: content));
+                            },
+                            title: content.title ?? '',
+                            date: content.date ?? '',
+                            status: content.status ?? '',
+                            location: content.location ?? '',
+                            startTime: content.time?.startTime ?? '',
+                            endTime: content.time?.endTime ?? '',
+                            color: index % 2 == 0 ? Colors.white : Colors.black,
+                            containerColor:
+                                index % 2 == 0 ? primaryColor : Colors.white,
+                          );
+                        },
+                      ),
+                webinar.historyStarted.isEmpty
+                    ? Center(
+                        child: Text("No Data"),
+                      )
+                    : ListView.builder(
+                        itemCount: webinar.historyStarted.length,
+                        itemBuilder: (context, index) {
+                          var content = webinar.historyStarted[index];
+                          return EventCard(
+                            onTap: () {
+                              Get.to(() => DetailHistoryView(webinar: content));
+                            },
+                            title: content.title ?? '',
+                            date: content.date ?? '',
+                            status: content.status ?? '',
+                            location: content.location ?? '',
+                            startTime: content.time?.startTime ?? '',
+                            endTime: content.time?.endTime ?? '',
+                            color: index % 2 == 0 ? Colors.white : Colors.black,
+                            containerColor:
+                                index % 2 == 0 ? primaryColor : Colors.white,
+                          );
+                        },
+                      ),
+              ],
+            ),
           ),
         ),
       ),
