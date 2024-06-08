@@ -363,6 +363,9 @@ class AuthController extends GetxController {
         });
         bookmarked.value = false;
         print("WEBINAR DIHAPUS DARI BOOKMARK, DENGAN ID = ${id}");
+        user.update((val) {
+          val!.bookmark!.remove(id);
+        });
       } else {
         if (user.value.bookmark == null || user.value.bookmark == [""]) {
           user.value.bookmark!.add(id);
@@ -376,7 +379,11 @@ class AuthController extends GetxController {
             'bookmark': user.value.bookmark,
           });
         }
+
         print("WEBINAR DITAMBAHKAN KE BOOKMARK, DENGAN ID = ${id}");
+        user.update((val) {
+          val!.bookmark!.add(id);
+        });
       }
     } catch (e) {
       print("ERROR ADD BOOKMARK WEBINAR : $e");
