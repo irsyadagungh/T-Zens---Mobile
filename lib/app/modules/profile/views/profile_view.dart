@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:tzens/app/controllers/auth_controller.dart';
 import 'package:tzens/app/modules/edit_profile/views/edit_profile_view.dart';
 import 'package:tzens/app/modules/history/views/history_view.dart';
+import 'package:tzens/app/modules/history_page_organization/views/history_page_organization_view.dart';
 import 'package:tzens/app/modules/home_provider/bindings/home_provider_binding.dart';
 import 'package:tzens/app/modules/home_provider/controllers/home_provider_controller.dart';
 import 'package:tzens/app/modules/home_provider/views/home_provider_view.dart';
@@ -123,6 +124,9 @@ class ProfileView extends GetView<ProfileController> {
                     title: Text("Webinar"),
                   ),
                   ListTile(
+                    onTap: () {
+                      Get.to(() => HistoryPageOrganizationView());
+                    },
                     leading: Icon(Icons.group),
                     title: Text("Organization"),
                   )
