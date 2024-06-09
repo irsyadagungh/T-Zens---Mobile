@@ -67,8 +67,8 @@ class WelcomeView extends GetView<WelcomeController> {
                       alignment: Alignment.center,
                       child: Text("Choose your role")),
                   LargeButton(
-                    color: MaterialStateColor.resolveWith(
-                        (states) => primaryColor),
+                    color:
+                        WidgetStateColor.resolveWith((states) => primaryColor),
                     text: "Student",
                     onPressed: () {
                       auth.role.value = "student";

@@ -224,7 +224,7 @@ class EditProfileView extends GetView<EditProfileController> {
                               SizedBox(width: 10),
                               Expanded(
                                 child: LargeButton(
-                                  color: MaterialStateColor.resolveWith(
+                                  color: WidgetStateColor.resolveWith(
                                       (states) => primaryColor),
                                   onPressed: () {
                                     Get.dialog(

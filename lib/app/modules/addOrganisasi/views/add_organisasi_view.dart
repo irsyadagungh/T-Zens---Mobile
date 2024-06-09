@@ -338,7 +338,7 @@ class AddOrganisasiView extends StatelessWidget {
         bottomNavigationBar: BottomAppBar(
           color: Colors.white,
           child: LargeButton(
-            color: MaterialStateColor.resolveWith((states) => primaryColor),
+            color: WidgetStateColor.resolveWith((states) => primaryColor),
             text: "Confirm",
             onPressed: () async {
               // Add Date

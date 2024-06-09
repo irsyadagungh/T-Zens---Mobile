@@ -86,7 +86,7 @@ class RegisterView extends GetView<RegisterController> {
 
               // Button
               LargeButton(
-                color: MaterialStateColor.resolveWith((states) => primaryColor),
+                color: WidgetStateColor.resolveWith((states) => primaryColor),
                 text: "Register",
                 onPressed: () async {
                   try {
