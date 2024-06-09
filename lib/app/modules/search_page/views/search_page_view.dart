@@ -71,10 +71,10 @@ class SearchPageView extends GetView<SearchPageController> {
                       ),
                     )
                   : SliverList.builder(
-                      itemCount: contenteController.contentListUser.length,
+                      itemCount: contenteController.contentListSearch.length,
                       itemBuilder: (context, index) {
                         WebinarModel content =
-                            contenteController.contentListUser[index];
+                            contenteController.contentListSearch[index];
                         return GestureDetector(
                           onTap: () {
                             Get.to(() => DetailPageView(model: content));
