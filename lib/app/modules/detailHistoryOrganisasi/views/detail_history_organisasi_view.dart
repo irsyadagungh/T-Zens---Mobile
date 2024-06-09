@@ -25,7 +25,7 @@ class DetailHistoryOrganisasiView
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Detail Organisasi'),
+        title: Text('Organization Detail'),
         centerTitle: true,
       ),
       body: Padding(
@@ -51,7 +51,6 @@ class DetailHistoryOrganisasiView
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                   decoration: BoxDecoration(
-                    color: primaryColor,
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: Column(
@@ -61,7 +60,7 @@ class DetailHistoryOrganisasiView
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                          color: Colors.black,
                         ),
                       ),
                       // Time
@@ -164,8 +163,8 @@ class DetailHistoryOrganisasiView
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text("Fakultas"),
-                                Text(organisasi.administrator!.faculty ?? ''),
+                                Text("Faculty"),
+                                Text(organisasi.administrator!.faculty ?? '-'),
                               ],
                             ),
                           ),
@@ -174,8 +173,10 @@ class DetailHistoryOrganisasiView
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text("Status"),
-                                Text(organisasi.administrator!.faculty ?? ''),
+                                Text("Division"),
+                                organisasi.division?[0] != ""
+                                    ? Text(organisasi.division!.join("\n- "))
+                                    : Text("")
                               ],
                             ),
                           )
@@ -203,7 +204,9 @@ class DetailHistoryOrganisasiView
                 padding: EdgeInsets.all(16),
                 child: Row(
                   children: [
-                    Expanded(child: Text("Link")),
+                    Expanded(
+                      child: Text("Link"),
+                    ),
                     Expanded(
                       child: TextButton(
                           onPressed: () async {
@@ -219,8 +222,7 @@ class DetailHistoryOrganisasiView
                               //         organisasi.link == null ||
                               //         organisasi.link == ''
                               //     ?
-                              Text(
-                                  'This organisasi is offline, no link available')
+                              Text(organisasi.link!)
                           // : Text(organisasi.link!),
                           ),
                     )
