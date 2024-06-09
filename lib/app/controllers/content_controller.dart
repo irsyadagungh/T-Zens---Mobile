@@ -381,6 +381,7 @@ class ContentController extends GetxController {
     }
   }
 
+
   /** UPDATE ORGANIZATION */
   Future<void> updateOrganization(
     String id,
@@ -429,6 +430,7 @@ class ContentController extends GetxController {
                 OrganizationModel.fromJson(e.data() as Map<String, dynamic>))
             .toList();
       });
+      update();
     } catch (e) {
       print("ERROR READ DATA ORGANIZATION : " + e.toString());
     }
@@ -451,6 +453,8 @@ class ContentController extends GetxController {
                 OrganizationModel.fromJson(e.data() as Map<String, dynamic>))
             .toList();
       });
+
+      update();
     } catch (e) {
       print("ERROR READ DATA ORGANIZATION : " + e.toString());
     }

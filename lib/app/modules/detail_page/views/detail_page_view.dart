@@ -307,11 +307,11 @@ class DetailPageView extends GetView<DetailPageController> {
                               ),
                               TextButton(
                                 onPressed: () {
+                                  Get.back();
                                   contentC.registerWebinar(
                                       model.id!, authC.user.value.uid!);
                                   // await messageC.sendNotificationToAdmin(adminToken, title, body);
                                   print(model.id);
-                                  Get.back();
                                 },
                                 child: Text("Register"),
                               ),

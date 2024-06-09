@@ -28,23 +28,26 @@ class AddOrganisasiView extends StatelessWidget {
     final authC = Get.find<AuthController>();
 
     if (model.id != null) {
-      controller.titleController.value.text = model.title!;
-      controller.descriptionController.value.text = model.description!;
-      controller.startDate.value.text = model.openRecruitment!.startDate!;
-      controller.endDate.value.text = model.openRecruitment!.endDate!;
-      controller.linkController.value.text = model.link!;
-      controller.listDivisionController = model.division!
-          .map((e) => TextEditingController(text: e))
-          .toList()
-          .obs;
-      controller.listContactNameController = model.contact!
-          .map((e) => TextEditingController(text: e.name))
-          .toList()
-          .obs;
-      controller.listContactPhoneController = model.contact!
-          .map((e) => TextEditingController(text: e.phone))
-          .toList()
-          .obs;
+      controller.titleController.value.text = model.title ?? "";
+      controller.descriptionController.value.text = model.description ?? "";
+      controller.startDate.value.text = model.openRecruitment!.startDate ?? "";
+      controller.endDate.value.text = model.openRecruitment!.endDate ?? "";
+      controller.linkController.value.text = model.link ?? "";
+      controller.listDivisionController.assignAll(
+        model.division != null
+            ? model.division!.map((e) => TextEditingController(text: e))
+            : [],
+      );
+      controller.listContactNameController.assignAll(
+        model.contact != null
+            ? model.contact!.map((e) => TextEditingController(text: e.name))
+            : [],
+      );
+      controller.listContactPhoneController.assignAll(
+        model.contact != null
+            ? model.contact!.map((e) => TextEditingController(text: e.phone))
+            : [],
+      );
     }
 
     return Hero(
@@ -344,8 +347,8 @@ class AddOrganisasiView extends StatelessWidget {
               // Add Date
               Map<String, dynamic> addDate() {
                 Map<String, dynamic> date = {
-                  "startDate": controller.startDate..value.text,
-                  "endDate": controller.endDate..value.text,
+                  "startDate": controller.startDate.value.text,
+                  "endDate": controller.endDate.value.text,
                 };
 
                 return date;
@@ -387,7 +390,7 @@ class AddOrganisasiView extends StatelessWidget {
                     controller.titleController.value.text, "organization");
 
                 if (content.isEdit.value == true) {
-                  await content.updateOrganization(
+                  content.updateOrganization(
                     model.id!,
                     authC.user.toJson(),
                     controller.listDivisionController.isNotEmpty
@@ -407,11 +410,31 @@ class AddOrganisasiView extends StatelessWidget {
                   content.isEdit.value = false;
                 } else {
                   // Add Data
-                  await content.addOrganization(
+                  print(
+                      'TitleController: ${controller.titleController.value.text}');
+                  print(
+                      'DescriptionController: ${controller.descriptionController.value.text}');
+                  print(
+                      'LinkController: ${controller.linkController.value.text}');
+                  print(
+                      'DateController: ${controller.dateController.value.text}');
+                  print(
+                      'StartDateController: ${controller.startDateController.value.text}');
+                  print(
+                      'EndDateController: ${controller.endDateController.value.text}');
+                  print(
+                      'ListDivisionController: ${controller.listDivisionController.map((e) => e.value.text)}');
+                  print(
+                      'ListContactNameController: ${controller.listContactNameController.map((e) => e.value.text)}');
+                  print(
+                      'ListContactPhoneController: ${controller.listContactPhoneController.map((e) => e.value.text)}');
+
+                  // Kemudian panggil fungsi
+                  content.addOrganization(
                     authC.user.toJson(),
                     controller.listDivisionController.isNotEmpty
                         ? controller.listDivisionController
-                            .map((e) => e.text)
+                            .map((e) => e.value.text)
                             .toList()
                         : [],
                     DateTime.now().toString(),

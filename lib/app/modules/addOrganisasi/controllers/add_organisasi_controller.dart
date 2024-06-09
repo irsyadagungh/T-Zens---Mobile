@@ -5,26 +5,24 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AddOrganisasiController extends GetxController {
-  final Rx<TextEditingController> titleController =
-      Rx<TextEditingController>(TextEditingController());
-  final Rx<TextEditingController> descriptionController =
-      Rx<TextEditingController>(TextEditingController());
-  final Rx<TextEditingController> linkController =
-      Rx<TextEditingController>(TextEditingController());
-  final Rx<TextEditingController> date =
-      Rx<TextEditingController>(TextEditingController());
+  final titleController = TextEditingController().obs;
+  final descriptionController = TextEditingController().obs;
+  final linkController = TextEditingController().obs;
+  final dateController = TextEditingController().obs;
+  final startDateController = TextEditingController().obs;
+  final endDateController = TextEditingController().obs;
+
+  RxList<TextEditingController> listDivisionController =
+      RxList([TextEditingController()]);
+  RxList<TextEditingController> listContactNameController =
+      RxList([TextEditingController()]);
+  RxList<TextEditingController> listContactPhoneController =
+      RxList([TextEditingController()]);
   DateTime selectedDate = DateTime.now();
   final Rx<TextEditingController> startDate =
       Rx<TextEditingController>(TextEditingController());
   final Rx<TextEditingController> endDate =
       Rx<TextEditingController>(TextEditingController());
-  RxList<TextEditingController> listDivisionController =
-      RxList([TextEditingController()]);
-
-  RxList<TextEditingController> listContactNameController =
-      RxList([TextEditingController()]);
-  RxList<TextEditingController> listContactPhoneController =
-      RxList([TextEditingController()]);
 
   Rx<File?> imageFile = Rx<File?>(null); // Initialize with null
   final picker = ImagePicker();

@@ -57,8 +57,8 @@ class OrganisasiView extends StatelessWidget {
                     child: CardPotret(
                       photo: "${content.photoUrl}",
                       title: "${content.title}",
-                      date: "",
-                      status: "",
+                      date: "${content.openRecruitment!.startDate}",
+                      status: "Organization",
                     ),
                   );
                 },

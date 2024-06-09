@@ -50,29 +50,19 @@ class MyApp extends StatelessWidget {
                 future: Future.delayed(Duration(seconds: 3)),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
-                    return DynamicColorBuilder(builder:
-                        (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
-                      print("ROLE: ${authC.user.value.role}");
-                      return GetMaterialApp(
-                        theme: ThemeData(
-                            useMaterial3: true, colorScheme: lightDynamic),
-                        darkTheme: ThemeData(
-                          useMaterial3: true,
-                          colorScheme: darkDynamic,
-                        ),
-                        debugShowCheckedModeBanner: false,
-                        title: "Applicatmiion",
-                        initialRoute: authC.isSkipIntro.isTrue
-                            ? authC.isAuth.isTrue
-                                ? authC.user.value.role == "provider" ||
-                                        authC.user.value.role == "lecturer"
-                                    ? Routes.HOME_PROVIDER
-                                    : Routes.HOME
-                                : Routes.LOGIN
-                            : Routes.INTRODUCTION,
-                        getPages: AppPages.routes,
-                      );
-                    });
+                    return GetMaterialApp(
+                      debugShowCheckedModeBanner: false,
+                      title: "Applicatmiion",
+                      initialRoute: authC.isSkipIntro.isTrue
+                          ? authC.isAuth.isTrue
+                              ? authC.user.value.role == "provider" ||
+                                      authC.user.value.role == "lecturer"
+                                  ? Routes.HOME_PROVIDER
+                                  : Routes.HOME
+                              : Routes.LOGIN
+                          : Routes.INTRODUCTION,
+                      getPages: AppPages.routes,
+                    );
                   }
 
                   return FutureBuilder(

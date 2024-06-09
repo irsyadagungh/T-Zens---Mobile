@@ -35,7 +35,7 @@ class WebinarView extends StatelessWidget {
                         child: AnotherCarousel(
                           images: [
                             AssetImage("./assets/images/poster1.jpeg"),
-                            AssetImage("./assets/images/gambar.png"),
+                            AssetImage("./assets/images/poster2.jpg"),
                           ],
                           dotSize: 4.0,
                           dotSpacing: 15.0,
