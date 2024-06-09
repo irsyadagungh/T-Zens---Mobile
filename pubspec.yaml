@@ -35,16 +35,31 @@ dependencies:
   http: 1.2.1
   url_launcher: ^6.0.20
   expansion_tile_list: 0.1.1
+  flutter_native_splash: 2.4.0
+  flutter_launcher_icons: "^0.13.1"
   flutter: 
     sdk: flutter
 
 dev_dependencies: 
+  flutter_launcher_icons: "^0.13.1"
   flutter_test: 
     sdk: flutter
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/tzens.png"
+  min_sdk_android: 21
 
 flutter: 
   assets: 
     - assets/images/
     - assets/lottie/
   uses-material-design: true
+
+flutter_native_splash:
+  color: "#42a5f5"
+  image: "assets/images/tzens.png"
+  android: true
+  ios: true
 

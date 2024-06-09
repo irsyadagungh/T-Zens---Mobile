@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:tzens/app/controllers/content_controller.dart';
 import 'package:tzens/app/data/models/webinar_model_model.dart';
-import 'package:tzens/app/modules/detail_history/bindings/detail_history_binding.dart';
 import 'package:tzens/app/utils/constant/color.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -112,10 +110,8 @@ class DetailHistoryView extends GetView<DetailHistoryController> {
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 width: MediaQuery.of(context).size.width,
                 height: 2,
-                child: Expanded(
-                  child: CustomPaint(
-                    painter: DashedLinePainter(color: Colors.grey),
-                  ),
+                child: CustomPaint(
+                  painter: DashedLinePainter(color: Colors.grey),
                 ),
               ),
 
@@ -205,10 +201,8 @@ class DetailHistoryView extends GetView<DetailHistoryController> {
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 width: MediaQuery.of(context).size.width,
                 height: 2,
-                child: Expanded(
-                  child: CustomPaint(
-                    painter: DashedLinePainter(color: Colors.grey),
-                  ),
+                child: CustomPaint(
+                  painter: DashedLinePainter(color: Colors.grey),
                 ),
               ),
 

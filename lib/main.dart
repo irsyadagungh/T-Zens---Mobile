@@ -1,6 +1,7 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -28,6 +29,7 @@ void main() async {
   await GetStorage.init();
   print("FCM Token: ${prefs.getString("fcmToken")}");
   runApp(MyApp());
+  FlutterNativeSplash.remove();
 }
 
 class MyApp extends StatelessWidget {
@@ -39,6 +41,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    FlutterNativeSplash.remove();
     return FutureBuilder(
         future: _initialization,
         builder: (context, snapshot) {
@@ -61,7 +64,8 @@ class MyApp extends StatelessWidget {
                         title: "Applicatmiion",
                         initialRoute: authC.isSkipIntro.isTrue
                             ? authC.isAuth.isTrue
-                                ? authC.user.value.role == "provider"
+                                ? authC.user.value.role == "provider" ||
+                                        authC.user.value.role == "lecturer"
                                     ? Routes.HOME_PROVIDER
                                     : Routes.HOME
                                 : Routes.LOGIN

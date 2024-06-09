@@ -310,9 +310,28 @@ class DetailPageOrganisasiView extends GetView<DetailPageOrganisasiController> {
                 );
               }
             } else {
-              contentC.registerOrganization(model.id!, authC.user.value.uid!);
-              // await messageC.sendNotificationToAdmin(adminToken, title, body);
-              print(model.id);
+              Get.dialog(AlertDialog(
+                title: Text("Register"),
+                content: Text("Are you sure want to register this event?"),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Get.back();
+                    },
+                    child: Text("Cancel"),
+                  ),
+                  TextButton(
+                    onPressed: () async {
+                      contentC.registerOrganization(
+                          model.id!, authC.user.value.uid!);
+                      // await messageC.sendNotificationToAdmin(adminToken, title, body);
+                      print(model.id);
+                      Get.back();
+                    },
+                    child: Text("Register"),
+                  ),
+                ],
+              ));
             }
           },
         ),

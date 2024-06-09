@@ -9,7 +9,10 @@ class SplashScreen extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: Center(
-          child: Text("splash"),
+          child: Image.asset(
+            "assets/images/tzens.png",
+            scale: 3.5,
+          ),
         ),
       ),
     );

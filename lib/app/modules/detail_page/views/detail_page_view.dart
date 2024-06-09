@@ -294,10 +294,29 @@ class DetailPageView extends GetView<DetailPageController> {
                               Colors.red,
                             )
                       : {
-                          contentC.registerWebinar(
-                              model.id!, authC.user.value.uid!),
-                          // await messageC.sendNotificationToAdmin(adminToken, title, body);
-                          print(model.id),
+                          Get.dialog(AlertDialog(
+                            title: Text("Register Confirmation"),
+                            content: Text(
+                                "Are you sure you want to register this event?"),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Get.back();
+                                },
+                                child: Text("Cancel"),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  contentC.registerWebinar(
+                                      model.id!, authC.user.value.uid!);
+                                  // await messageC.sendNotificationToAdmin(adminToken, title, body);
+                                  print(model.id);
+                                  Get.back();
+                                },
+                                child: Text("Register"),
+                              ),
+                            ],
+                          ))
                         };
                 },
               ),
