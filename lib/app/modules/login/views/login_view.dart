@@ -78,7 +78,7 @@ class LoginView extends GetView<LoginController> {
 
             // Button
             LargeButton(
-              color: WidgetStateColor.resolveWith((states) => primaryColor),
+              color: MaterialStateColor.resolveWith((states) => primaryColor),
               text: "Login",
               onPressed: () {
                 auth.signInWithEmailAndPassword(

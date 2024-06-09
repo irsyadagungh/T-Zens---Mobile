@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:tzens/app/controllers/content_controller.dart';
 import 'package:tzens/app/data/models/organization_model_model.dart';
 import 'package:tzens/app/data/models/webinar_model_model.dart';
+import 'package:tzens/app/modules/detailHistoryOrganisasi/views/detail_history_organisasi_view.dart';
 import 'package:tzens/app/modules/detailPageOrganisasi/views/detail_page_organisasi_view.dart';
 import 'package:tzens/app/modules/detail_history/views/detail_history_view.dart';
 import 'package:tzens/app/modules/history_page_organization/controllers/history_page_organization_controller.dart';
@@ -43,7 +44,8 @@ class HistoryPageOrganizationView
                     return GestureDetector(
                       onTap: () {
                         Get.to(
-                          () => DetailPageOrganisasiView(model: content),
+                          () =>
+                              DetailHistoryOrganisasiView(organisasi: content),
                         );
                       },
                       child: CardPotret(

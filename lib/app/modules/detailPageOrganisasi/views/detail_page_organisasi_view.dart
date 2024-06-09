@@ -279,8 +279,8 @@ class DetailPageOrganisasiView extends GetView<DetailPageOrganisasiController> {
       bottomNavigationBar: BottomAppBar(
         child: LargeButton(
           color: controller.isDisabled.value == true
-              ? WidgetStateColor.resolveWith((states) => Colors.grey)
-              : WidgetStateColor.resolveWith((states) => primaryColor),
+              ? MaterialStateColor.resolveWith((states) => Colors.grey)
+              : MaterialStateColor.resolveWith((states) => primaryColor),
           text: "Register",
           onPressed: () async {
             if (controller.isDisabled.value) {

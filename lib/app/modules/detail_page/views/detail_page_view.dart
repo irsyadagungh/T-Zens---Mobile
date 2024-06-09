@@ -276,7 +276,7 @@ class DetailPageView extends GetView<DetailPageController> {
             ),
             Expanded(
               child: LargeButton(
-                color: WidgetStateColor.resolveWith((states) => primaryColor),
+                color: MaterialStateColor.resolveWith((states) => primaryColor),
                 text: "Register",
                 onPressed: () async {
                   controller.isDisabled.value

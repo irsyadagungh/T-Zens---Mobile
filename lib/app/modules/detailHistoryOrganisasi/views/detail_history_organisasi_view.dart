@@ -65,43 +65,43 @@ class DetailHistoryOrganisasiView
                         ),
                       ),
                       // Time
-                      Row(
-                        children: [
-                          Column(
-                            children: [
-                              Text(
-                                "Start",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              Text(
-                                "webinar.time?.startTime ?? '',",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ],
-                          ),
-                          SizedBox(width: 30),
-                          Expanded(
-                            child: Container(
-                              child: CustomPaint(
-                                painter: DashedLinePainter(color: Colors.white),
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 30),
-                          Column(
-                            children: [
-                              Text(
-                                "End",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              Text(
-                                "webinar.time?.endTime ?? ''",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ],
-                          ),
-                        ],
-                      )
+                      // Row(
+                      //   children: [
+                      //     Column(
+                      //       children: [
+                      //         Text(
+                      //           "Start",
+                      //           style: TextStyle(color: Colors.white),
+                      //         ),
+                      //         Text(
+                      //           "webinar.time?.startTime ?? '',",
+                      //           style: TextStyle(color: Colors.white),
+                      //         ),
+                      //       ],
+                      //     ),
+                      //     SizedBox(width: 30),
+                      //     Expanded(
+                      //       child: Container(
+                      //         child: CustomPaint(
+                      //           painter: DashedLinePainter(color: Colors.white),
+                      //         ),
+                      //       ),
+                      //     ),
+                      //     SizedBox(width: 30),
+                      //     Column(
+                      //       children: [
+                      //         Text(
+                      //           "End",
+                      //           style: TextStyle(color: Colors.white),
+                      //         ),
+                      //         Text(
+                      //           "webinar.time?.endTime ?? ''",
+                      //           style: TextStyle(color: Colors.white),
+                      //         ),
+                      //       ],
+                      //     ),
+                      //   ],
+                      // )
                     ],
                   ),
                 ),
@@ -139,7 +139,7 @@ class DetailHistoryOrganisasiView
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text("Admin name"),
-                                Text("organisasi.administrator!.name ?? ''"),
+                                Text(organisasi.administrator!.name ?? ''),
                               ],
                             ),
                           ),
@@ -149,7 +149,7 @@ class DetailHistoryOrganisasiView
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text("Email"),
-                                Text("organisasi.administrator!.email ?? ''"),
+                                Text(organisasi.administrator!.email ?? ''),
                               ],
                             ),
                           )
@@ -164,8 +164,8 @@ class DetailHistoryOrganisasiView
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text("Location"),
-                                // DISINI PENGGANTI LOCATION
+                                Text("Fakultas"),
+                                Text(organisasi.administrator!.faculty ?? ''),
                               ],
                             ),
                           ),
@@ -175,26 +175,12 @@ class DetailHistoryOrganisasiView
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text("Status"),
-                                // DISINI PENGGANTI STATUS
+                                Text(organisasi.administrator!.faculty ?? ''),
                               ],
                             ),
                           )
                         ],
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Date"),
-                              // DISINI PENGGANTI DATE
-                            ],
-                          ),
-                        ],
-                      )
                     ],
                   ),
                 ),
