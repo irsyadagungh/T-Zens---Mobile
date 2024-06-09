@@ -25,7 +25,7 @@ class DetailHistoryOrganisasiView
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Detail Webinar'),
+        title: Text('Detail Organisasi'),
         centerTitle: true,
       ),
       body: Padding(
