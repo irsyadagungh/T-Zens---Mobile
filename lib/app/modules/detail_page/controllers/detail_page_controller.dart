@@ -1,5 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tzens/app/controllers/auth_controller.dart';
+import 'package:tzens/app/controllers/content_controller.dart';
 import 'package:tzens/app/controllers/messages.dart';
 
 class DetailPageController extends GetxController {
@@ -7,6 +9,8 @@ class DetailPageController extends GetxController {
 
   AuthController authC = Get.find<AuthController>();
   Messages messageC = Get.put(Messages());
+  ContentController contentC = Get.put(ContentController());
+  final argument = Get.arguments;
 
   final count = 0.obs;
   RxBool isDisabled = true.obs;
@@ -24,16 +28,20 @@ class DetailPageController extends GetxController {
     }
   }
 
-  final adminToken = 'admin-fcm-token-here'; // Replace with the actual token
-  final title = 'Webinar Update';
-  final body = 'The webinar will start in 10 minutes.';
-
   @override
   void onInit() {
     super.onInit();
+    String id = argument as String;
     checkDisabled();
     print(authC.user.value.role);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final users = await contentC.readRegisteredUserByWebinar(id);
+      contentC.registeredUsers.assignAll(users);
+      print("Registered Users: ${contentC.registeredUsers.length}");
+    });
   }
+
 
   @override
   void onReady() {
@@ -43,6 +51,7 @@ class DetailPageController extends GetxController {
   @override
   void onClose() {
     super.onClose();
+    contentC.registeredUsers.clear();
   }
 
   void increment() => count.value++;

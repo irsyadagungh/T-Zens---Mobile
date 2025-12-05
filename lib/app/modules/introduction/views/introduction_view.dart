@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
@@ -39,7 +40,7 @@ class IntroductionView extends GetView<IntroductionController> {
         ),
         Obx(
           () => Positioned(
-            bottom: 10,
+            bottom: 10.h,
             child: AnimatedSmoothIndicator(
               activeIndex: controller.currentPage.value,
               count: 3,

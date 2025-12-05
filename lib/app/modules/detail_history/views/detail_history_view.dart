@@ -8,9 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../controllers/detail_history_controller.dart';
 
 class DetailHistoryView extends GetView<DetailHistoryController> {
-  DetailHistoryView({Key? key, required this.webinar}) : super(key: key);
-
-  final WebinarModel webinar;
+  
 
   Future<void> launchUrl(Uri url) async {
     if (!await canLaunchUrl(url)) {
@@ -22,41 +20,45 @@ class DetailHistoryView extends GetView<DetailHistoryController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+
+    return Obx(() => Scaffold(
       appBar: AppBar(
         title: Text('Detail Webinar'),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-
-        /** OUTER CONTAINER */
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.shortestSide,
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: Colors.grey,
-              width: 1,
-            ),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.all(10),
-
-                /** BLUE CONTAINER */
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                  decoration: BoxDecoration(
+      body: 
+      controller.isLoading.value
+          ? Center(child: CircularProgressIndicator())
+          :  Padding(
+              padding: const EdgeInsets.all(16.0),
+      
+              /** OUTER CONTAINER */
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.shortestSide,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.grey,
+                    width: 1,
+                  ),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(10),
+      
+                      /** BLUE CONTAINER */
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                        decoration: BoxDecoration(
                     color: primaryColor,
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: Column(
                     children: [
                       Text(
-                        webinar.title ?? '',
+                        controller.webinar.value.title ?? '',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -72,7 +74,7 @@ class DetailHistoryView extends GetView<DetailHistoryController> {
                                 style: TextStyle(color: Colors.white),
                               ),
                               Text(
-                                webinar.time?.startTime ?? '',
+                                controller.webinar.value.time?.startTime ?? '',
                                 style: TextStyle(color: Colors.white),
                               ),
                             ],
@@ -93,7 +95,7 @@ class DetailHistoryView extends GetView<DetailHistoryController> {
                                 style: TextStyle(color: Colors.white),
                               ),
                               Text(
-                                webinar.time?.endTime ?? '',
+                                controller.webinar.value.time?.endTime ?? '',
                                 style: TextStyle(color: Colors.white),
                               ),
                             ],
@@ -135,7 +137,7 @@ class DetailHistoryView extends GetView<DetailHistoryController> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text("Admin name"),
-                                Text(webinar.administrator!.name ?? ''),
+                                Text(controller.webinar.value.administrator!.name ?? ''),
                               ],
                             ),
                           ),
@@ -145,7 +147,7 @@ class DetailHistoryView extends GetView<DetailHistoryController> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text("Email"),
-                                Text(webinar.administrator!.email ?? ''),
+                                Text(controller.webinar.value.administrator!.email ?? ''),
                               ],
                             ),
                           )
@@ -161,7 +163,7 @@ class DetailHistoryView extends GetView<DetailHistoryController> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text("Location"),
-                                Text(webinar.location ?? ''),
+                                Text(controller.webinar.value.location ?? ''),
                               ],
                             ),
                           ),
@@ -171,7 +173,7 @@ class DetailHistoryView extends GetView<DetailHistoryController> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text("Status"),
-                                Text(webinar.status ?? ''),
+                                Text(controller.webinar.value.status ?? ''),
                               ],
                             ),
                           )
@@ -186,7 +188,7 @@ class DetailHistoryView extends GetView<DetailHistoryController> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text("Date"),
-                              Text(webinar.date ?? ''),
+                              Text(controller.webinar.value.date ?? ''),
                             ],
                           ),
                         ],
@@ -197,6 +199,8 @@ class DetailHistoryView extends GetView<DetailHistoryController> {
               ),
 
               /** DIVIDER */
+              
+              controller.webinar.value.status == 'Online' ? 
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 width: MediaQuery.of(context).size.width,
@@ -204,9 +208,10 @@ class DetailHistoryView extends GetView<DetailHistoryController> {
                 child: CustomPaint(
                   painter: DashedLinePainter(color: Colors.grey),
                 ),
-              ),
+              ): Container(),
 
               /** THIRD SECTION */
+              controller.webinar.value.status == 'Online' ? 
               Padding(
                 padding: EdgeInsets.all(16),
                 child: Row(
@@ -215,28 +220,28 @@ class DetailHistoryView extends GetView<DetailHistoryController> {
                     Expanded(
                       child: TextButton(
                         onPressed: () async {
-                          // if (webinar.link != null &&
-                          //     webinar.link!.isNotEmpty) {
-                          //   await launchUrl(Uri.parse(webinar.link!));
+                          // if (webinar!.value.link != null &&
+                          //     webinar!.value.link!.isNotEmpty) {
+                          //   await launchUrl(Uri.parse(webinar!.value.link!));
                           // } else {
                           //   return;
                           // }
                         },
-                        child: webinar.link!.isEmpty ||
-                                webinar.link == null ||
-                                webinar.link == ''
+                        child: controller.webinar.value.link!.isEmpty ||
+                                controller.webinar.value.link == null ||
+                                controller.webinar.value.link == ''
                             ? Text('This webinar is offline, no link available')
-                            : Text(webinar.link!),
+                            : Text(controller.webinar.value.link!),
                       ),
                     )
                   ],
                 ),
-              ),
+              ) : Container(),
             ],
           ),
         ),
       ),
-    );
+    ));
   }
 }
 

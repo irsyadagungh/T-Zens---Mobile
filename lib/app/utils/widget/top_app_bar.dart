@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tzens/app/controllers/auth_controller.dart';
+import 'package:tzens/app/controllers/notification_history_controller.dart';
+import 'package:tzens/app/modules/notification/views/notification_view.dart';
 import 'package:tzens/app/modules/profile/views/profile_view.dart';
 import 'package:tzens/app/modules/search_page/views/search_page_view.dart';
 import 'package:tzens/app/utils/constant/color.dart';
@@ -9,11 +11,13 @@ class TopAppBar extends StatelessWidget {
   const TopAppBar({
     super.key,
     required this.auth,
+    required this.notificationController,
     required this.title,
   });
 
   final AuthController auth;
   final String title;
+  final NotificationHistoryController notificationController;
 
   @override
   Widget build(BuildContext context) {
@@ -72,15 +76,45 @@ class TopAppBar extends StatelessWidget {
                         )),
 
                     // Notification
-                    IconButton(
-                      onPressed: () {
-                        Get.to(() => ProfileView());
-                      },
-                      icon: Icon(Icons.notifications_active_outlined),
-                      style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(primaryColor)),
-                    )
+                    Obx(() => Stack(
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                Get.to(() => NotificationView(),
+                                    arguments: notificationController
+                                        .notificationHistoryList);
+                              },
+                              icon: Icon(Icons.notifications_active_outlined),
+                              style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all(primaryColor)),
+                            ),
+                            if (notificationController.notifCount.value > 0)
+                              Positioned(
+                                right: 0,
+                                top: 0,
+                                child: Container(
+                                  padding: const EdgeInsets.all(5),
+                                  decoration: BoxDecoration(
+                                    color: Colors.red,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  constraints: const BoxConstraints(
+                                    minWidth: 20,
+                                    minHeight: 20,
+                                  ),
+                                  child: Text(
+                                    '${notificationController.notifCount.value}',
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ),
+                          ],
+                        ))
                   ],
                 )
               ],
@@ -108,7 +142,7 @@ class TopAppBar extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
                 borderSide: BorderSide.none),
             filled: true,
-            fillColor: Theme.of(context).colorScheme.background,
+            fillColor: Colors.white,
           ),
         ),
       ),

@@ -36,7 +36,7 @@ class OrganisasiProvider extends StatelessWidget {
                     EdgeInsets.symmetric(vertical: 8, horizontal: 20),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
-                tileColor: Theme.of(context).colorScheme.secondaryContainer,
+                tileColor: Colors.white,
                 leading: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Image.network(content.photoUrl ?? ''),

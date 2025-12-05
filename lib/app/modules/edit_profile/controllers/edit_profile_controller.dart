@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tzens/app/controllers/auth_controller.dart';
+import 'package:tzens/app/utils/constant/color.dart';
 
 class EditProfileController extends GetxController {
   final authC = Get.find<AuthController>();
@@ -19,6 +20,10 @@ class EditProfileController extends GetxController {
   late SingleValueDropDownController facultyController;
   late SingleValueDropDownController majorController;
   RxList<DropDownValueModel> majorList = RxList<DropDownValueModel>([]);
+
+  RegExp phoneRegExp = RegExp(r'^(?:\+62|0)([0-9]{9,12})$');
+  RxString helperTextPhone = "".obs;
+  Color phoneColor = primaryColor.obs();
 
   /** LIST VARIABEL */
   final List<DropDownValueModel> facultyList = [

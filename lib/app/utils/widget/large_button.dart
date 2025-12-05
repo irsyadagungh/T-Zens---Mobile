@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tzens/app/utils/constant/color.dart';
 
 class LargeButton extends StatelessWidget {
   final String text;

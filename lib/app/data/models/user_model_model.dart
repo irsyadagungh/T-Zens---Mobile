@@ -6,8 +6,6 @@ class UserModel {
   String? name;
   String? nim;
   String? phone;
-  List<dynamic>? registeredOrganization;
-  List<dynamic>? registeredWebinar;
   String? role;
   String? uid;
   String? username;
@@ -22,8 +20,6 @@ class UserModel {
       this.name,
       this.nim,
       this.phone,
-      this.registeredOrganization,
-      this.registeredWebinar,
       this.role,
       this.uid,
       this.username,
@@ -31,15 +27,13 @@ class UserModel {
       this.token});
 
   UserModel.fromJson(Map<String, dynamic> json) {
-    bookmark = json['bookmark'];
+    bookmark = json['bookmark'].cast<String>();
     email = json['email'];
     faculty = json['faculty'];
     major = json['major'];
     name = json['name'];
     nim = json['nim'];
     phone = json['phone'];
-    registeredOrganization = json['registeredOrganization'];
-    registeredWebinar = json['registeredWebinar'];
     role = json['role'];
     uid = json['uid'];
     username = json['username'];
@@ -56,8 +50,6 @@ class UserModel {
     data['name'] = name;
     data['nim'] = nim;
     data['phone'] = phone;
-    data['registeredOrganization'] = registeredOrganization;
-    data['registeredWebinar'] = registeredWebinar;
     data['role'] = role;
     data['uid'] = uid;
     data['username'] = username;

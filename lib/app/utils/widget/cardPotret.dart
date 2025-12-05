@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tzens/app/data/models/webinar_model_model.dart';
 
 class CardPotret extends StatelessWidget {
   const CardPotret({

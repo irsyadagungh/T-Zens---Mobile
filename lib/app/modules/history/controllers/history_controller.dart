@@ -8,7 +8,7 @@ class HistoryController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    content.readHistoryWebinar();
+    content.readAllHistoryWebinar();
   }
 
   @override

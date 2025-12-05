@@ -3,20 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tzens/app/controllers/auth_controller.dart';
 import 'package:tzens/app/controllers/content_controller.dart';
+import 'package:tzens/app/controllers/notification_history_controller.dart';
 import 'package:tzens/app/modules/add/views/add_view.dart';
 import 'package:tzens/app/modules/addOrganisasi/views/add_organisasi_view.dart';
-import 'package:tzens/app/modules/profile/views/profile_view.dart';
 import 'package:tzens/app/routes/app_pages.dart';
 import 'package:tzens/app/utils/constant/color.dart';
 import 'package:tzens/app/utils/screen/organisasi_provider.dart';
 import 'package:tzens/app/utils/screen/webinar_providers.dart';
 import 'package:tzens/app/utils/widget/nav_bar.dart';
 import 'package:tzens/app/utils/widget/top_app_bar.dart';
-import 'package:water_drop_nav_bar/water_drop_nav_bar.dart';
 import '../controllers/home_provider_controller.dart';
 
 class HomeProviderView extends GetView<HomeProviderController> {
-  final auth = Get.find<AuthController>();
   final content = Get.find<ContentController>();
 
   @override
@@ -32,7 +30,8 @@ class HomeProviderView extends GetView<HomeProviderController> {
         child: CustomScrollView(
           slivers: [
             TopAppBar(
-              auth: auth,
+              auth: controller.auth,
+              notificationController: controller.notificationController,
               title: Routes.getTitleFromRoute(Get.currentRoute),
             ),
             // WebinarProvider(webinar: webinar, controller: controller)
@@ -42,19 +41,29 @@ class HomeProviderView extends GetView<HomeProviderController> {
       ),
       bottomNavigationBar: NavBar(controller: controller),
       floatingActionButton: AnimatedFloatingActionButton(
+        colorStartAnimation: primaryColor,
+        colorEndAnimation: primaryColor,
         fabButtons: [
           FloatingActionButton(
+            backgroundColor: primaryColor,
+            foregroundColor: Colors.black,
             heroTag: 'add_event',
             onPressed: () {
-              Get.to(() => AddView(model: content.webinarModel,));
+              Get.to(() => AddView(
+                    model: content.webinarModel,
+                  ));
             },
             tooltip: 'Add Event',
             child: Icon(Icons.event_note),
           ),
           FloatingActionButton(
+            backgroundColor: primaryColor,
+            foregroundColor: Colors.black,
             heroTag: 'add_group',
             onPressed: () {
-              Get.to(() => AddOrganisasiView(model: content.organizationModel,));
+              Get.to(() => AddOrganisasiView(
+                    model: content.organizationModel,
+                  ));
             },
             tooltip: 'Add Group',
             child: Icon(Icons.group_add),

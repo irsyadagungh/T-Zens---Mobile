@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tzens/app/data/models/organization_model_model.dart';
-import 'package:tzens/app/utils/constant/color.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../controllers/detail_history_organisasi_controller.dart';
 

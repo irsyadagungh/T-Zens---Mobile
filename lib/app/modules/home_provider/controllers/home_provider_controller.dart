@@ -1,12 +1,17 @@
-import 'dart:math';
+
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
+import 'package:tzens/app/controllers/auth_controller.dart';
 import 'package:tzens/app/controllers/content_controller.dart';
+import 'package:tzens/app/controllers/notification_history_controller.dart';
 
 class HomeProviderController extends GetxController {
   final contentC = Get.find<ContentController>();
+  final notificationController = Get.find<NotificationHistoryController>();
+  final auth = Get.find<AuthController>();
+
+
 
   PageController pageController = PageController();
   ScrollController scrollController = ScrollController();
@@ -20,6 +25,7 @@ class HomeProviderController extends GetxController {
     super.onInit();
     contentC.readDataOrganization();
     contentC.readDataProvider();
+    notificationController.fetchNotificationHistory(auth.user.value.uid!);
   }
 
   @override

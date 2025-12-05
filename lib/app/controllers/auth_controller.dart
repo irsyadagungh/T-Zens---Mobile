@@ -4,21 +4,19 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:tzens/app/controllers/content_controller.dart';
 import 'package:tzens/app/data/models/user_model_model.dart';
-import 'package:tzens/app/data/models/webinar_model_model.dart';
 import 'package:tzens/app/modules/login/views/login_view.dart';
 import 'package:tzens/app/routes/app_pages.dart';
 
 class AuthController extends GetxController {
   RxBool isSkipIntro = false.obs;
   RxBool isAuth = false.obs;
+  RxBool isSignIn = false.obs;
 
   UserCredential? userCredential;
-  GoogleSignIn _googleSignIn = GoogleSignIn();
+  final GoogleSignIn _googleSignIn = GoogleSignIn.instance;
   GoogleSignInAccount? _currentUser;
 
   CollectionReference dbUser = FirebaseFirestore.instance.collection('users');
@@ -34,36 +32,83 @@ class AuthController extends GetxController {
   late Reference storage = FirebaseStorage.instance.ref();
   RxString picLink = "".obs;
 
+  // Observable variables
+  var currentUser = Rxn<GoogleSignInAccount>();
+  var isAuthorized = false.obs;
+
   @override
   void onInit() {
     super.onInit();
+    // ✅ SETUP EVENT LISTENER
+    _googleSignIn.authenticationEvents.listen(_handleAuthEvent);
     firstInitialized();
   }
 
+  // ✅ EVENT HANDLER - Mengganti signInSilently()
+  void _handleAuthEvent(GoogleSignInAuthenticationEvent event) {
+    switch (event) {
+      case GoogleSignInAuthenticationEventSignIn():
+        _currentUser = event.user;
+        currentUser.value = event.user;
+        isAuth.value = true;
+        print("Google User Signed In: ${event.user.displayName}");
+        loadUserData();
+        break;
+        
+      case GoogleSignInAuthenticationEventSignOut():
+        _currentUser = null;
+        currentUser.value = null;
+        // Jangan set isAuth = false di sini jika masih ada Firebase auth
+        print("Google User Signed Out");
+        break;
+    }
+  }
+
+  // ✅ INITIAL CHECK - Tanpa signInSilently()
   Future<void> firstInitialized() async {
     try {
-      print("IS AUTH NYA ADALAH = " + isAuth.value.toString());
-      print("AKUN YANG LOGIN = " + auth.currentUser.toString());
-      print("AKUN GOOGLE YANG LOGIN = " + _googleSignIn.currentUser.toString());
-      final isSignInGoogle = await _googleSignIn.isSignedIn();
-      final isSignInEmail = auth.currentUser;
-
-      if (isSignInGoogle || isSignInEmail != null) {
+      print("Checking initial auth status...");
+      
+      // Cek Firebase Auth
+      final firebaseUser = auth.currentUser;
+      
+      // ❌ TIDAK BISA LAGI: await _googleSignIn.signInSilently();
+      // ✅ ALTERNATIF: Cek apakah ada stored session
+      
+      if (firebaseUser != null) {
         isAuth.value = true;
-        if (isSignInGoogle) {
-          _currentUser = await _googleSignIn.signInSilently();
-        }
         await loadUserData();
+        print("Firebase user found: ${firebaseUser.email}");
       }
+      
+      // Google Sign-In status akan otomatis diupdate via event stream
+      // jika user sebelumnya sudah login
+      
     } catch (e) {
-      print(e);
+      print('Error in firstInitialized: $e');
     }
-    if (box.read('skipIntro') != null || box.read('skipIntro') == true) {
-      isSkipIntro.value = box.read('skipIntro');
+    
+    // Handle skip intro logic
+    if (box.read('skipIntro') == true) {
+      isSkipIntro.value = true;
     } else {
       isSkipIntro.value = false;
     }
   }
+
+  // ✅ SIGN IN WITH GOOGLE
+  Future<void> signInWithGoogle() async {
+    try {
+      final user = await _googleSignIn.authenticate();
+      if (user != null) {
+        // Event akan otomatis dipanggil melalui authenticationEvents stream
+        print("Sign in successful: ${user.displayName}");
+      }
+    } catch (e) {
+      print('Google Sign-In Error: $e');
+    }
+  }
+
 
   Future<void> loadUserData() async {
     try {
@@ -165,7 +210,6 @@ class AuthController extends GetxController {
         name: currUser['name'],
         nim: currUser['nim'],
         phone: currUser['phone'],
-        registeredWebinar: currUser['registeredWebinar'],
         role: currUser['role'],
         uid: currUser['uid'],
         username: currUser['username'],
@@ -196,8 +240,9 @@ class AuthController extends GetxController {
   Future<void> signOut() async {
     try {
       if (auth.currentUser != null) {
+        await _googleSignIn.signOut();
         await auth.signOut();
-      } else if (_googleSignIn.currentUser != null) {
+      } else if (_currentUser != null) {
         await _googleSignIn.disconnect();
         await _googleSignIn.signOut();
       }
@@ -208,6 +253,23 @@ class AuthController extends GetxController {
     }
   }
 
+
+  // ✅ Manual check
+  bool get isGoogleSignedIn => _currentUser != null;
+  
+  void handleAuthEvent(GoogleSignInAuthenticationEvent event) {
+    switch (event) {
+      case GoogleSignInAuthenticationEventSignIn():
+        _currentUser = event.user;
+        isSignIn.value = true;
+        break;
+      case GoogleSignInAuthenticationEventSignOut():
+        _currentUser = null;
+        isSignIn.value = false;
+        break;
+    }
+  }
+
   /** LOGIN WITH GOOGLE */
   Future<void> login() async {
     try {
@@ -215,12 +277,12 @@ class AuthController extends GetxController {
       await _googleSignIn.signOut();
 
       // Menampilkan dialog login
-      await _googleSignIn.signIn().then((value) => _currentUser = value);
+      await _googleSignIn.authenticate().then((value) => _currentUser = value);
 
       // Mengecek apakah user sudah login
-      final isSignIn = await _googleSignIn.isSignedIn();
+      handleAuthEvent(GoogleSignInAuthenticationEventSignIn(user: _currentUser!));
 
-      if (isSignIn) {
+      if (isSignIn.value) {
         print("BERHASIL LOGIN");
         print(_currentUser);
 
@@ -228,7 +290,7 @@ class AuthController extends GetxController {
 
         final credential = GoogleAuthProvider.credential(
           idToken: googleAuth.idToken,
-          accessToken: googleAuth.accessToken,
+          accessToken: googleAuth.idToken,
         );
 
         await auth
@@ -269,7 +331,6 @@ class AuthController extends GetxController {
             name: value['name'],
             nim: value['nim'],
             phone: value['phone'],
-            registeredWebinar: value['registeredWebinar'],
             role: value['role'],
             uid: value['uid'],
             username: value['username'],
@@ -312,20 +373,34 @@ class AuthController extends GetxController {
         'photoUrl': photoUrl
       });
 
-      user.value = UserModel(
-        email: email,
-        faculty: faculty,
-        major: major,
-        name: fullname,
-        nim: nim,
-        phone: phone,
-        role: user.value.role,
-        uid: user.value.uid,
-        username: username,
-        photoUrl: user.value.photoUrl,
+      user.update(
+        (val) {
+          val!.email = email;
+          val.faculty = faculty;
+          val.major = major;
+          val.name = fullname;
+          val.nim = nim;
+          val.phone = phone;
+          val.username = username;
+          val.photoUrl = photoUrl;
+        },
       );
 
       Get.back();
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  /** UPDATE TOKEN FOR FCM */
+  Future<void> updateToken(String token) async {
+    try {
+      await dbUser.doc(user.value.uid).update({
+        'token': token,
+      });
+      user.update((val) {
+        val!.token = token;
+      });
     } catch (e) {
       print(e);
     }

@@ -76,7 +76,7 @@ class WebinarView extends StatelessWidget {
                       contentController.contentListUser[index];
                   return GestureDetector(
                     onTap: () {
-                      Get.to(() => DetailPageView(model: content));
+                      Get.to(() => DetailPageView(model: content), arguments: content.id);
                     },
                     child: CardPotret(
                       photo: "${content.photoUrl}",

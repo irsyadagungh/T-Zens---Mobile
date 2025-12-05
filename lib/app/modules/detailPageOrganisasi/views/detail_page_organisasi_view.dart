@@ -94,10 +94,15 @@ class DetailPageOrganisasiView extends GetView<DetailPageOrganisasiController> {
                                 ListTile(
                                   dense: true,
                                   contentPadding: EdgeInsets.zero,
-                                  leading: CircleAvatar(
+                                  leading: ClipRRect(
+                                    borderRadius: BorderRadius.circular(100),
+                                    clipBehavior: Clip.antiAlias,
                                     child: model.administrator!.photoUrl != ""
                                         ? Image.network(
                                             "${model.administrator!.photoUrl}",
+                                            fit: BoxFit.cover,
+                                            width: 50,
+                                            height: 50,
                                           )
                                         : Icon(Icons.person),
                                   ),
@@ -277,6 +282,7 @@ class DetailPageOrganisasiView extends GetView<DetailPageOrganisasiController> {
         ],
       ),
       bottomNavigationBar: BottomAppBar(
+        color: Colors.white,
         child: LargeButton(
           color: controller.isDisabled.value == true
               ? WidgetStateColor.resolveWith((states) => Colors.grey)

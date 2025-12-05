@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
@@ -17,16 +19,44 @@ class WelcomeView extends GetView<WelcomeController> {
   Widget build(BuildContext context) {
     print(auth.isSkipIntro.value);
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.onInverseSurface,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Lottie Animation
-          Container(
-            child: Lottie.asset('assets/lottie/login.json'),
-          ),
+        backgroundColor: Theme.of(context).colorScheme.onInverseSurface,
+        body: SingleChildScrollView(
+          child: LayoutBuilder(builder: (ctx, constraints) {
+            return OrientationBuilder(builder: (ctx, orientation) {
+              bool isWide = constraints.maxWidth > 1050.w;
+              bool isLandscape = orientation == Orientation.landscape;
+              print("isWide: $isWide");
 
-          // Text
+              return isWide || isLandscape
+                  ? Row(
+                      children: buildChildren(context, true, auth),
+                    )
+                  : Column(
+                      children: buildChildren(context, false, auth),
+                    );
+            });
+          }),
+        ));
+  }
+}
+
+List<Widget> buildChildren(
+    BuildContext context, bool isWideScreen, AuthController auth) {
+  return [
+    // Lottie Animation
+    Expanded(
+      flex: isWideScreen ? 1 : 0,
+      child: Container(
+        child: Lottie.asset('assets/lottie/login.json'),
+      ),
+    ),
+
+    // Text
+    Expanded(
+      flex: isWideScreen ? 1 : 0,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
           Container(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -36,13 +66,13 @@ class WelcomeView extends GetView<WelcomeController> {
                   Text(
                     'Welcome',
                     style: TextStyle(
-                      fontSize: 30,
+                      fontSize: 30.sp.clamp(28, 35),
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   Text("to T-Zens"),
                   SizedBox(
-                    height: 50,
+                    height: 50.h,
                   ),
                   Text(
                     "Finding for seminars or organizations with just one click without needing to provide any personal information.",
@@ -53,7 +83,7 @@ class WelcomeView extends GetView<WelcomeController> {
           ),
 
           SizedBox(
-            height: 50,
+            height: 50.h,
           ),
 
           // Buttons
@@ -88,7 +118,7 @@ class WelcomeView extends GetView<WelcomeController> {
           ),
 
           SizedBox(
-            height: 20,
+            height: 20.h,
           ),
 
           // Already have an account
@@ -112,9 +142,9 @@ class WelcomeView extends GetView<WelcomeController> {
                 ],
               ),
             ),
-          )
+          ),
         ],
       ),
-    );
-  }
+    )
+  ];
 }

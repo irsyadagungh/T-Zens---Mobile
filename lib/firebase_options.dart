@@ -18,29 +18,17 @@ import './config.dart';
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return windows;
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -54,10 +42,58 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: Config.firebaseApiKey,
-    appId: Config.firebaseAppId,
-    messagingSenderId: Config.firebaseMessagingSenderId,
-    projectId: Config.firebaseProjectId,
-    storageBucket: Config.firebaseStorageBucket,
+    apiKey: 'AIzaSyDMbnlXRYGlJgdWQsIIIqYTSTg2rE2A7WI',
+    appId: '1:1063682545509:android:1828ffe8f52402250b338c',
+    messagingSenderId: '1063682545509',
+    projectId: 't-zens',
+    databaseURL: 'https://t-zens-default-rtdb.firebaseio.com',
+    storageBucket: 't-zens.appspot.com',
   );
+
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyBRIJfn2537CrmfeTlS9ljNtj-3bHju7R4',
+    appId: '1:1063682545509:web:e5f91f3943c5f4a10b338c',
+    messagingSenderId: '1063682545509',
+    projectId: 't-zens',
+    authDomain: 't-zens.firebaseapp.com',
+    databaseURL: 'https://t-zens-default-rtdb.firebaseio.com',
+    storageBucket: 't-zens.appspot.com',
+    measurementId: 'G-B7QXYTRKQW',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyBgvMrkYMFsv3gzsMlvI88xc50605P_JsA',
+    appId: '1:1063682545509:ios:2bff0ddca44d716c0b338c',
+    messagingSenderId: '1063682545509',
+    projectId: 't-zens',
+    databaseURL: 'https://t-zens-default-rtdb.firebaseio.com',
+    storageBucket: 't-zens.appspot.com',
+    androidClientId: '1063682545509-9jrpue91euhq3l3l0s829jf3busc06ku.apps.googleusercontent.com',
+    iosClientId: '1063682545509-03n25mesleg12414rl4nuve2bamgr90v.apps.googleusercontent.com',
+    iosBundleId: 'com.ngeureuyeuh.tzens',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyBgvMrkYMFsv3gzsMlvI88xc50605P_JsA',
+    appId: '1:1063682545509:ios:2bff0ddca44d716c0b338c',
+    messagingSenderId: '1063682545509',
+    projectId: 't-zens',
+    databaseURL: 'https://t-zens-default-rtdb.firebaseio.com',
+    storageBucket: 't-zens.appspot.com',
+    androidClientId: '1063682545509-9jrpue91euhq3l3l0s829jf3busc06ku.apps.googleusercontent.com',
+    iosClientId: '1063682545509-03n25mesleg12414rl4nuve2bamgr90v.apps.googleusercontent.com',
+    iosBundleId: 'com.ngeureuyeuh.tzens',
+  );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyBrIWFCngwfEgGf0D1JD9oJpTKWJAr61zc',
+    appId: '1:1063682545509:web:dd5591529c600f620b338c',
+    messagingSenderId: '1063682545509',
+    projectId: 't-zens',
+    authDomain: 't-zens.firebaseapp.com',
+    databaseURL: 'https://t-zens-default-rtdb.firebaseio.com',
+    storageBucket: 't-zens.appspot.com',
+    measurementId: 'G-03LLMVQMJJ',
+  );
+
 }

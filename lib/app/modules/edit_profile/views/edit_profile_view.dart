@@ -25,7 +25,9 @@ class EditProfileView extends GetView<EditProfileController> {
   Widget build(BuildContext context) {
     print("LINK FOTONYA = ${authC.user.value.photoUrl}");
     return Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
+          backgroundColor: Colors.white,
           title: Text(Routes.getTitleFromRoute(Get.currentRoute)),
           centerTitle: true,
           actions: [
@@ -199,10 +201,30 @@ class EditProfileView extends GetView<EditProfileController> {
 
                   /** PHONE */
                   Obx(() => FormText(
+                        firstColor: controller.phoneColor,
+                        keyboardType: TextInputType.phone,
                         hintText: "Phone",
+                        onChange: (value) {
+                          if (!controller.phoneRegExp.hasMatch(value)) {
+                            controller.helperTextPhone.value =
+                                "Invalid phone number";
+                            controller.phoneColor = Colors.red;
+                          } else {
+                            controller.helperTextPhone.value = "";
+                            controller.phoneColor = primaryColor;
+                          }
+                        },
+                        helperText: controller.helperTextPhone.value,
                         controller: controller.phoneController,
                         enabled: controller.isEdit.value,
                         icon: Icon(Icons.phone),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            controller.phoneColor = Colors.red;
+                            return "Phone number must be filled";
+                          }
+                          return "";
+                        },
                       )),
                   SizedBox(height: 20),
 

@@ -1,19 +1,13 @@
-import 'package:expansion_tile_list/expansion_tile_list.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import 'package:get/get.dart';
 import 'package:tzens/app/controllers/auth_controller.dart';
-import 'package:tzens/app/modules/edit_profile/views/edit_profile_view.dart';
 import 'package:tzens/app/modules/history/views/history_view.dart';
 import 'package:tzens/app/modules/history_page_organization/views/history_page_organization_view.dart';
-import 'package:tzens/app/modules/home_provider/bindings/home_provider_binding.dart';
 import 'package:tzens/app/modules/home_provider/controllers/home_provider_controller.dart';
-import 'package:tzens/app/modules/home_provider/views/home_provider_view.dart';
 import 'package:tzens/app/routes/app_pages.dart';
-import 'package:tzens/app/utils/constant/color.dart';
 import 'package:tzens/app/utils/function/SnackBar.dart';
-import 'package:water_drop_nav_bar/water_drop_nav_bar.dart';
 
 import '../controllers/profile_controller.dart';
 
@@ -29,7 +23,9 @@ class ProfileView extends GetView<ProfileController> {
 
     print(Get.currentRoute);
     return Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
+          backgroundColor: Colors.white,
           title: Text(Routes.getTitleFromRoute(Get.currentRoute)),
           centerTitle: true,
         ),

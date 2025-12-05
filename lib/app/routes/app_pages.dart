@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:tzens/app/data/models/organization_model_model.dart';
 import 'package:tzens/app/modules/history_page_organization/bindings/history_page_organization_binding.dart';
 import 'package:tzens/app/modules/history_page_organization/views/history_page_organization_view.dart';
+import 'package:tzens/app/modules/notification/bindings/notification_binding.dart';
+import 'package:tzens/app/modules/notification/views/notification_view.dart';
 
 import '../data/models/webinar_model_model.dart';
 import '../modules/add/bindings/add_binding.dart';
@@ -115,7 +117,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.DETAIL_HISTORY,
-      page: () => DetailHistoryView(webinar: model),
+      page: () => DetailHistoryView(),
       binding: DetailHistoryBinding(),
     ),
     GetPage(
@@ -136,6 +138,11 @@ class AppPages {
       name: _Paths.HISTORY_PAGE_ORGANIZATION,
       page: () => HistoryPageOrganizationView(),
       binding: HistoryPageOrganizationBinding(),
+    ),
+    GetPage(
+      name: _Paths.NOTIFICATION,
+      page: () => NotificationView(),
+      binding: NotificationBinding(),
     ),
   ];
 }

@@ -40,7 +40,7 @@ class WebinarProviders extends StatelessWidget {
                     EdgeInsets.symmetric(vertical: 5, horizontal: 20),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
-                tileColor: Theme.of(context).colorScheme.secondaryContainer,
+                tileColor: Colors.white,
 
                 /** PHOTO */
                 leading: ClipRRect(

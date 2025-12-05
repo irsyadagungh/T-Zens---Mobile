@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:tzens/app/controllers/auth_controller.dart';
 import 'package:tzens/app/controllers/content_controller.dart';
 import 'package:tzens/app/modules/detail_page/views/detail_page_view.dart';
-import 'package:tzens/app/utils/constant/color.dart';
 import 'package:tzens/app/utils/widget/cardPotret.dart';
 
 import '../controllers/bookmark_controller.dart';
@@ -43,10 +42,10 @@ class BookmarkView extends GetView<BookmarkController> {
                       childAspectRatio: 9 / 14.5,
                     ),
                     itemCount:
-                        contentController.bookmarkedWebinars.value.length,
+                        contentController.bookmarkedWebinars.length,
                     itemBuilder: (context, index) {
                       var content =
-                          contentController.bookmarkedWebinars.value[index];
+                          contentController.bookmarkedWebinars[index];
 
                       print(content.toString());
                       return GestureDetector(

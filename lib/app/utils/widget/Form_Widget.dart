@@ -12,19 +12,25 @@ class FormText extends StatelessWidget {
   final Function(String)? onChange;
   final bool enabled;
   final TextInputType? keyboardType;
+  final String Function(String?)? validator;
+  final Color firstColor;
+  final Color secondColor;
 
   const FormText({
     super.key,
     required this.hintText,
     required this.controller,
+    this.firstColor = primaryColor,
+    this.secondColor = secondaryColor,
     this.onChange,
     this.keyboardType,
     this.enabled = true,
     this.onTap,
-    this.helperText,
+    this.helperText = null,
     this.minLines = 1,
     this.maxLines = 1,
     this.icon = const Icon(Icons.person, color: primaryColor),
+    this.validator,
   });
 
   @override
@@ -37,15 +43,30 @@ class FormText extends StatelessWidget {
       controller: controller,
       onChanged: onChange,
       onTap: onTap,
+      validator: validator,
       obscureText: hintText == "Password" ? true : false,
       decoration: InputDecoration(
-        helperText: hintText == "Location" ? helperText : null,
-        prefixIconColor: primaryColor.withOpacity(0.8),
+        helperText: helperText,
+        prefixIconColor: firstColor.withOpacity(0.8),
         prefixIcon: icon,
         focusColor: primaryColor,
         hintText: hintText,
         filled: true,
-        fillColor: primaryColor.withOpacity(0.2),
+        fillColor: firstColor.withOpacity(0.1),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(
+            width: 1,
+            color: secondColor.withOpacity(0.5),
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(
+            width: 1,
+            color: firstColor,
+          ),
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: BorderSide(

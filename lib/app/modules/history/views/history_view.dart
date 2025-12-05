@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:tzens/app/controllers/content_controller.dart';
-import 'package:tzens/app/data/models/webinar_model_model.dart';
 import 'package:tzens/app/modules/detail_history/views/detail_history_view.dart';
 import 'package:tzens/app/utils/constant/color.dart';
 import 'package:tzens/app/utils/widget/event_card.dart';
@@ -14,8 +13,7 @@ class HistoryView extends GetView<HistoryController> {
 
   @override
   Widget build(BuildContext context) {
-    WebinarModel webinarModel;
-    webinar.readHistoryWebinar();
+    webinar.readAllHistoryWebinar();
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -54,7 +52,7 @@ class HistoryView extends GetView<HistoryController> {
                           var content = webinar.historyNotStarted[index];
                           return EventCard(
                             onTap: () {
-                              Get.to(() => DetailHistoryView(webinar: content));
+                              Get.to(() => DetailHistoryView(), arguments: content.id);
                             },
                             title: content.title ?? '',
                             date: content.date ?? '',
@@ -78,7 +76,7 @@ class HistoryView extends GetView<HistoryController> {
                           var content = webinar.historyStarted[index];
                           return EventCard(
                             onTap: () {
-                              Get.to(() => DetailHistoryView(webinar: content));
+                              Get.to(() => DetailHistoryView(), arguments: content.id);
                             },
                             title: content.title ?? '',
                             date: content.date ?? '',

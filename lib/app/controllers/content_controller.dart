@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -7,16 +6,20 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:tzens/app/controllers/auth_controller.dart';
+import 'package:tzens/app/controllers/messages.dart';
+import 'package:tzens/app/controllers/notification_history_controller.dart';
 import 'package:tzens/app/data/models/organization_model_model.dart';
-import 'package:tzens/app/data/models/user_model_model.dart';
+import 'package:tzens/app/data/models/registration_event_model_model.dart';
 import 'package:tzens/app/data/models/webinar_model_model.dart';
-import 'package:tzens/app/modules/home_provider/views/home_provider_view.dart';
 import 'package:tzens/app/utils/function/SnackBar.dart';
 
 class ContentController extends GetxController {
   RxBool isEdit = false.obs;
 
   final authC = Get.find<AuthController>();
+  final notificationC = Get.find<NotificationHistoryController>();
+  final messageC = Get.find<Messages>();
+
   WebinarModel webinarModel = WebinarModel();
   OrganizationModel organizationModel = OrganizationModel();
 
@@ -28,11 +31,15 @@ class ContentController extends GetxController {
       FirebaseFirestore.instance.collection("webinar");
   late CollectionReference dbOrganization =
       FirebaseFirestore.instance.collection("organization");
+  late CollectionReference dbRegistrationEvent =
+      FirebaseFirestore.instance.collection("registrationEvent");
   late Reference storage = FirebaseStorage.instance.ref();
   RxString picLink = "".obs;
   RxInt length = 0.obs;
 
   WebinarModel content = WebinarModel();
+  Rx<RegistrationEventModel> regModel = Rx(RegistrationEventModel());
+
   RxList<WebinarModel> contentListProvider = RxList<WebinarModel>([]);
   RxList<OrganizationModel> contentListOrganizationUser =
       RxList<OrganizationModel>([]);
@@ -48,6 +55,8 @@ class ContentController extends GetxController {
   RxList<WebinarModel> historyNotStarted2 = RxList<WebinarModel>([]);
   RxList<WebinarModel> historyStarted2 = RxList<WebinarModel>([]);
   RxList<OrganizationModel> historyOrganization = RxList<OrganizationModel>([]);
+
+  RxList<RegistrationEventModel> registeredUsers = RxList<RegistrationEventModel>([]);
 
   /** SEARCH */
   Future<void> search(String keyword) async {
@@ -264,14 +273,35 @@ class ContentController extends GetxController {
   }
 
   /** REGISTER WEBINAR */
-  Future<void> registerWebinar(String idWebinar, String uid) async {
+  Future<void> registerWebinar(
+      String idWebinar,
+      String uidProvider,
+      String tokenProvider,
+      String uid,
+      String imageEventUrl,
+      String name,
+      String photoUrl,
+      String eventId) async {
     try {
       // Mengecek apakah user sudah terdaftar di webinar
-      if (contentListUser
-          .where((element) => element.id == idWebinar)
-          .first
-          .registeredAccount!
-          .contains(uid)) {
+      await dbRegistrationEvent
+          .where("uid", isEqualTo: uidProvider) // filter berdasarkan user id
+          .where("eventId", isEqualTo: idWebinar) // filter event tertentu
+          .limit(1) // cukup ambil 1 dokumen
+          .get()
+          .then((snapshot) {
+        if (snapshot.docs.isNotEmpty) {
+          // user sudah registrasi
+          regModel.value = RegistrationEventModel.fromJson(
+            snapshot.docs.first.data() as Map<String, dynamic>,
+          );
+        } else {
+          // belum registrasi
+          regModel.value = RegistrationEventModel();
+        }
+      });
+
+      if (regModel.value.uid != null) {
         print("User already registered to this webinar.");
         CustomSnackBar(
             "Registered!",
@@ -279,12 +309,39 @@ class ContentController extends GetxController {
             Icons.warning_amber_rounded,
             Colors.red);
       } else {
-        await dbWebinar.doc(idWebinar).update({
-          "registeredAccount": FieldValue.arrayUnion([uid])
-        });
-
-        await dbUser.doc(uid).update({
-          "registeredWebinar": FieldValue.arrayUnion([idWebinar])
+        await dbRegistrationEvent.add({
+          "eventId": eventId,
+          "eventName": contentListUser
+              .where((element) => element.id == idWebinar)
+              .first
+              .title,
+          "uid": uid,
+          "name": name,
+          "imageProfile": photoUrl,
+          "createdAt": DateFormat.yMd().add_jm().format(DateTime.now()),
+        }).then((value) async {
+          dbRegistrationEvent.doc(value.id).update({
+            "id": value.id,
+          });
+          String titleForProvider = "New Webinar Registration";
+          String messageForProvider =
+              "${authC.user.value.name} has registered for ${content.title}";
+          String titleForUser = "Webinar Registration Successful";
+          String messageForUser =
+              "You have successfully registered for ${content.title}";
+          messageC.sendNotificationToAdmin(
+            tokenProvider,
+            messageForProvider,
+            titleForProvider,
+          );
+          // notifikasi untuk provider
+          await notificationC.addNotificationHistory(uidProvider,
+              titleForProvider, messageForProvider, imageEventUrl, eventId);
+          print("Notification sent to provider");
+          // notifikasi untuk user
+          await notificationC.addNotificationHistory(
+              uid, titleForUser, messageForUser, imageEventUrl, eventId);
+          print("Notification sent to user");
         });
 
         CustomSnackBar(
@@ -301,39 +358,110 @@ class ContentController extends GetxController {
     }
   }
 
-  /** READ HISTORY WEBINAR */
-  void readHistoryWebinar() {
+  /** READ REGISTERED USER BY WEBINAR */
+  Future<RxList<RegistrationEventModel>> readRegisteredUserByWebinar(
+      String idWebinar) async {
     try {
-      final date = DateTime.now();
-      final idUser = authC.user.value.uid;
+      RxList<RegistrationEventModel> registeredUsers =
+          RxList<RegistrationEventModel>([]);
 
-      // Query for upcoming webinars
+      await dbRegistrationEvent
+          .where('eventId', isEqualTo: idWebinar)
+          .get()
+          .then((result) {
+        if (result.docs.isEmpty) {
+          print("No data found for registered users.");
+          registeredUsers.clear();
+          return;
+        }
+
+        registeredUsers.value = result.docs
+            .map((e) => RegistrationEventModel.fromJson(
+                e.data() as Map<String, dynamic>))
+            .toList();
+        print("REGISTERED USER: ${registeredUsers}");
+      });
+
+      return registeredUsers;
+    } catch (e) {
+      print("ERROR READ REGISTERED USER BY WEBINAR : " + e.toString());
+      return RxList<RegistrationEventModel>([]);
+    }
+  }
+
+  /** HISTORY WEBINAR */
+  void readAllHistoryWebinar() {
+  try {
+    final date = DateTime.now();
+    final idUser = authC.user.value.uid;
+
+    print("ID USER: $idUser");
+
+    dbRegistrationEvent.where('uid', isEqualTo: idUser).get().then((value) {
+      print("VALUE HISTORY: ${value.docs}");
+      List<String> eventIds = value.docs
+          .map((e) => RegistrationEventModel.fromJson(
+                  e.data() as Map<String, dynamic>)
+              .eventId!)
+          .toList();
+
+      if (eventIds.isEmpty) {
+        // kalau kosong, langsung clear list supaya nggak crash
+        historyNotStarted.clear();
+        historyStarted.clear();
+        print("Tidak ada history untuk user ini");
+        return;
+      }
+
+      // Filter webinars based on eventIds
       dbWebinar
-          .where('registeredAccount', arrayContains: idUser)
+          .where('id', whereIn: eventIds)
           .where('date',
               isGreaterThan: DateFormat.yMd().format(date).toString())
           .snapshots()
-          .listen((upcomingWebinars) {
-        historyNotStarted.value = upcomingWebinars.docs
+          .listen((webinarResult) {
+        historyNotStarted.value = webinarResult.docs
             .map((e) => WebinarModel.fromJson(e.data() as Map<String, dynamic>))
             .toList();
-        print("HISTORY NOT STARTED: ${historyNotStarted.value}");
+        print("HISTORY NOT STARTED 2: ${historyNotStarted2}");
       });
 
-      // Query for past webinars
       dbWebinar
-          .where('registeredAccount', arrayContains: idUser)
+          .where('id', whereIn: eventIds)
           .where('date',
               isLessThanOrEqualTo: DateFormat.yMd().format(date).toString())
           .snapshots()
-          .listen((pastWebinars) {
-        historyStarted.value = pastWebinars.docs
+          .listen((webinarResult) {
+        historyStarted.value = webinarResult.docs
             .map((e) => WebinarModel.fromJson(e.data() as Map<String, dynamic>))
             .toList();
-        print("HISTORY STARTED: ${historyStarted.value}");
+        print("HISTORY STARTED 2: ${historyStarted2}");
       });
+    });
+  } catch (e) {
+    print("ERROR READ HISTORY WEBINAR : " + e.toString());
+  }
+}
+
+
+  /** READ HISTORY BY ID */
+  Future<Rx<WebinarModel>> readHistoryById(String id) async {
+    try {
+      Rx<WebinarModel> webinar = Rx<WebinarModel>(WebinarModel());
+      await dbWebinar.doc(id).get().then((value) {
+        if (!value.exists) {
+          print("No data found for webinar with ID: $id");
+          return;
+        }
+
+        webinar.value =
+            WebinarModel.fromJson(value.data() as Map<String, dynamic>);
+        print("HISTORY BY ID: ${webinar.value.toJson()}");
+      });
+      return webinar;
     } catch (e) {
-      print('Error: $e');
+      print("ERROR READ HISTORY BY ID : " + e.toString());
+      return Rx<WebinarModel>(WebinarModel());
     }
   }
 
@@ -380,7 +508,6 @@ class ContentController extends GetxController {
       print(e);
     }
   }
-
 
   /** UPDATE ORGANIZATION */
   Future<void> updateOrganization(

@@ -7,18 +7,15 @@ import 'package:tzens/app/utils/screen/organisasi_Screen.dart';
 import 'package:tzens/app/utils/screen/webinar_Screen.dart';
 import 'package:tzens/app/utils/widget/nav_bar.dart';
 import 'package:tzens/app/utils/widget/top_app_bar.dart';
-import 'package:water_drop_nav_bar/water_drop_nav_bar.dart';
 
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
-    final auth = Get.find<AuthController>();
     final controller = Get.put(HomeController());
-    final pageController = PageController();
 
-    if (auth == null || auth!.user == null) {
+    if (controller.auth == null || controller.auth.user == null) {
       // Handle the case where auth or auth.user is null
       return CircularProgressIndicator(); // or any other placeholder widget
     }
@@ -34,7 +31,8 @@ class HomeView extends GetView<HomeController> {
           scrollDirection: Axis.vertical,
           slivers: <Widget>[
             TopAppBar(
-              auth: auth,
+              auth: controller.auth,
+              notificationController: controller.notificationC,
               title: Routes.getTitleFromRoute(Get.currentRoute),
             ),
             Obx(() {
@@ -50,7 +48,10 @@ class HomeView extends GetView<HomeController> {
           ],
         ),
       ),
-      bottomNavigationBar: NavBar(controller: controller),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.only(bottom: kBottomNavigationBarHeight),
+        child: NavBar(controller: controller),
+      ),
     );
   }
 }

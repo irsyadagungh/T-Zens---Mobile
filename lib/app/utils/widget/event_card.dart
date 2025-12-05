@@ -1,9 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:tzens/app/data/models/webinar_model_model.dart';
-import 'package:tzens/app/modules/detail_history/views/detail_history_view.dart';
-import 'package:tzens/app/routes/app_pages.dart';
-import 'package:tzens/app/utils/constant/color.dart';
 
 class EventCard extends StatelessWidget {
   final String title;
